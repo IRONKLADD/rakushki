@@ -1,0 +1,6 @@
+# downloaded libraries
+libs/*
+
+
+# emacs autosave files
+*~
