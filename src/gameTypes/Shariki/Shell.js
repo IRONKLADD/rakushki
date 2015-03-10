@@ -1,4 +1,4 @@
-function shell(colour, mag, typ, spec) = {
+function Shell(colour, mag, typ, spec) = {
     this.color = colour;
     this.magnitude = mag;
     this.type = typ;
