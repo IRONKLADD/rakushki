@@ -19,11 +19,11 @@ function Display(root,players){
                 var temp = board.get(i,j);
                 var cell = Cut.image("base:color_" + temp.color).appendTo(row);
                 cell.pin("pivot", 0.5);
-                cell._id = count;
+                cell._index = count;
                 count++;
                 userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point){
-                    var coord = _arrayCoord(this._id);
+                    var coord = _arrayCoord(this._index);
                     player.selectShell(coord[0],coord[1]);
                 }
             }
