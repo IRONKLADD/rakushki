@@ -133,6 +133,23 @@ function SharikiGameType(players, config) {
 
         // ...
     }
+    /*checkConnection(coords){
+        var connections = new set([]);
+        for(c in coords){
+            var newConnections = check4Way(c);
+            for(n in newConnections){
+                connections.add(n);
+            }
+        }
+        if(connections.isEmpty()){
+            return false;
+        }
+        else{
+            clearShells(connections);
+            var newShells = refillBoard();
+            checkConnections(newShells);
+        }
+    }
 
     /**
      * Swaps two shells.
