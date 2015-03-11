@@ -6,7 +6,7 @@ function SharikiGameType(players, config) {
     this._isActive = false;
     /**
      * The row of the active shell.
-     * @type {number}
+     * @type {number};
      */
     this._activeRow = null;
     /**
@@ -20,7 +20,15 @@ function SharikiGameType(players, config) {
      * @type {boolean}
      */
     this._validSwap = false;
+    
+    this.init();
 
+    this.init = function(){
+        for(var i = 0; i < players.length; i++){
+            players[i].parentSelectShell = this.selectShell;
+        }
+        _makeBoard();
+    }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
      * and the configuration, and stores it in this._board.
