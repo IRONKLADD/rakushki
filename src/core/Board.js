@@ -1,4 +1,6 @@
 function Board(rows, cols) {
+    this.rows = rows;
+    this.cols = cols;
     /**
      * Creates the 2-D grid with null references.
      * @type{array}

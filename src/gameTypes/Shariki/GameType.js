@@ -39,6 +39,20 @@ function SharikiGameType(players, config) {
     }
 
     /**
+     * Generates randomly colored shells to fill the board
+     * 
+     * @param {Board} board the board to be filled
+     */
+    this._fillBoard = function(board) {
+	for (var row = 0; row < board.rows; ++row) {
+            for (var col = 0; col < board.cols; ++col) {
+                var c = Math.floor(Math.random()*3)
+                board.set(row,col,new Shell(config.allowedColors[c],null,"normal",null));
+            }
+        }
+    }
+
+    /**
      * Executes a single turn of the game. While waiting for the user to make
      * a move, a background task is run to check if the board is in the
      * game-over state (see this._checkBoard()). Returns whether or not the
@@ -73,6 +87,7 @@ function SharikiGameType(players, config) {
             // notify renderer here
         }
         // selected shell is adjacent to active shell, try to swap
+/******************WE WILL NEED TO FIX isAdjacent*******************************/
         else if(Board.isAdjacent(this._activeRow, this._activeCol, row, col)) {
             this._trySwap(this._activeRow, this._activeCol, row, col);
         }
