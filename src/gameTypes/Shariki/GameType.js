@@ -6,7 +6,7 @@ function SharikiGameType(players, config) {
     this._isActive = false;
     /**
      * The row of the active shell.
-     * @type {number}
+     * @type {number};
      */
     this._activeRow = null;
     /**
@@ -20,7 +20,15 @@ function SharikiGameType(players, config) {
      * @type {boolean}
      */
     this._validSwap = false;
+    
+    this.init();
 
+    this.init = function(){
+        for(var i = 0; i < players.length; i++){
+            players[i].parentSelectShell = this.selectShell;
+        }
+        _makeBoard();
+    }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
      * and the configuration, and stores it in this._board.
@@ -28,6 +36,20 @@ function SharikiGameType(players, config) {
     this._makeBoard = function() {
         this._board = new Board(this._config.width, this._config.height);
         this._fillBoard(this._board);
+    }
+
+    /**
+     * Generates randomly colored shells to fill the board
+     * 
+     * @param {Board} board the board to be filled
+     */
+    this._fillBoard = function(board) {
+        for (var row = 0; row < board.rows; ++row) {
+            for (var col = 0; col < board.cols; ++col) {
+                var c = Math.floor(Math.random()*3)
+                board.set(row,col,new Shell(config.allowedColors[c],null,"normal",null));
+            }
+        }
     }
 
     /**
