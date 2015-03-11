@@ -5,6 +5,7 @@ function Display(root,players){
     pause.appendTo(gameScreen);
     pause.pin("align", .9);
     this._createBoard(players[0]);
+    var column;
 
     this._createBoard = function(player){
         var j = 0, i = 0,count = 0;
@@ -16,9 +17,11 @@ function Display(root,players){
             for (i = 0; i < config.getWidth(); i++) {
             // colors as frames
                 var temp = board.get(i,j);
-                var cell = Cut.image("base:color_" + temp.color).appendTo(row).pin("pivot", 0.5);
+                var cell = Cut.image("base:color_" + temp.color).appendTo(row);
+                cell.pin("pivot", 0.5);
                 cell._id = count;
                 count++;
+                userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point){
                     var coord = _arrayCoord(this._id);
                     player.selectShell(coord[0],coord[1]);
@@ -32,4 +35,9 @@ function Display(root,players){
         var results = [row,col];
         return results;
     }
+    this.update =function(){
+        column.remove();
+        createBoard();
+    }
+
 }
