@@ -6,7 +6,7 @@ function SharikiGameType(players, config) {
     this._isActive = false;
     /**
      * The row of the active shell.
-     * @type {number};
+     * @type {number}
      */
     this._activeRow = null;
     /**
@@ -20,15 +20,7 @@ function SharikiGameType(players, config) {
      * @type {boolean}
      */
     this._validSwap = false;
-    
-    this.init();
 
-    this.init = function(){
-        for(var i = 0; i < players.length; i++){
-            players[i].parentSelectShell = this.selectShell;
-        }
-        _makeBoard();
-    }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
      * and the configuration, and stores it in this._board.
@@ -36,20 +28,6 @@ function SharikiGameType(players, config) {
     this._makeBoard = function() {
         this._board = new Board(this._config.width, this._config.height);
         this._fillBoard(this._board);
-    }
-
-    /**
-     * Generates randomly colored shells to fill the board
-     * 
-     * @param {Board} board the board to be filled
-     */
-    this._fillBoard = function(board) {
-        for (var row = 0; row < board.rows; ++row) {
-            for (var col = 0; col < board.cols; ++col) {
-                var c = Math.floor(Math.random()*3)
-                board.set(row,col,new Shell(config.allowedColors[c],null,"normal",null));
-            }
-        }
     }
 
     /**
@@ -78,7 +56,7 @@ function SharikiGameType(players, config) {
      * @param {number} row The row of the selected shell
      * @param {number} col The column of the selected shell
      */
-    this.selectShell = function(player,row, col) {
+    this.selectShell = function(row, col) {
         // no shell is active, make selected shell active
         if(!this._isActive) {
             this._isActive = true;
@@ -87,7 +65,7 @@ function SharikiGameType(players, config) {
             // notify renderer here
         }
         // selected shell is adjacent to active shell, try to swap
-        else if(Util.isAdjacent(this._activeRow, this._activeCol, row, col)) {
+        else if(Board.isAdjacent(this._activeRow, this._activeCol, row, col)) {
             this._trySwap(this._activeRow, this._activeCol, row, col);
         }
         // unselect shell
@@ -102,15 +80,15 @@ function SharikiGameType(players, config) {
     /**
      * Attempts to make a swap.
      */
-    this._trySwap = function(player,activeRow, activeCol, selectedRow, selectedCol) {
-        this._swap(player.board, activeRow, activeCol, selectedRow, selectedCol);
+    this._trySwap = function(activeRow, activeCol, selectedRow, selectedCol) {
+        this._swap(activeRow, activeCol, selectedRow, selectedCol);
         // notify renderer (in parallel)
 
-        var validSwap = this._makeConnection(player, activeRow,   activeCol,
+        var validSwap = this._makeConnection(activeRow,   activeCol,
                                              selectedRow, selectedCol);
 
         if(!validSwap) {
-            this._swap(player.board, activeRow, activeCol, selectedRow, selectedCol);
+            this._swap(activeRow, activeCol, selectedRow, selectedCol);
             // notify renderer
         }
     }
@@ -126,10 +104,10 @@ function SharikiGameType(players, config) {
      * @param  {number} selectedCol Column of selected shell.
      * @return {boolean} Whether or not the swap was valid.
      */
-    this._makeConnection = function(player,activeRow, activeCol,
+    this._makeConnection = function(activeRow, activeCol,
                                     selectedRow, selectedCol) {
-        var activeShell = player.board.get(activeRow, activeCol);
-        var selectedShell = player.board.get(selectedRow, selectedCol);
+        var activeShell = this._board.get(activeRow, activeCol);
+        var selectedShell = this._board.get(selectedRow, selectedCol);
 
         // ...
     }
@@ -142,12 +120,12 @@ function SharikiGameType(players, config) {
      * @param  {number} selectedRow Row of selected shell.
      * @param  {number} selectedCol Column of selected shell.
      */
-    this._swap = function(board,activeRow, activeCol, selectedRow, selectedCol) {
-        var activeShell = board.get(activeRow, activeCol);
-        var selectedShell = board.get(selectedRow, selectedCol);
+    this._swap = function(activeRow, activeCol, selectedRow, selectedCol) {
+        var activeShell = this._board.get(activeRow, activeCol);
+        var selectedShell = this._board.get(selectedRow, selectedCol);
 
-        board.set(selectedRow, selectedCol, activeShell);
-        board.set(activeRow, activeCol, selectedShell);
+        this._board.set(selectedRow, selectedCol, activeShell);
+        this._board.set(activeRow, activeCol, selectedShell);
     }
 
     /**
