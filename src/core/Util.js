@@ -24,4 +24,20 @@ function Util() {
         }
             return false;
     }
+
+    this.setUnion(setA, setB){
+        var unionSet = new Set([]);
+        var setIterA = setA.values();
+        var setIterB = setB.values();
+        for(var i = 0; i < setA.size; i++){
+            unionSet.add(setIterA.next().value);
+        }
+        for(var i = 0; i < setB.size; i++){
+            unionSet.add(setIterB.next().value);
+        }
+
+
+    } 
 }
+
+

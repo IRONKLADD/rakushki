@@ -134,6 +134,106 @@ function SharikiGameType(players, config) {
         // ...
     }
 
+//runs the checks for left, right, down, and up with respect to the shell
+//and joins the sets
+    function check4Way(board, row, col) {
+        return setUnion(checkVertical(rol, col), checkHorizontal(rol, col)); 
+    }
+
+//checks down until the next shell is a different color or the check runs out
+//of bounds of the board, then does the same for checking up.
+    function checkVertical(board, row, col) {
+        var nextShell;
+        var centerShell = board.get(row, col); 
+        var matches = new Set([row + "," + col]);
+
+        for (var r = row+1;
+             r < config.height &&
+             (nextShell = board.get(r, col)).color == centerShell.color;
+             r++) {
+            matches.add(r+","+col);
+        }
+        for (var r = row-1;
+             r >= 0 &&
+             (nextShell = board.get(r, col)).color == centerShell.color;
+             r--) {
+            matches.add(r+","+col);
+        }
+        //match 3?
+        if (matches.size >= 3)
+            // matched 3 or more, return the matches
+            return matches;
+        else
+            // did not match enough, return an empty set
+            return new Set([]);
+    }
+
+//checks left until the next shell is a different color or the check runs out
+//of bounds of the board, then does the same for checking right.
+    function checkHorizontal(board, row, col) {
+        var nextShell;
+        var centerShell = board.get(row, col); 
+        var matches = new Set([row + "," + col]);
+
+        for (var c = col+1;
+             c < config.width &&
+             (nextShell = board.get(row, c)).color == centerShell.color;
+             c++) {
+            matches.add(row+","+c);
+        }
+        for (var c = col-1;
+             c >= 0 &&
+             (nextShell = board.get(row, c)).color == centerShell.color;
+             c--) {
+            matches.add(row+","+c);
+        }
+        //match 3?
+        if (matches.size >= 3)
+            return matches;
+        else
+            //if there is no break, don't give me anything
+            return new Set([]);
+    }
+
+    function checkConnection(player, coords) {
+        var connections = new Set([]);
+
+        coords.forEach(function(coord) {
+            var splitCoord = coord.split(",");
+            var row = splitCoord[0],
+                col = splitCoord[1];
+            var newConnections = check4Way(player.board, row, col);
+            connections = setUnion(connections, newConnections);
+        });
+
+        if(connections.size == 0) {
+            return false;
+        }
+        else {
+            clearShells(player, connnections);
+            var changedCoords = refillBoard(player.board);
+            return checkConnection(player, changedCoords);
+        }
+    }
+
+    /*checkConnection(coords){
+        var connections = new set([]);
+        for(c in coords){
+            var newConnections = check4Way(c);
+            for(n in newConnections){
+                connections.add(n);
+            }
+        }
+        if(connections.isEmpty()){
+            return false;
+        }
+        else{
+            clearShells(connections);
+            var newShells = refillBoard();
+            checkConnections(newShells);
+        }
+    }
+
     /**
      * Swaps two shells.
      *
