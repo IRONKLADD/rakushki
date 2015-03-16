@@ -286,4 +286,4 @@ function SharikiGameType(players, config) {
         });
     }
 }
-// make this extend GameType
+SharikiGameType.prototype = Object.create(GameType.prototype);
