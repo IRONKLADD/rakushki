@@ -261,5 +261,29 @@ function SharikiGameType(players, config) {
     this._checkBoard = function() {
         /* ... */
     }
+
+    this._refillBoard = function(board, emptyShells) {
+        var effectedShells = this._getEffectedShells(emptyShells);
+
+        while(emptyShells.size > 0) {
+            this._gravity(board, emptyShells);
+            this._refillTopLayer(board, emptyShells);
+        }
+
+        return effectedShells;
+    }
+
+    this._refillTopLayer = function(board, emptyShells) {
+        emptyShells.forEach(function(JSONcoord) {
+            var coord = JSON.parse(JSONcoord);
+            // only affect top layer shells, which have row == 0
+            if(coord.row == 0) {
+                // replace the empty shell with a random shell
+                board.set(coord.row, coord.col, this._getRandomShell());
+                // shell is no longer empty, so remove from set
+                emptyShells.remove(JSONcoord);
+            }
+        });
+    }
 }
 // make this extend GameType
