@@ -170,5 +170,15 @@ function SharikiGameType(players, config) {
     this._clearShell = function(row, col) {
          this._board.set(row,col,null)
     }
+    /*
+     * Removes all shells given from the board
+     * 
+     * @param {array} ??Need to know how list of shells to be removed will be relayed
+     */
+    this._clearShells = function(shells) {
+        //for(var i = 0; i < shells.length; ++i) {
+        //    this._clearShell(rowOfshells[i],colOfshells[i])
+        //}
+    }
 }
 // make this extend GameType
