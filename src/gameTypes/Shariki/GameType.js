@@ -32,7 +32,7 @@ function SharikiGameType(players, config) {
     /**
      * Constructs a Board object using the constraints imposed by Shariki
      * and the configuration, and stores it in this._board.
-     */
+    */
     this._makeBoard = function() {
         this._board = new Board(this._config.width, this._config.height);
         this._fillBoard(this._board);
@@ -160,6 +160,15 @@ function SharikiGameType(players, config) {
      */
     this._checkBoard = function() {
         /* ... */
+    }
+    /**
+     * Removes a shell from the board
+     *
+     * @param {number} row Row of the shell to be removed.
+     * @param {number} col Column of the shell to be removed.
+     */
+    this._clearShell = function(row, col) {
+         this._board.set(row,col,null)
     }
 }
 // make this extend GameType
