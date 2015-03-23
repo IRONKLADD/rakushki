@@ -285,5 +285,18 @@ function SharikiGameType(players, config) {
             }
         });
     }
+    function _getEffectedShells(emptyShells) {
+        var effectedShells = new Set();
+        emptyShells.forEach(function(JSONcoord) {
+            var temp = JSON.parse(JSONcoord);
+            currentRow = temp.row;
+            while(currentRow != -1) {
+                var currentCoord = new coord(currentRow,temp.col);
+                effectedShells.add(JSON.stringify(currentCoord));
+                currentRow = currentRow - 1;
+            }
+        });
+    return effectedShells;
+    }
 }
 SharikiGameType.prototype = Object.create(GameType.prototype);
