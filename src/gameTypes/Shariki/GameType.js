@@ -62,7 +62,7 @@ function SharikiGameType(players, config) {
      * @param {number} turnCount The current turn number (unused)
      */
     this._turn = function(currentPlayer, turnCount) {
-        var gameOver = this._checkBoard();
+        var gameOver = this._isGameOver(currentPlayer.board);
         if(gameOver)
             return true;
         while(!this._validSwap) {
@@ -151,13 +151,13 @@ function SharikiGameType(players, config) {
              r < config.height &&
              (nextShell = board.get(r, col)).color == centerShell.color;
              r++) {
-            matches.add(r+","+col);
+            matches.add(r + "," + col);
         }
         for (var r = row-1;
              r >= 0 &&
              (nextShell = board.get(r, col)).color == centerShell.color;
              r--) {
-            matches.add(r+","+col);
+            matches.add(r + "," + col);
         }
         //match 3?
         if (matches.size >= 3)
@@ -258,8 +258,33 @@ function SharikiGameType(players, config) {
      *
      * @return {boolean} Whether or not the board is in game-over position.
      */
-    this._checkBoard = function() {
-        /* ... */
+    this._isGameOver = function(board) {
+        var row = board.row;
+        var col = board.col;
+        for(var r = 0; r < row; r++) {
+            for(var c = 0; c < col; c++) {
+                //CHECK DOWN
+                if(check4Way(board, r+1, c).size >= 3) {    //##X##
+                    return true;                            //XXOXX
+                }                                           //##X##
+                                                            //##X##
+                //CHECK RIGHT
+                if(check4Way(board, r, c+1).size >= 3) {    //#X##
+                    return true;                            //#X##
+                }                                           //XOXX
+                                                            //#X##
+                                                            //#X##
+
+                //CHECK LEFT
+                //~~ are cases that would have been caught by CHECK RIGHT/DOWN
+                if(check4Way(board, r, c-1).size >= 3) {    //##X#
+                    return true;                            //##X#
+                }                                           //~~OX
+                                                            //##X#
+                                                            //##X#
+            }
+        }
+        return false;
     }
 
     this._refillBoard = function(board, emptyShells) {
