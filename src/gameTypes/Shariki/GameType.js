@@ -171,14 +171,18 @@ function SharikiGameType(players, config) {
          this._board.set(row,col,null)
     }
     /*
-     * Removes all shells given from the board
+     * Removes shells with given coords from player's board
+     * Also awards points to the active player
      * 
-     * @param {array} ??Need to know how list of shells to be removed will be relayed
+     * @param {set} coords A set of JSON coordinates
+     * @param {Player} player The active player
      */
-    this._clearShells = function(shells) {
-        //for(var i = 0; i < shells.length; ++i) {
-        //    this._clearShell(rowOfshells[i],colOfshells[i])
-        //}
+    this._clearShells = function(player, coords) {
+        shells.forEach(function(JSONcoord)) {
+            coord = JSON.parse(JSONcoord);
+            this._clearShell(coord.row, coord.col);
+            player.score += 1;
+        }
     }
 }
 // make this extend GameType
