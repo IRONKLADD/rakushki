@@ -1,17 +1,24 @@
-function Display(root,players){
+function Display(root,players,config){
+    this._createBoard = _createBoard;
+    this._arrayCoord  = _arrayCoord;
+    this.update       = update;
+    var board = players[0].getBoard();
     var gameScreen = Cut.create();
-    gameScreen.appendTo(root);
+    gameScreen.appendTo(root).pin("align", .5);
     var pause = Cut.image("base:color_red");
-    pause.appendTo(gameScreen);
+    pause.appendTo(root);
     pause.pin("align", .9);
-    this._createBoard(players[0]);
+    pause.on(Cut.Mouse.CLICK,function(point){
+        console.log("pause");
+    });
+    _createBoard(players[0]);
     var column;
 
-    this._createBoard = function(player){
+    function _createBoard(player) {
         var j = 0, i = 0,count = 0;
         var boardNode = Cut.create();
         boardNode.appendTo(gameScreen);
-        column = Cut.column().appendTo(boardNode).pin("align", .5).spacing(1);
+        column = Cut.column().appendTo(root).pin("align", .5).spacing(1);
         for (j = 0; j < config.getHeight(); j++) {
             var row = Cut.row().appendTo(column).spacing(1);
             for (i = 0; i < config.getWidth(); i++) {
@@ -21,21 +28,23 @@ function Display(root,players){
                 cell.pin("pivot", 0.5);
                 cell._index = count;
                 count++;
-                userInput.setInput(cell);
+                //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point){
+                    console.log(this._index);
                     var coord = _arrayCoord(this._index);
+                    console.log("Player is " +player);
                     player.selectShell(coord[0],coord[1]);
-                }
+                });
             }
         }
     }
-    this._arrayCoord =function(index){
-        var row = math.floor(index / config.row);
+    function _arrayCoord(index) {
+        var row = Math.floor(index / config.row);
         var col = (index % config.row);
         var results = [row,col];
         return results;
     }
-    this.update =function(){
+    function update() {
         column.remove();
         createBoard();
     }

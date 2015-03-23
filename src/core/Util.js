@@ -25,7 +25,7 @@ function Util() {
             return false;
     }
 
-    this.setUnion(setA, setB){
+    this.setUnion = function(setA, setB){
         var unionSet = new Set([]);
         var setIterA = setA.values();
         var setIterB = setB.values();

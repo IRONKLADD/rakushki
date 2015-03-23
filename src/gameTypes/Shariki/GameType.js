@@ -20,10 +20,14 @@ function SharikiGameType(players, config) {
      * @type {boolean}
      */
     this._validSwap = false;
-    
-    this.init();
+    var _board;
+    this.getBoard = getBoard;
+    init();
+    function getBoard(){
+        return _board;
+    }
 
-    this.init = function(){
+    function init(){
         for(var i = 0; i < players.length; i++){
             players[i].parentSelectShell = this.selectShell;
         }
@@ -33,9 +37,12 @@ function SharikiGameType(players, config) {
      * Constructs a Board object using the constraints imposed by Shariki
      * and the configuration, and stores it in this._board.
      */
-    this._makeBoard = function() {
-        this._board = new Board(this._config.width, this._config.height);
-        this._fillBoard(this._board);
+    function _makeBoard() {
+        _board = new Board(config.getWidth(), config.getHeight());
+        _fillBoard(_board);
+        console.log("Make ");
+        console.log(_board);
+        players[0].setBoard(_board);
     }
 
     /**
@@ -43,11 +50,11 @@ function SharikiGameType(players, config) {
      * 
      * @param {Board} board the board to be filled
      */
-    this._fillBoard = function(board) {
+    function _fillBoard(board) {
         for (var row = 0; row < board.rows; ++row) {
             for (var col = 0; col < board.cols; ++col) {
-                var c = Math.floor(Math.random()*3)
-                board.set(row,col,new Shell(config.allowedColors[c],null,"normal",null));
+                var c = Math.floor(Math.random()*config.getColor.)
+                board.set(row,col,new Shell(config.getColor()[c],null,"normal",null));
             }
         }
     }
@@ -61,7 +68,7 @@ function SharikiGameType(players, config) {
      * @param {Player} currentPlayer The current player (unused)
      * @param {number} turnCount The current turn number (unused)
      */
-    this._turn = function(currentPlayer, turnCount) {
+    function _turn(currentPlayer, turnCount) {
         var gameOver = this._checkBoard();
         if(gameOver)
             return true;
@@ -78,7 +85,7 @@ function SharikiGameType(players, config) {
      * @param {number} row The row of the selected shell
      * @param {number} col The column of the selected shell
      */
-    this.selectShell = function(player,row, col) {
+    function selectShell(player,row, col) {
         // no shell is active, make selected shell active
         if(!this._isActive) {
             this._isActive = true;
@@ -102,7 +109,7 @@ function SharikiGameType(players, config) {
     /**
      * Attempts to make a swap.
      */
-    this._trySwap = function(player,activeRow, activeCol, selectedRow, selectedCol) {
+    function _trySwap(player,activeRow, activeCol, selectedRow, selectedCol) {
         this._swap(player.board, activeRow, activeCol, selectedRow, selectedCol);
         // notify renderer (in parallel)
 
@@ -242,7 +249,7 @@ function SharikiGameType(players, config) {
      * @param  {number} selectedRow Row of selected shell.
      * @param  {number} selectedCol Column of selected shell.
      */
-    this._swap = function(board,activeRow, activeCol, selectedRow, selectedCol) {
+    function _swap(board,activeRow, activeCol, selectedRow, selectedCol) {
         var activeShell = board.get(activeRow, activeCol);
         var selectedShell = board.get(selectedRow, selectedCol);
 
@@ -258,11 +265,11 @@ function SharikiGameType(players, config) {
      *
      * @return {boolean} Whether or not the board is in game-over position.
      */
-    this._checkBoard = function() {
+    function _checkBoard() {
         /* ... */
     }
 
-    this._refillBoard = function(board, emptyShells) {
+    function _refillBoard(board, emptyShells) {
         var effectedShells = this._getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
@@ -273,7 +280,7 @@ function SharikiGameType(players, config) {
         return effectedShells;
     }
 
-    this._refillTopLayer = function(board, emptyShells) {
+    function _refillTopLayer(board, emptyShells) {
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
             // only affect top layer shells, which have row == 0
