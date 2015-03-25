@@ -16,8 +16,8 @@ function Configuration(rulesFile){
     allowedNumber  = [1,2,3,4,5];
     allowedSpecial = null;
     allowedType    = null;
-    width  = 5;
-    height = 5;
+    width  = 3;
+    height = 3;
 
 
     function getColor(){

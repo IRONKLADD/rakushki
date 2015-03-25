@@ -1,7 +1,7 @@
 /*
  * A class to hold static functions
  */
-function Util() {
+
 
     /**
      * Checks if two Shells in the grid are adjacent.
@@ -13,7 +13,12 @@ function Util() {
      *
      * This should be a static function when finished.
      */
-    this.isAdjacent = function(row1, col1, row2, col2) {
+    var isAdjacent = function(row1, col1, row2, col2) {
+        console.log("In adj");
+        console.log(row1);
+        console.log(col1);
+        console.log(row2);
+        console.log(col2);
         var rowDiff = row2 - row1;
         var colDiff = col2 - col1;
         if(rowDiff === 0) {
@@ -35,9 +40,10 @@ function Util() {
         for(var i = 0; i < setB.size; i++){
             unionSet.add(setIterB.next().value);
         }
+        return unionSet;
 
 
     } 
-}
+
 
 

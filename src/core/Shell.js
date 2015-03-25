@@ -1,6 +1,11 @@
 function Shell(color, magnitude, type, special) {
-    this.color = color;
-    this.magnitude = magnitude;
-    this.type = type;
-    this.special = special;
+    var color = color;
+    var magnitude = magnitude;
+    var type = type;
+    var special = special;
+    this.getColor = getColor;
+
+    function getColor(){
+        return color;
+    }
 }

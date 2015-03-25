@@ -4,6 +4,7 @@ var app = Cut(function(root,container) {
     var game = new SharikiGameType(players, config);
     Cut.Mouse(root, container);
     var render = new Display(root, players, config);
+    game.setRender(render);
 
 
 });

@@ -3,33 +3,39 @@ function SharikiGameType(players, config) {
      * Whether there is an active (selected) shell.
      * @type {boolean}
      */
-    this._isActive = false;
+    var _isActive = false;
     /**
      * The row of the active shell.
      * @type {number};
      */
-    this._activeRow = null;
+    var _activeRow = null;
     /**
      * The column of the active shell.
      * @type {number}
      */
-    this._activeCol = null;
+    var _activeCol = null;
 
     /**
      * Whether there is a valid swap at this moment in time.
      * @type {boolean}
      */
-    this._validSwap = false;
+    var _validSwap = false;
     var _board;
+    var renderer;
     this.getBoard = getBoard;
+    this.selectShell = selectShell;
+    this.setRender = setRender;
     init();
+    function setRender(setter){
+        renderer = setter;
+    }
     function getBoard(){
         return _board;
     }
 
     function init(){
         for(var i = 0; i < players.length; i++){
-            players[i].parentSelectShell = this.selectShell;
+            players[i].setFunction(selectShell);
         }
         _makeBoard();
     }
@@ -43,6 +49,7 @@ function SharikiGameType(players, config) {
         console.log("Make ");
         console.log(_board);
         players[0].setBoard(_board);
+        _board.printArr();
     }
 
     /**
@@ -53,7 +60,7 @@ function SharikiGameType(players, config) {
     function _fillBoard(board) {
         for (var row = 0; row < board.rows; ++row) {
             for (var col = 0; col < board.cols; ++col) {
-                var c = Math.floor(Math.random()*config.getColor.)
+                var c = Math.floor(Math.random()*4)
                 board.set(row,col,new Shell(config.getColor()[c],null,"normal",null));
             }
         }
@@ -69,13 +76,13 @@ function SharikiGameType(players, config) {
      * @param {number} turnCount The current turn number (unused)
      */
     function _turn(currentPlayer, turnCount) {
-        var gameOver = this._checkBoard();
+        var gameOver = _checkBoard();
         if(gameOver)
             return true;
-        while(!this._validSwap) {
+        while(!_validSwap) {
             // wait T milliseconds
         }
-        this._validSwap = false;
+        _validSwap = false;
         return false;
     }
 
@@ -87,21 +94,25 @@ function SharikiGameType(players, config) {
      */
     function selectShell(player,row, col) {
         // no shell is active, make selected shell active
-        if(!this._isActive) {
-            this._isActive = true;
-            this._activeRow = row;
-            this._activeCol = col;
+        console.log(row);
+        console.log(col);
+        console.log(_activeRow);
+        console.log(_activeCol);
+        if(!_isActive) {
+            _isActive = true;
+            _activeRow = row;
+            _activeCol = col;
             // notify renderer here
         }
         // selected shell is adjacent to active shell, try to swap
-        else if(Util.isAdjacent(this._activeRow, this._activeCol, row, col)) {
-            this._trySwap(this._activeRow, this._activeCol, row, col);
+        else if(isAdjacent(_activeRow, _activeCol, row, col)) {
+            _trySwap(player, _activeRow, _activeCol, row, col);
         }
         // unselect shell
         else {
-            this._isActive = false;
-            this._activeRow = null;
-            this._activeCol = null;
+            _isActive = false;
+            _activeRow = null;
+            _activeCol = null;
             // notify renderer here
         }
     }
@@ -110,14 +121,17 @@ function SharikiGameType(players, config) {
      * Attempts to make a swap.
      */
     function _trySwap(player,activeRow, activeCol, selectedRow, selectedCol) {
-        this._swap(player.board, activeRow, activeCol, selectedRow, selectedCol);
+        _swap(player.getBoard(), activeRow, activeCol, selectedRow, selectedCol);
         // notify renderer (in parallel)
-
-        var validSwap = this._makeConnection(player, activeRow,   activeCol,
-                                             selectedRow, selectedCol);
+        renderer.update();
+        var swappedShells = new Set([])
+        swappedShells.add(JSON.stringify(new coord(activeRow, activeCol)));
+        swappedShells.add(JSON.stringify(new coord(selectedRow, selectedCol)));
+        var validSwap = checkConnection(player, swappedShells);
 
         if(!validSwap) {
-            this._swap(player.board, activeRow, activeCol, selectedRow, selectedCol);
+            console.log("NOTVALID");
+            _swap(player.getBoard(), activeRow, activeCol, selectedRow, selectedCol);
             // notify renderer
         }
     }
@@ -133,24 +147,25 @@ function SharikiGameType(players, config) {
      * @param  {number} selectedCol Column of selected shell.
      * @return {boolean} Whether or not the swap was valid.
      */
-    this._makeConnection = function(player,activeRow, activeCol,
-                                    selectedRow, selectedCol) {
-        var activeShell = player.board.get(activeRow, activeCol);
-        var selectedShell = player.board.get(selectedRow, selectedCol);
-
-        // ...
+    function _makeConnection(player,activeRow, activeCol,
+                                                    selectedRow, selectedCol) {
+        console.log("COBNECTION");
+        var activeShell = player.getBoard().get(activeRow, activeCol);
+        var selectedShell = player.getBoard().get(selectedRow, selectedCol);
     }
 
 //runs the checks for left, right, down, and up with respect to the shell
 //and joins the sets
     function check4Way(board, row, col) {
-        return setUnion(checkVertical(rol, col), checkHorizontal(rol, col)); 
+        return setUnion(checkVertical(board,row, col), checkHorizontal(board,row, col)); 
     }
 
 //checks down until the next shell is a different color or the check runs out
 //of bounds of the board, then does the same for checking up.
     function checkVertical(board, row, col) {
         var nextShell;
+        console.log("CHECKVERT");
+        console.log(board);
         var centerShell = board.get(row, col); 
         var matches = new Set([row + "," + col]);
 
@@ -205,11 +220,12 @@ function SharikiGameType(players, config) {
     function checkConnection(player, coords) {
         var connections = new Set([]);
 
-        coords.forEach(function(coord) {
-            var splitCoord = coord.split(",");
-            var row = splitCoord[0],
-                col = splitCoord[1];
-            var newConnections = check4Way(player.board, row, col);
+        coords.forEach(function(JSONcoord) {
+            var temp = JSON.parse(JSONcoord);
+            var row = temp.row,
+                col = temp.col;
+            var newConnections = check4Way(player.getBoard(), row, col);
+            console.log(newConnections);
             connections = setUnion(connections, newConnections);
         });
 
@@ -217,7 +233,9 @@ function SharikiGameType(players, config) {
             return false;
         }
         else {
-            clearShells(player, connnections);
+            console.log("INSIDE ELSE CHECKCONC");
+            console.log(connections);
+            _clearShells(player, connections);
             var changedCoords = refillBoard(player.board);
             return checkConnection(player, changedCoords);
         }
@@ -250,6 +268,11 @@ function SharikiGameType(players, config) {
      * @param  {number} selectedCol Column of selected shell.
      */
     function _swap(board,activeRow, activeCol, selectedRow, selectedCol) {
+        /*console.log("SWAPPER");
+        console.log(activeRow);
+        console.log(activeCol);
+        console.log(selectedRow);
+        console.log(selectedCol);*/
         var activeShell = board.get(activeRow, activeCol);
         var selectedShell = board.get(selectedRow, selectedCol);
 
@@ -273,8 +296,8 @@ function SharikiGameType(players, config) {
         var effectedShells = this._getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
-            this._gravity(board, emptyShells);
-            this._refillTopLayer(board, emptyShells);
+            _gravity(board, emptyShells);
+            _refillTopLayer(board, emptyShells);
         }
 
         return effectedShells;
@@ -286,7 +309,7 @@ function SharikiGameType(players, config) {
             // only affect top layer shells, which have row == 0
             if(coord.row == 0) {
                 // replace the empty shell with a random shell
-                board.set(coord.row, coord.col, this._getRandomShell());
+                board.set(coord.row, coord.col, _getRandomShell());
                 // shell is no longer empty, so remove from set
                 emptyShells.remove(JSONcoord);
             }
@@ -304,6 +327,35 @@ function SharikiGameType(players, config) {
             }
         });
     return effectedShells;
+    }
+    /**
+     * Removes a shell from the board
+     *
+     * @param {number} row Row of the shell to be removed.
+     * @param {number} col Column of the shell to be removed.
+     */
+    function _clearShell(board, row, col) {
+        var tempShell = board.get(row,col);
+        tempShell.type = EMPTYSHELL;
+    }
+    /*
+     * Removes shells with given coords from player's board
+     * Also awards points to the active player
+     * 
+     * @param {set} coords A set of JSON coordinates
+     * @param {Player} player The active player
+     */
+    function _clearShells(player, coords) {
+        console.log(coords);
+        coords.forEach(function(JSONcoord){
+            coord = JSON.parse(JSONcoord);
+            this._clearShell(player.getBoard(), coord.row, coord.col);
+            player.score += 1;
+        });
+    }
+    function coord(row,col) {
+        this.row = row;
+        this.col = col;
     }
 }
 SharikiGameType.prototype = Object.create(GameType.prototype);
