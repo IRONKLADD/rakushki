@@ -32,26 +32,26 @@ function gravitise(array){
     var found = false;
     var row = array[0];
     var col = array[1];
-    var colCount = col - 1;
-    // console.log(col)
-    if(col <= 0 || grid[row][col] != "n"){
+    var rowCount = row - 1;
+    
+    if(row <= 0 || grid[row][col] != "n"){
         return;
     }
-    while(!found){
-        if(grid[row][colCount] != "n"){
+    while(!found  && rowCount >= 0){
+        if(grid[rowCount][col] != "n"){
             found = true;
         }
         else{
-            colCount--;
+            rowCount--;
         }
     }
-    if(colCount < 0){
+    if(rowCount < 0){
         grid[row][col] = "n";
     }
     else{
-        grid[row][col] = grid[row][colCount];
-        grid[row][colCount] = "n";
-        gravitise([row,colCount]);
+        grid[row][col] = grid[rowCount][col];
+        grid[rowCount][col] = "n";
+        gravitise([rowCount,col]);
     }
     printArr();
 
@@ -60,7 +60,7 @@ function printArr(){
     var temp = "";
     for(i = 0;i<5;i++){
         for(j = 0;j<5;j++){
-            temp = temp +" " + this.grid[j][i];
+            temp = temp +" " + this.grid[i][j];
         }
         temp = temp + "\n";
     }
