@@ -263,25 +263,47 @@ function SharikiGameType(players, config) {
         var col = board.col;
         for(var r = 0; r < row; r++) {
             for(var c = 0; c < col; c++) {
-                //CHECK DOWN
-                if(check4Way(board, r+1, c).size >= 3) {    //##X##
-                    return true;                            //XXOXX
-                }                                           //##X##
-                                                            //##X##
-                //CHECK RIGHT
-                if(check4Way(board, r, c+1).size >= 3) {    //#X##
-                    return true;                            //#X##
-                }                                           //XOXX
-                                                            //#X##
-                                                            //#X##
 
                 //CHECK LEFT
-                //~~ are cases that would have been caught by CHECK RIGHT/DOWN
-                if(check4Way(board, r, c-1).size >= 3) {    //##X#
-                    return true;                            //##X#
-                }                                           //~~OX
-                                                            //##X#
-                                                            //##X#
+                //##X#
+                //##X#
+                //XXOX
+                //##X#
+                //##X#
+                if(check4Way(board, r, c-1).size >= 3) {    
+                    return true;                            
+
+                }                                           
+
+                //CHECK UP
+                //##X##
+                //##X##
+                //XXOXX
+                //##X##
+                if(check4Way(board, r-1, c).size >= 3) { 
+                    return true;                         
+                }                                         
+
+                //CHECK DOWN
+                //##X##
+                //XXOXX
+                //##X##
+                //##X##
+                if(check4Way(board, r+1, c).size >= 3) {  
+                    return true;                            
+                }                                           
+                                                            
+                //CHECK RIGHT
+                //#X##
+                //#X##
+                //XOXX
+                //#X##
+                //#X##
+                if(check4Way(board, r, c+1).size >= 3) { 
+                    return true;                         
+                }                                       
+                                                           
+                                                 
             }
         }
         return false;
