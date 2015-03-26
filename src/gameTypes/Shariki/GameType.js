@@ -46,8 +46,6 @@ function SharikiGameType(players, config) {
     function _makeBoard() {
         _board = new Board(config.getWidth(), config.getHeight());
         _fillBoard(_board);
-        console.log("Make ");
-        console.log(_board);
         players[0].setBoard(_board);
         _board.printArr();
     }
@@ -94,10 +92,6 @@ function SharikiGameType(players, config) {
      */
     function selectShell(player,row, col) {
         // no shell is active, make selected shell active
-        console.log(row);
-        console.log(col);
-        console.log(_activeRow);
-        console.log(_activeCol);
         if(!_isActive) {
             _isActive = true;
             _activeRow = row;
@@ -123,7 +117,7 @@ function SharikiGameType(players, config) {
     function _trySwap(player,activeRow, activeCol, selectedRow, selectedCol) {
         _swap(player.getBoard(), activeRow, activeCol, selectedRow, selectedCol);
         // notify renderer (in parallel)
-        renderer.update();
+        
         var swappedShells = new Set([])
         swappedShells.add(JSON.stringify(makeCoord(activeRow, activeCol)));
         swappedShells.add(JSON.stringify(makeCoord(selectedRow, selectedCol)));
@@ -134,6 +128,7 @@ function SharikiGameType(players, config) {
             _swap(player.getBoard(), activeRow, activeCol, selectedRow, selectedCol);
             // notify renderer
         }
+        renderer.update();
     }
 
     /**
@@ -149,7 +144,6 @@ function SharikiGameType(players, config) {
      */
     function _makeConnection(player,activeRow, activeCol,
                                                     selectedRow, selectedCol) {
-        console.log("COBNECTION");
         var activeShell = player.getBoard().get(activeRow, activeCol);
         var selectedShell = player.getBoard().get(selectedRow, selectedCol);
     }
@@ -165,59 +159,65 @@ function SharikiGameType(players, config) {
     function checkVertical(board, row, col) {
         var nextShell;
         console.log("CHECKVERT");
-        console.log(row);
-        console.log(col);
         var centerShell = board.get(row, col); 
         var matches = new Set();
         matches.add(JSON.stringify(makeCoord(row,col)));
-
         for (var r = row+1;
-             r < config.height &&
-             (nextShell = board.get(r, col)).color == centerShell.color;
+             r < config.getHeight() &&
+             board.get(r, col).getColor() == centerShell.getColor();
              r++) {
             matches.add(JSON.stringify(makeCoord(r,col)));
         }
         for (var r = row-1;
              r >= 0 &&
-             (nextShell = board.get(r, col)).color == centerShell.color;
+             board.get(r, col).getColor() == centerShell.getColor();
              r--) {
             matches.add(JSON.stringify(makeCoord(r,col)));
         }
         //match 3?
-        if (matches.size >= 3)
+        if (matches.size >= 3){
             // matched 3 or more, return the matches
+            console.log(matches);
             return matches;
-        else
+        }
+        else{
             // did not match enough, return an empty set
+            console.log("returning empty vert");
             return new Set([]);
+        }
     }
 
 //checks left until the next shell is a different color or the check runs out
 //of bounds of the board, then does the same for checking right.
     function checkHorizontal(board, row, col) {
+        console.log("check hor");
         var nextShell;
         var centerShell = board.get(row, col); 
         var matches = new Set();
         matches.add(JSON.stringify(makeCoord(row,col)));
 
         for (var c = col+1;
-             c < config.width &&
-             (nextShell = board.get(row, c)).color == centerShell.color;
+             c < config.getWidth() &&
+             board.get(row, c).getColor() == centerShell.getColor();
              c++) {
             matches.add(JSON.stringify(makeCoord(row,c)));
         }
         for (var c = col-1;
              c >= 0 &&
-             (nextShell = board.get(row, c)).color == centerShell.color;
+             board.get(row, c).getColor() == centerShell.getColor();
              c--) {
             matches.add(JSON.stringify(makeCoord(row,c)));
         }
         //match 3?
-        if (matches.size >= 3)
+        if (matches.size >= 3){
+            console.log(matches);
             return matches;
-        else
+        }
+        else{
             //if there is no break, don't give me anything
+            console.log("returning empty");
             return new Set([]);
+        }
     }
 
     function checkConnection(player, coords) {
@@ -225,14 +225,10 @@ function SharikiGameType(players, config) {
 
         coords.forEach(function(JSONcoord) {
             var temp = JSON.parse(JSONcoord);
-            console.log(temp);
-            console.log(temp.row);
-            console.log(temp.col);
             var row = temp.row,
                 col = temp.col;
 
             var newConnections = check4Way(player.getBoard(), row, col);
-            console.log(newConnections);
             connections = setUnion(connections, newConnections);
         });
 
@@ -241,7 +237,6 @@ function SharikiGameType(players, config) {
         }
         else {
             console.log("INSIDE ELSE CHECKCONC");
-            console.log(connections);
             _clearShells(player, connections);
             var changedCoords = _refillBoard(player.getBoard(),connections);
             return checkConnection(player, changedCoords);
@@ -300,7 +295,6 @@ function SharikiGameType(players, config) {
     }
 
     function _refillBoard(board, emptyShells) {
-        console.log(emptyShells);
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
@@ -333,7 +327,6 @@ function SharikiGameType(players, config) {
             while(currentRow != -1) {
                 
                 var currentCoord = makeCoord(currentRow,temp.col);
-                console.log(currentCoord);
                 effectedShells.add(JSON.stringify(currentCoord));
                 currentRow = currentRow - 1;
             }
@@ -365,17 +358,12 @@ function SharikiGameType(players, config) {
         });
     }
     function _gravity(board, set){
-        console.log("the SET");
         console.log(set);
         set.forEach(function(JSONcoord){
-            console.log("THE COORD");
-            console.log(JSONcoord);
             _gravitise(board,JSONcoord);
         });
     }
     function _gravitise(board, JSONcoord){
-        console.log("THE COORD2");
-        console.log(JSONcoord);
         var coord = JSON.parse(JSONcoord);
         var found = false;
         var row = coord.row;
@@ -383,7 +371,6 @@ function SharikiGameType(players, config) {
         var rowCount = row - 1;
         console.log(board.get(row,col).type);
         if(col <= 0 || board.get(row,col).type != Shariki.EMPTYSHELL){
-            console.log("should trigger every time");
             return;
         }
         while(!found && rowCount >= 0){
@@ -398,7 +385,6 @@ function SharikiGameType(players, config) {
             board.get(row,col).type = Shariki.EMPTYSHELL;
         }
         else{
-            console.log("IN ELSE GRAV");
             board.set(row,col,board.get(rowCount,col));
             board.get(rowCount, col).type = Shariki.EMPTYSHELL;
             _gravitise(JSON.stringify(makeCoord(rowCount,col)));
