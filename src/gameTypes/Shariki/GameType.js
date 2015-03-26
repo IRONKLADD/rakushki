@@ -298,6 +298,8 @@ function SharikiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
+            console.log(emptyShells.size);
+            console.log(emptyShells);
             _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
         }
@@ -313,9 +315,11 @@ function SharikiGameType(players, config) {
                 // replace the empty shell with a random shell
                 var c = Math.floor(Math.random()*4)
                 var temp = new Shell(config.getColor()[c],null,"normal",null);
+                console.log("new shell " +temp.getColor());
                 board.set(coord.row, coord.col, temp);
                 // shell is no longer empty, so remove from set
-                emptyShells.remove(JSONcoord);
+                emptyShells.delete(JSONcoord);
+                console.log("set delete " + emptyShells);
             }
         });
     }
@@ -340,7 +344,8 @@ function SharikiGameType(players, config) {
      * @param {number} col Column of the shell to be removed.
      */
     function _clearShell(board, row, col) {
-        var tempShell = board.get(row,col);
+        console.log("clearShell");
+        var tempShell  = board.get(row,col);
         tempShell.type = Shariki.EMPTYSHELL;
     }
     /*
@@ -351,30 +356,34 @@ function SharikiGameType(players, config) {
      * @param {Player} player The active player
      */
     function _clearShells(player, coords) {
+        console.log("clearShellSSSS");
+        console.log(coords);
         coords.forEach(function(JSONcoord){
             coord = JSON.parse(JSONcoord);
             _clearShell(player.getBoard(), coord.row, coord.col);
             player.score += 1;
         });
     }
-    function _gravity(board, set){
-        console.log(set);
+    function _gravity(board, set) {
+        console.log("gravity called");
         set.forEach(function(JSONcoord){
             _gravitise(board,JSONcoord);
         });
     }
-    function _gravitise(board, JSONcoord){
+    function _gravitise(board, JSONcoord) {
+        console.log("gravitise called");
         var coord = JSON.parse(JSONcoord);
         var found = false;
         var row = coord.row;
         var col = coord.col;
         var rowCount = row - 1;
-        console.log(board.get(row,col).type);
-        if(col <= 0 || board.get(row,col).type != Shariki.EMPTYSHELL){
+        console.log("type " +board.get(row,col).type);
+        console.log("getType " +board.get(row,col).getType());
+        if(col <= 0 || board.get(row,col).getType() != Shariki.EMPTYSHELL){
             return;
         }
         while(!found && rowCount >= 0){
-            if(board.get(rowCount,col).type != Shariki.EMPTYSHELL){
+            if(board.get(rowCount,col).getType() != Shariki.EMPTYSHELL){
                 found = true;
             }
             else{
@@ -382,11 +391,11 @@ function SharikiGameType(players, config) {
             }
         }
         if(rowCount < 0){
-            board.get(row,col).type = Shariki.EMPTYSHELL;
+            board.get(row,col).getType() = Shariki.EMPTYSHELL;
         }
         else{
             board.set(row,col,board.get(rowCount,col));
-            board.get(rowCount, col).type = Shariki.EMPTYSHELL;
+            board.get(rowCount, col).getType() = Shariki.EMPTYSHELL;
             _gravitise(JSON.stringify(makeCoord(rowCount,col)));
         }
 

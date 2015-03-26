@@ -34,6 +34,7 @@ function Display(root,players,config1){
                 cell.on(Cut.Mouse.CLICK,function(point) {
                     var coord = _arrayCoord(this._index);
                     player.selectShell(coord[0],coord[1]);
+                    player.getBoard().printArr();
                 });
             }
         }
