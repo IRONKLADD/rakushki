@@ -378,12 +378,12 @@ function SharikiGameType(players, config) {
         var col = coord.col;
         var rowCount = row - 1;
         console.log("type " +board.get(row,col).type);
-        console.log("getType " +board.get(row,col).getType());
-        if(col <= 0 || board.get(row,col).getType() != Shariki.EMPTYSHELL){
+        console.log("getType " +board.get(row,col).type);
+        if(col <= 0 || board.get(row,col).type != Shariki.EMPTYSHELL){
             return;
         }
         while(!found && rowCount >= 0){
-            if(board.get(rowCount,col).getType() != Shariki.EMPTYSHELL){
+            if(board.get(rowCount,col).type != Shariki.EMPTYSHELL){
                 found = true;
             }
             else{
@@ -391,11 +391,11 @@ function SharikiGameType(players, config) {
             }
         }
         if(rowCount < 0){
-            board.get(row,col).getType() = Shariki.EMPTYSHELL;
+            board.get(row,col).type = Shariki.EMPTYSHELL;
         }
         else{
             board.set(row,col,board.get(rowCount,col));
-            board.get(rowCount, col).getType() = Shariki.EMPTYSHELL;
+            board.get(rowCount, col).type = Shariki.EMPTYSHELL;
             _gravitise(JSON.stringify(makeCoord(rowCount,col)));
         }
 
