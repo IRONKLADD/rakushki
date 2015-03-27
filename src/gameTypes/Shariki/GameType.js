@@ -44,10 +44,12 @@ function SharikiGameType(players, config) {
      * and the configuration, and stores it in this._board.
      */
     function _makeBoard() {
-        _board = new Board(config.getWidth(), config.getHeight());
-        _fillBoard(_board);
-        players[0].setBoard(_board);
-        _board.printArr();
+        if (players[0].getBoard() === undefined) {
+            _board = new Board(config.getWidth(), config.getHeight());
+            _fillBoard(_board);
+            players[0].setBoard(_board);
+            _board.printArr();
+        }
     }
 
     /**
