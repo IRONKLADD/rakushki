@@ -26,8 +26,8 @@
             return (colDiff === -1 || colDiff === 1);
         }
         else if(colDiff === 0) {
-            console.log("second call " +(rowDiff === -1 || colDiff === 1));
-            return (rowDiff === -1 || colDiff === 1);
+            console.log("second call " +(rowDiff === -1 || rowDiff === 1));
+            return (rowDiff === -1 || rowDiff === 1);
         }   
         console.log("3rd call false");
         return false;
