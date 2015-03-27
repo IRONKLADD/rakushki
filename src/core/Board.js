@@ -36,7 +36,7 @@ function Board(rows, cols) {
         var temp = "";
         for(i = 0;i<3;i++){
             for(j = 0;j<3;j++){
-                temp = temp +" " + _grid[i][j].getColor();
+                temp = temp +" " + _grid[i][j].color;
             }
             temp = temp + "\n";
         }
