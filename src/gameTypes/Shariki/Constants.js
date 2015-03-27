@@ -1,3 +1,4 @@
 var Shariki = {
-    EMPTYSHELL : "===empty-shell==="
+    EMPTYSHELL : "===empty-shell===",
+    NORMALSHELL : "===normal-shell==="
 };
