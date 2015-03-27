@@ -166,13 +166,13 @@ function SharikiGameType(players, config) {
         matches.add(JSON.stringify(makeCoord(row,col)));
         for (var r = row+1;
              r < config.getHeight() &&
-             board.get(r, col).getColor() == centerShell.getColor();
+             board.get(r, col).color == centerShell.color;
              r++) {
             matches.add(JSON.stringify(makeCoord(r,col)));
         }
         for (var r = row-1;
              r >= 0 &&
-             board.get(r, col).getColor() == centerShell.getColor();
+             board.get(r, col).color == centerShell.color;
              r--) {
             matches.add(JSON.stringify(makeCoord(r,col)));
         }
@@ -200,13 +200,13 @@ function SharikiGameType(players, config) {
 
         for (var c = col+1;
              c < config.getWidth() &&
-             board.get(row, c).getColor() == centerShell.getColor();
+             board.get(row, c).color == centerShell.color;
              c++) {
             matches.add(JSON.stringify(makeCoord(row,c)));
         }
         for (var c = col-1;
              c >= 0 &&
-             board.get(row, c).getColor() == centerShell.getColor();
+             board.get(row, c).color == centerShell.color;
              c--) {
             matches.add(JSON.stringify(makeCoord(row,c)));
         }
@@ -317,7 +317,7 @@ function SharikiGameType(players, config) {
                 // replace the empty shell with a random shell
                 var c = Math.floor(Math.random()*4)
                 var temp = new Shell(config.getColor()[c],null,"normal",null);
-                console.log("new shell " +temp.getColor());
+                console.log("new shell " +temp.color);
                 board.set(coord.row, coord.col, temp);
                 // shell is no longer empty, so remove from set
                 emptyShells.delete(JSONcoord);

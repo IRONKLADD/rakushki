@@ -26,7 +26,7 @@ function Display(root,players,config1){
             for (j = 0; j < config.getWidth(); j++) {
                 // colors as frames
                 var temp = board.get(i,j);
-                var cell = Cut.image("base:color_" + temp.getColor()).appendTo(row);
+                var cell = Cut.image("base:color_" + temp.color).appendTo(row);
                 cell.pin("pivot", 0.5);
                 cell._index = count;
                 count++;
