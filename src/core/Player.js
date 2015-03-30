@@ -1,7 +1,7 @@
 function Player(){
     this.getBoard = getBoard;
     this.setBoard = setBoard;
-    this.setFunction = setFunction;
+    this.setSelectShell = setSelectShell;
     var board;
     var score = 0;
     var parentSelectShell;
@@ -14,7 +14,7 @@ function Player(){
     function setBoard(newBoard) {
         board = newBoard;
     }
-    function setFunction(f){
+    function setSelectShell(f){
         parentSelectShell = f;
     }
 }
