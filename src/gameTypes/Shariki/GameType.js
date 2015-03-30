@@ -268,7 +268,9 @@ function SharikiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
-            _gravity(board, emptyShells);
+            console.log("empty in refill");
+            console.log(emptyShells);
+            emptyShells = _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
         }
 
@@ -276,6 +278,7 @@ function SharikiGameType(players, config) {
     }
 
     function _refillTopLayer(board, emptyShells) {
+        console.log("refill top");
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
             // only affect top layer shells, which have row == 0
@@ -329,20 +332,25 @@ function SharikiGameType(players, config) {
         });
     }
     function _gravity(board, set) {
+        console.log("gravity called");
+        var gravitySet = set;
         set.forEach(function(JSONcoord){
-            _gravitise(board, JSONcoord);
+            _gravitise(board, JSONcoord,gravitySet);
         });
+        return gravitySet;
     }
-    function _gravitise(board, JSONcoord) {
+    function _gravitise(board, JSONcoord, gravitySet) {
+        console.log(gravitySet);
         var coord = JSON.parse(JSONcoord);
         var found = false;
         var row = coord.row;
         var col = coord.col;
         var rowCount = row - 1;
-        if(col <= 0 || board.get(row, col).type != Shariki.EMPTYSHELL){
+        if(col = 0 || board.get(row, col).type != Shariki.EMPTYSHELL){
             return;
         }
         while(!found && rowCount >= 0){
+            console.log(rowCount);
             if(board.get(rowCount, col).type != Shariki.EMPTYSHELL){
                 found = true;
             }
@@ -350,13 +358,21 @@ function SharikiGameType(players, config) {
                 rowCount--;
             }
         }
+        console.log("row " +rowCount);
         if(rowCount < 0){
+            console.log("if");
             board.get(row, col).type = Shariki.EMPTYSHELL;
+            gravitySet.add(JSON.stringify(new Util.Coord(rowCount, col)));
+            return;
         }
         else{
+            console.log("else");
             board.set(row,col,board.get(rowCount,col));
+            gravitySet.delete(JSON.stringify(new Util.Coord(row, col)));
+            gravitySet.add(JSON.stringify(new Util.Coord(row - 1, col)));
             board.get(rowCount, col).type = Shariki.EMPTYSHELL;
-            _gravitise(board, JSON.stringify(new Util.Coord(rowCount,col)));
+            _gravitise(board, JSON.stringify(new Util.Coord(row - 1,col)), gravitySet);
+            return;
         }
 
     }
