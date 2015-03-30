@@ -39,6 +39,6 @@ function Display(root,players,config){
 
     function update() {
         column.remove();
-        _createBoard();
+        _createBoard(players[0]);
     }
 }

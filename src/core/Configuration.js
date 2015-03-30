@@ -6,7 +6,7 @@ function Configuration(rulesFile){
     this.width  = 8;
     this.height = 8;
 
-    this.getRandomColor = function() {
+    this.getRandomColor = function(color) {
         return this.allowedColors[Util.randomInt(this.allowedColors.length)];
     }
 }

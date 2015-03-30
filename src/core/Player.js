@@ -3,7 +3,7 @@ function Player(){
     this.setBoard = setBoard;
     this.setSelectShell = setSelectShell;
     var board;
-    var score = 0;
+    this.score = 0;
     var parentSelectShell;
     this.selectShell = function(row, col){
         parentSelectShell(this, row, col);
