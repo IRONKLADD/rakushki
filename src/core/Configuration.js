@@ -3,8 +3,8 @@ function Configuration(rulesFile){
     this.allowedNumbers  = [1, 2, 3, 4, 5];
     this.allowedSpecials = null;
     this.allowedTypes    = ["normal"];
-    this.width  = 3;
-    this.height = 3;
+    this.width  = 8;
+    this.height = 8;
 
     this.getRandomColor = function(color) {
         return this.allowedColors[Util.randomInt(this.allowedColors.length)];

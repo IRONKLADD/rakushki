@@ -58,3 +58,11 @@ Util.indexToCoord = function(index, height) {
     var col = (index % height);
     return new Util.Coord(row, col);
 };
+
+Util.seededRandom = function(seed) {
+    function random() {
+        var x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+    }
+    return random;
+};
