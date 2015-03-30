@@ -18,8 +18,8 @@ var app = Cut(function(root,container) {
     var config = new Configuration();
     var player1 = new Player();
 
-    var board = boardFromArray(board1, 3, 3);
-    player1.setBoard(board);
+//    var board = boardFromArray(board1, 3, 3);
+//    player1.setBoard(board);
 
     var players = [player1];
     var game = new SharikiGameType(players, config);
