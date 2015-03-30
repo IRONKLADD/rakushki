@@ -119,6 +119,8 @@ function SharikiGameType(players, config) {
             _activeCol = null;
             // notify renderer here
         }
+        console.log("PLAYER SCORE");
+        console.log(player.score);
     }
 
     /**
@@ -239,6 +241,7 @@ function SharikiGameType(players, config) {
             _clearShells(player, connections);
             var changedCoords = _refillBoard(player.getBoard(), connections);
             checkConnection(player, changedCoords);
+            renderer.update();
             return true;
         }
     }
@@ -325,6 +328,7 @@ function SharikiGameType(players, config) {
     function _clearShell(board, row, col) {
         var shell  = board.get(row,col);
         shell.type = Shariki.EMPTYSHELL;
+        shell.color = "light";
     }
     /*
      * Removes shells with given coords from player's board
