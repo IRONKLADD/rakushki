@@ -37,6 +37,22 @@ Util.Coord = function(row, col) {
     this.col = col;
 };
 
+Util.coordUp = function(coord) {
+    return new Util.Coord(coord.row-1, coord.col);
+}
+
+Util.coordDown = function(coord) {
+    return new Util.Coord(coord.row+1, coord.col);
+}
+
+Util.coordLeft = function(coord) {
+    return new Util.Coord(coord.row, coord.col-1);
+}
+
+Util.coordRight = function(coord) {
+    return new Util.Coord(coord.row, coord.col+1);
+}
+
 Util.indexToCoord = function(index, height) {
     var row = Math.floor(index / height);
     var col = (index % height);
