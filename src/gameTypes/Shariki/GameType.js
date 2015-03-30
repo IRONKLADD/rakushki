@@ -346,9 +346,14 @@ function SharikiGameType(players, config) {
     }
 
     function _gravity(board, emptyShells) {
-        emptyShells.forEach(function(JSONcoord){
-            _gravitize(board, JSONcoord, emptyShells);
-        });
+        var lowestEmptyShells = Util.colMax(emptyShells, config.width);
+        for(var col = 0; col < config.width; ++col) {
+            var row = lowestEmptyShells[col];
+            if (row !== undefined) {
+                var JSONcoord = JSON.stringify(new Util.Coord(row, col));
+                _gravitize(board, JSONcoord, emptyShells);
+            }
+        }
     }
 
     function findShellAbove(board, coord) {
