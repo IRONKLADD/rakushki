@@ -329,6 +329,7 @@ function SharikiGameType(players, config) {
         var shell  = board.get(row,col);
         shell.type = Shariki.EMPTYSHELL;
         shell.color = "light";
+        renderer.update();
     }
     /*
      * Removes shells with given coords from player's board
