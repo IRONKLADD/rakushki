@@ -17,9 +17,9 @@ function Display(root,players,config){
         var j = 0, i = 0,count = 0;
         var boardNode = Cut.create();
         boardNode.appendTo(gameScreen);
-        column = Cut.column().appendTo(root).pin("align", .5).spacing(1);
+        column = Cut.column().appendTo(root).pin("align", .5).spacing(3);
         for (i = 0; i < config.height; i++) {
-            var row = Cut.row().appendTo(column).spacing(1);
+            var row = Cut.row().appendTo(column).spacing(3);
             for (j = 0; j < config.width; j++) {
                 // colors as frames
                 var temp = board.get(i,j);
@@ -29,6 +29,10 @@ function Display(root,players,config){
                 count++;
                 //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point) {
+                    this.pin({
+                        scaleX : 1.3,
+                        scaleY : 1.3,
+                    });
                     var coord = Util.indexToCoord(this._index, config.height);
                     player.selectShell(coord.row, coord.col);
                     player.getBoard().printArr();

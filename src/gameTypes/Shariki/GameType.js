@@ -61,13 +61,16 @@ function SharikiGameType(players, config) {
      * @param {Board} board the board to be filled
      */
     function _fillBoard(board) {
+        var starterBoard = new Set([]);
         for (var row = 0; row < board.rows; ++row) {
             for (var col = 0; col < board.cols; ++col) {
                 board.set(row, col,
-                          new Shell(config.getRandomColor(),
-                                    null, "normal", null));
+                          new Shell("light",
+                                    null, Shariki.EMPTYSHELL, null));
+                starterBoard.add(JSON.stringify(new Util.Coord(row,col)));
             }
         }
+        _refillBoard(board, starterBoard);
     }
 
     /**
@@ -279,9 +282,11 @@ function SharikiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
+            console.log("in refill");
             console.log(emptyShells);
             _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
+            
         }
 
         return effectedShells;
@@ -329,7 +334,7 @@ function SharikiGameType(players, config) {
         var shell  = board.get(row,col);
         shell.type = Shariki.EMPTYSHELL;
         shell.color = "light";
-        renderer.update();
+        
     }
     /*
      * Removes shells with given coords from player's board
@@ -344,6 +349,9 @@ function SharikiGameType(players, config) {
             _clearShell(player.getBoard(), coord.row, coord.col);
             player.score += 1;
         });
+        renderer.update();
+        window.setTimeout(function(){}, 1000000000);
+
     }
 
     function _gravity(board, emptyShells) {
@@ -356,8 +364,9 @@ function SharikiGameType(players, config) {
         var col = coord.col;
         for (var row = coord.row-1; row >= 0; --row) {
             var shell = board.get(row, col);
-            if(shell.type != Shariki.EMPTYSHELL)
+            if(shell.type != Shariki.EMPTYSHELL){
                 return new Util.Coord(row, col);
+            }
         }
         return null;
     }
