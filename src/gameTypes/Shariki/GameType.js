@@ -124,6 +124,7 @@ function SharikiGameType(players, config) {
         }
         console.log("PLAYER SCORE");
         console.log(player.score);
+        renderer.updateScore(player.score);
     }
 
     /**

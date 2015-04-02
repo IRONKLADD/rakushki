@@ -27,4 +27,5 @@ var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
     var render = new Display(root, players, config);
     game.setRender(render);
+    render.createMenu();
 });

@@ -1,6 +1,9 @@
 function Display(root,players,config){
-    this._createBoard = _createBoard;
-    this.update       = update;
+    this._createBoard  = _createBoard;
+    this._createButton = _createButton;
+    this.update        = update;
+    this.updateScore   = updateScore;
+    this.createMenu    = createMenu;
     var board = players[0].getBoard();
     var gameScreen = Cut.create();
     gameScreen.appendTo(root).pin("align", .5);
@@ -11,8 +14,65 @@ function Display(root,players,config){
         console.log("pause");
     });
     var column;
-    _createBoard(players[0]);
+    var score = Cut.string("base:d_").appendTo(root).pin("align", .9).spacing(2);
+    score.value(0);
+    score.pin({
+        scale : 5
+    });
 
+    function createMenu(){
+        var mainMenu = Cut.column().appendTo(root).spacing(1);
+        mainMenu.pin({
+            alignX : .5,
+            alignY : 0,
+        })
+        _createButton(2452,"red",mainMenu).appendTo(mainMenu);
+        _createButton(1523,"yellow",mainMenu).appendTo(mainMenu);
+        _createButton(9999,"blue",mainMenu).appendTo(mainMenu);
+
+
+        /*var mainMenu  = Cut.column().appendTo(root).spacing(1);
+        mainMenu.pin({
+            alignX : 0,
+            alignY : 0,
+        })
+        var topButton = Cut.image("base:color_blue").appendTo(mainMenu);
+        topButton.pin({
+            scaleX : 10,
+            scaleY : 3.3,
+            offsetX : 600,
+            alpha : .6
+        })
+        topButton.on(Cut.Mouse.CLICK,function(){
+            mainMenu.hide();
+            _createBoard(players[0]);
+        });
+        var topButtonText = Cut.string("base:d_").appendTo(topButton);
+        topButtonText.value(222222);
+        topButtonText.spacing(1);
+        topButtonText.pin({
+            scaleX : .3,
+            scaleY : .5,
+            alignX : 0,
+            alignY : 0  
+        });*/
+    }
+    function _createButton(text,color,parentNode){
+        var button = Cut.image("base:color_" +color);
+        var buttonText = Cut.string("base:d_").appendTo(button);
+        button.pin({
+            scaleX : 10,
+            scaleY : 3
+        })
+        buttonText.pin({
+            align : .5,
+            scaleX : .5,
+            scaleY : .5
+        })
+        button.appendTo(parentNode);
+        buttonText.value(text);
+        return button;
+    }
     function _createBoard(player) {
         var j = 0, i = 0,count = 0;
         var boardNode = Cut.create();
@@ -44,5 +104,8 @@ function Display(root,players,config){
     function update() {
         column.remove();
         _createBoard(players[0]);
+    }
+    function updateScore(newScore) {
+        score.value(newScore);
     }
 }
