@@ -46,13 +46,14 @@ function SharikiGameType(players, config) {
     function _makeBoard() {
         if (players[0].getBoard() === undefined) {
             _board = new Board(config.width, config.height);
-            _fillBoard(_board);
             players[0].setBoard(_board);
+            _fillBoard(_board);
+            
         } else {
             _board = players[0].getBoard();
         }
         // display board for debug purposes
-        _board.printArr();
+        players[0].score = 0;
     }
 
     /**
@@ -70,7 +71,7 @@ function SharikiGameType(players, config) {
                 starterBoard.add(JSON.stringify(new Util.Coord(row,col)));
             }
         }
-        _refillBoard(board, starterBoard);
+        checkConnection(players[0], starterBoard);
     }
 
     /**
@@ -230,6 +231,7 @@ function SharikiGameType(players, config) {
 
     function checkConnection(player, coords) {
         var connections = new Set([]);
+        console.log(player);
 
         coords.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -245,7 +247,7 @@ function SharikiGameType(players, config) {
             _clearShells(player, connections);
             var changedCoords = _refillBoard(player.getBoard(), connections);
             checkConnection(player, changedCoords);
-            renderer.update();
+            // renderer.update();
             return true;
         }
     }
@@ -350,24 +352,27 @@ function SharikiGameType(players, config) {
             _clearShell(player.getBoard(), coord.row, coord.col);
             player.score += 1;
         });
-        renderer.update();
         window.setTimeout(function(){}, 1000000000);
 
     }
 
     function _gravity(board, emptyShells) {
-        emptyShells.forEach(function(JSONcoord){
-            _gravitize(board, JSONcoord, emptyShells);
-        });
+        var lowestEmptyShells = Util.colMax(emptyShells, config.width);
+        for(var col = 0; col < config.width; ++col) {
+            var row = lowestEmptyShells[col];
+            if (row !== undefined) {
+                var JSONcoord = JSON.stringify(new Util.Coord(row, col));
+                _gravitize(board, JSONcoord, emptyShells);
+            }
+        }
     }
 
     function findShellAbove(board, coord) {
         var col = coord.col;
         for (var row = coord.row-1; row >= 0; --row) {
             var shell = board.get(row, col);
-            if(shell.type != Shariki.EMPTYSHELL){
+            if(shell.type != Shariki.EMPTYSHELL)
                 return new Util.Coord(row, col);
-            }
         }
         return null;
     }

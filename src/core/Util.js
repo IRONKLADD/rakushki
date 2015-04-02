@@ -66,3 +66,21 @@ Util.seededRandom = function(seed) {
     }
     return random;
 };
+
+/**
+ * Takes a set of shell coordinates, and the width of the board,
+ * returns an array whose indices correspond to the columns of the board,
+ * and whose values correspond to the highest row in that column, present in
+ * the set of shell coordinates.
+ */
+Util.colMax = function(shellCoords, width) {
+    var cols = new Array(width);
+    shellCoords.forEach(function(JSONcoord) {
+        var coord = JSON.parse(JSONcoord);
+        var currentRow = cols[coord.col];
+        if (currentRow === undefined || currentRow < coord.row)
+            cols[coord.col] = coord.row;
+    });
+
+    return cols;
+};

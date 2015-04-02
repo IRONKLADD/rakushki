@@ -21,11 +21,10 @@ var app = Cut(function(root,container) {
     // var board = boardFromArray(board1, 3, 3);
     // player1.setBoard(board);
 
-
     var players = [player1];
     var game = new SharikiGameType(players, config);
     Cut.Mouse(root, container);
     var render = new Display(root, players, config);
     game.setRender(render);
-    render.createMenu();
+    render._createBoard(players[0]);
 });
