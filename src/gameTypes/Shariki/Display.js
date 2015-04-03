@@ -21,14 +21,24 @@ function Display(root,players,config){
     });
 
     function createMenu(){
-        var mainMenu = Cut.column().appendTo(root).spacing(1);
+        var mainMenu = Cut.column().appendTo(root).spacing(50);
         mainMenu.pin({
             alignX : .5,
             alignY : 0,
         })
-        _createButton(2452,"red",mainMenu).appendTo(mainMenu);
-        _createButton(1523,"yellow",mainMenu).appendTo(mainMenu);
-        _createButton(9999,"blue",mainMenu).appendTo(mainMenu);
+        var button0 = _createButton(2452,"red",mainMenu).appendTo(mainMenu);
+        var button1 = _createButton(1523,"yellow",mainMenu).appendTo(mainMenu);
+        var button2 = _createButton(9999,"blue",mainMenu).appendTo(mainMenu);
+        button0.on(Cut.Mouse.CLICK,function(){
+            mainMenu.hide();
+            _createBoard(players[0]);
+        });
+
+        var SinglePlayerMenu = Cut.column().appendTo(root).spacing(1);
+        mainMenu.pin({
+            alignX : .5,
+            alignY : 0,
+        })
 
 
         /*var mainMenu  = Cut.column().appendTo(root).spacing(1);
