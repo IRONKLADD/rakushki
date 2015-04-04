@@ -15,7 +15,7 @@ function Display(root,players,config){
                        console.log("pause");
                    });
     var column;
-    var score = Cut.string("ascii_nimbus:")
+    var score = Cut.string("ascii_nimbus_black:")
                    .appendTo(root)
                    .pin("align", .9)
                    .spacing(2)
