@@ -28,51 +28,27 @@ function Display(root,players,config){
             alignX : .5,
             alignY : 0,
         })
-        var button0 = _createButton("SinglePlayer", "red", mainMenu)
-                          .appendTo(mainMenu);
-        var button1 = _createButton("MultiPlayer", "yellow", mainMenu)
-                          .appendTo(mainMenu);
-        var button2 = _createButton("Settings", "blue", mainMenu)
-                          .appendTo(mainMenu);
-        button0.on(Cut.Mouse.CLICK,function(){
+        var buttonSinglePlayer = Buttons.makeShellsButton("Single Player",
+                                                          "red")
+                                        .appendTo(mainMenu);
+        var buttonMultiPlayer = Buttons.makeShellsButton("Multi Player",
+                                                         "yellow")
+                                       .appendTo(mainMenu);
+        var buttonSettings = Buttons.makeShellsButton("Settings",
+                                                      "blue")
+                                    .appendTo(mainMenu);
+        buttonSinglePlayer.on(Cut.Mouse.CLICK, function() {
             mainMenu.hide();
             _createBoard(players[0]);
         });
 
         var SinglePlayerMenu = Cut.column().appendTo(root).spacing(1);
         mainMenu.pin({
-            alignX : .5,
-            alignY : 0,
+            alignX : 0.5,
+            alignY : 0.0
         })
-
-
-        /*var mainMenu  = Cut.column().appendTo(root).spacing(1);
-        mainMenu.pin({
-            alignX : 0,
-            alignY : 0,
-        })
-        var topButton = Cut.image("base:color_blue").appendTo(mainMenu);
-        topButton.pin({
-            scaleX : 10,
-            scaleY : 3.3,
-            offsetX : 600,
-            alpha : .6
-        })
-        topButton.on(Cut.Mouse.CLICK,function(){
-            mainMenu.hide();
-            _createBoard(players[0]);
-        });
-        var topButtonText = Cut.string("base:d_").appendTo(topButton);
-        topButtonText.value(222222);
-        topButtonText.spacing(1);
-        topButtonText.pin({
-            scaleX : .3,
-            scaleY : .5,
-            alignX : 0,
-            alignY : 0  
-        });*/
     }
-    function _createButton(text,color,parentNode){
+    function _createButton(text, color, parentNode){
         var button = Cut.image("base:color_" +color);
         var buttonText = Cut.string("ascii_nimbus_black:").appendTo(button);
         button.pin({
@@ -80,33 +56,36 @@ function Display(root,players,config){
             scaleY : 1
         })
         buttonText.pin({
-            align : .5,
-            scaleX : .5,
-            scaleY : .5
+            align  : 0.5,
+            scaleX : 0.5,
+            scaleY : 0.5
         })
         button.appendTo(parentNode);
         buttonText.value(text);
         return button;
     }
     function _createBoard(player) {
-        var j = 0, i = 0,count = 0;
+        var j = 0, i = 0, count = 0;
         var boardNode = Cut.create();
         boardNode.appendTo(gameScreen);
-        column = Cut.column().appendTo(root).pin("align", .5).spacing(3);
-        for (i = 0; i < config.height; i++) {
+        column = Cut.column()
+                    .appendTo(root)
+                    .pin("align", 0.5)
+                    .spacing(3);
+        for (i = 0; i < config.height; ++i) {
             var row = Cut.row().appendTo(column).spacing(3);
-            for (j = 0; j < config.width; j++) {
+            for (j = 0; j < config.width; ++j) {
                 // colors as frames
-                var temp = board.get(i,j);
-                var cell = Cut.image("base:color_" + temp.color).appendTo(row);
-                cell.pin("pivot", 0.5);
-                cell._index = count;
-                count++;
+                var temp = board.get(i, j);
+                var cell = Cut.image("base:color_" + temp.color)
+                              .appendTo(row)
+                              .pin("pivot", 0.5);
+                cell._index = count++;
                 //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point) {
                     this.pin({
                         scaleX : 1.3,
-                        scaleY : 1.3,
+                        scaleY : 1.3
                     });
                     var coord = Util.indexToCoord(this._index, config.height);
                     player.selectShell(coord.row, coord.col);
