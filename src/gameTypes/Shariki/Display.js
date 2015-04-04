@@ -28,9 +28,12 @@ function Display(root,players,config){
             alignX : .5,
             alignY : 0,
         })
-        var button0 = _createButton(2452,"red",mainMenu).appendTo(mainMenu);
-        var button1 = _createButton(1523,"yellow",mainMenu).appendTo(mainMenu);
-        var button2 = _createButton(9999,"blue",mainMenu).appendTo(mainMenu);
+        var button0 = _createButton("SinglePlayer", "red", mainMenu)
+                          .appendTo(mainMenu);
+        var button1 = _createButton("MultiPlayer", "yellow", mainMenu)
+                          .appendTo(mainMenu);
+        var button2 = _createButton("Settings", "blue", mainMenu)
+                          .appendTo(mainMenu);
         button0.on(Cut.Mouse.CLICK,function(){
             mainMenu.hide();
             _createBoard(players[0]);
@@ -71,10 +74,10 @@ function Display(root,players,config){
     }
     function _createButton(text,color,parentNode){
         var button = Cut.image("base:color_" +color);
-        var buttonText = Cut.string("base:d_").appendTo(button);
+        var buttonText = Cut.string("ascii_nimbus_black:").appendTo(button);
         button.pin({
-            scaleX : 10,
-            scaleY : 3
+            scaleX : 1,
+            scaleY : 1
         })
         buttonText.pin({
             align : .5,
