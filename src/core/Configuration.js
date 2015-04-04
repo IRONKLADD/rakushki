@@ -1,5 +1,5 @@
 function Configuration(rulesFile){
-    this.allowedColors   = ["red", "blue", "yellow", "green","dark","orange","purple"];
+    this.allowedColors   = ["red", "blue", "yellow", "green","orange","dark"];
     this.allowedNumbers  = [1, 2, 3, 4, 5];
     this.allowedSpecials = null;
     this.allowedTypes    = ["normal"];
