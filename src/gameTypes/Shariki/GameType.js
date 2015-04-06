@@ -79,16 +79,17 @@ function SharikiGameType(players, config) {
      * @param {Player} currentPlayer The current player (unused)
      * @param {number} turnCount The current turn number (unused)
      */
-    function _turn(currentPlayer, turnCount) {
-        var gameOver = _checkBoard();
+    this._turn = function(currentPlayer, turnCount) {
+        var gameOver = this._isGameOver(currentPlayer.board);
         if(gameOver)
             return true;
-        while(!_validSwap) {
+        while(!this._validSwap) {
             // wait T milliseconds
         }
-        _validSwap = false;
+        this._validSwap = false;
         return false;
-    }
+    }  
+
 
     /**
      * This method handles the functionality of selecting a single shell.
@@ -270,8 +271,55 @@ function SharikiGameType(players, config) {
      *
      * @return {boolean} Whether or not the board is in game-over position.
      */
-    function _checkBoard() {
-        /* ... */
+    this._isGameOver = function(board) {
+        var row = board.row;
+        var col = board.col;
+        for(var r = 0; r < row; r++) {
+            for(var c = 0; c < col; c++) {
+
+                //CHECK LEFT
+                //##X#
+                //##X#
+                //XXOX
+                //##X#
+                //##X#
+                if(check4Way(board, r, c-1).size >= 3) {    
+                    return true;                            
+
+                }                                           
+
+                //CHECK UP
+                //##X##
+                //##X##
+                //XXOXX
+                //##X##
+                if(check4Way(board, r-1, c).size >= 3) { 
+                    return true;                         
+                }                                         
+
+                //CHECK DOWN
+                //##X##
+                //XXOXX
+                //##X##
+                //##X##
+                if(check4Way(board, r+1, c).size >= 3) {  
+                    return true;                            
+                }                                           
+                                                            
+                //CHECK RIGHT
+                //#X##
+                //#X##
+                //XOXX
+                //#X##
+                //#X##
+                if(check4Way(board, r, c+1).size >= 3) { 
+                    return true;                         
+                }                                       
+                                                           
+                                                 
+            }
+        }
+        return false;
     }
 
     function _refillBoard(board, emptyShells) {
