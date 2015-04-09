@@ -13,7 +13,8 @@ Sprites.ascii = [
 ]
 
 Sprites.cutoutsFromGrid = function(names, prefix,
-                                   width, height, n_cols, n_rows) {
+                                   width, height, n_cols, n_rows,
+                                   pad_width, pad_height) {
     var cutouts = [];
     var cutout_height = height / n_rows,
         cutout_width  = width  / n_cols;
@@ -23,10 +24,10 @@ Sprites.cutoutsFromGrid = function(names, prefix,
         for(var j = 0; j < n_cols; ++j)
             cutouts[c++] = {
                 name   : prefix + names[i][j],
-                x      : cutout_width  * j,
-                y      : cutout_height * i,
-                height : cutout_height,
-                width  : cutout_width
+                x      : (cutout_width  + pad_width)  * j,
+                y      : (cutout_height + pad_height) * i,
+                height : cutout_height - pad_height,
+                width  : cutout_width  - pad_width
             };
     return cutouts;
 }

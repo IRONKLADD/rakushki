@@ -15,27 +15,28 @@ function Display(root,players,config){
                        console.log("pause");
                    });
     var column;
-    var score = Cut.string("ascii_nimbus_black:")
+    var score = Cut.string("ascii_nimbus_black_24:")
                    .appendTo(root)
                    .pin("align", .9)
                    .spacing(2)
                    .value(0)
                    .pin({scale : 1});
 
-    function createMenu(){
+    function createMenu() {
+        var colors = ["red", "yellow", "blue"];
         var mainMenu = Cut.column().appendTo(root).spacing(50);
         mainMenu.pin({
             alignX : .5,
             alignY : 0,
         })
         var buttonSinglePlayer = Buttons.makeShellsButton("Single Player",
-                                                          "red")
+                                                          colors)
                                         .appendTo(mainMenu);
         var buttonMultiPlayer = Buttons.makeShellsButton("Multi Player",
-                                                         "yellow")
+                                                         colors)
                                        .appendTo(mainMenu);
         var buttonSettings = Buttons.makeShellsButton("Settings",
-                                                      "blue")
+                                                      colors)
                                     .appendTo(mainMenu);
         buttonSinglePlayer.on(Cut.Mouse.CLICK, function() {
             mainMenu.hide();
@@ -50,7 +51,7 @@ function Display(root,players,config){
     }
     function _createButton(text, color, parentNode){
         var button = Cut.image("base:color_" +color);
-        var buttonText = Cut.string("ascii_nimbus_black:").appendTo(button);
+        var buttonText = Cut.string("ascii_nimbus_black_10:").appendTo(button);
         button.pin({
             scaleX : 1,
             scaleY : 1

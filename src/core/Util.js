@@ -68,6 +68,17 @@ Util.seededRandom = function(seed) {
 };
 
 /**
+ * Returns a random element from the array.
+ *
+ * @param {Object[]} array
+ *
+ * @return {Object}
+ */
+Util.selectRandom = function(array) {
+    return array[Util.randomInt(array.length)];
+}
+
+/**
  * Takes a set of shell coordinates, and the width of the board,
  * returns an array whose indices correspond to the columns of the board,
  * and whose values correspond to the highest row in that column, present in
@@ -81,6 +92,6 @@ Util.colMax = function(shellCoords, width) {
         if (currentRow === undefined || currentRow < coord.row)
             cols[coord.col] = coord.row;
     });
-
     return cols;
 };
+

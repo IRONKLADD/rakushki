@@ -7,9 +7,6 @@ function Configuration(rulesFile){
     this.height = 8;
 
     this.getRandomColor = function(color) {
-        if(color === "red"){
-            return "red";
-        }
-        return this.allowedColors[Util.randomInt(this.allowedColors.length)];
+        return Util.selectRandom(this.allowedColors);
     }
 }
