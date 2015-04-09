@@ -293,7 +293,15 @@ function SharikiGameType(players, config) {
     function _checkBoard() {
         /* ... */
     }
-    
+
+    /**
+     * Drops existing shells down to fill in empty spots then refills the top
+     * layer. This is done recursively until the board is full.
+     *
+     * @param  {Board} board The board which is to be checked.
+     * @param  {Set} emptyShells A set of coords of empty shells
+     * @return {Set} A Set of shells which changed position
+     */
     function _refillBoard(board, emptyShells) {
 
         var effectedShells = _getEffectedShells(emptyShells);
@@ -323,6 +331,13 @@ function SharikiGameType(players, config) {
             }
         });
     }
+    /*
+     * Finds all the shells which will be affected by gravity after the creation
+     * of empty shells.
+     *
+     * @param  {emptyShells} emptyShells A Set of 
+     * @return {Set} A Set containing shells affected by gravity 
+     */
     function _getEffectedShells(emptyShells) {
         console.log("effected shells");
         console.log(emptyShells);
@@ -337,9 +352,7 @@ function SharikiGameType(players, config) {
                 effectedShells.add(JSONeffectedCoord);
             }
         });
-        effectedShells.forEach(function(shell) { 
-            console.log("S:"+shell); 
-        });
+        effectedShells.forEach(function(shell) { console.log("S:"+shell); });
         return effectedShells;
     }
     /**
@@ -369,6 +382,14 @@ function SharikiGameType(players, config) {
         });
     }
 
+    /*
+     * Moves shells above empty shells down to remove the presence of empty
+     * shells.
+     *
+     * @param  {Board} board The board being acted on.
+     * @param  {Set} emptyShells A Set of the coordinates of empty shells on the
+     * board.
+     */
     function _gravity(board, emptyShells) {
         var lowestEmptyShells = Util.colMax(emptyShells, config.width);
         for(var col = 0; col < config.width; ++col) {
@@ -390,6 +411,13 @@ function SharikiGameType(players, config) {
         return null;
     }
 
+    /*
+     * Moves all shells above an empty shell down one row.
+     *
+     * @param  {Board} board The board being acted on.
+     * @param  {String} JSONcoord the coord corresponding to the empty shell.
+     * @param  {Set} A Set of the coordinates of empty shells on the board.
+     */
     function _gravitize(board, JSONcoord, emptyShells) {
         var coord = JSON.parse(JSONcoord);
 
