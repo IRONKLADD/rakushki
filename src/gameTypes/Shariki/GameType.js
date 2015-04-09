@@ -324,7 +324,9 @@ function SharikiGameType(players, config) {
                 effectedShells.add(JSONeffectedCoord);
             }
         });
-        effectedShells.forEach(function(shell) { console.log("S:"+shell); });
+        effectedShells.forEach(function(shell) { 
+            console.log("S:"+shell); 
+        });
         return effectedShells;
     }
     /**

@@ -64,6 +64,11 @@ function Display(root,players,config){
         buttonText.value(text);
         return button;
     }
+    /**
+     * Creates the graphical representation of the board owned by player.
+     * @param  {Player} player The player whose board is currently being 
+     *                         graphically built by the renderer.
+     */
     function _createBoard(player) {
         var j = 0, i = 0, count = 0;
         var boardNode = Cut.create();
@@ -71,9 +76,9 @@ function Display(root,players,config){
         column = Cut.column()
                     .appendTo(root)
                     .pin("align", 0.5)
-                    .spacing(3);
+                    .spacing(2);
         for (i = 0; i < config.height; ++i) {
-            var row = Cut.row().appendTo(column).spacing(3);
+            var row = Cut.row().appendTo(column).spacing(2);
             for (j = 0; j < config.width; ++j) {
                 // colors as frames
                 var temp = board.get(i, j);
@@ -94,11 +99,20 @@ function Display(root,players,config){
             }
         }
     }
-
+    /**
+     * Graphically updates the board. First deletes the current graphical 
+     * representation of the board. Then recreates it now that is has been 
+     * altered by gametype.
+     */
     function update() {
         column.remove();
         _createBoard(players[0]);
     }
+    /**
+     * Updates the the graphical representation of thescore based on what is 
+     * sent from the game types Check connection.
+     * @param  {number} newScore The newly calculated score from game type
+     */
     function updateScore(newScore) {
         score.value(newScore);
     }
