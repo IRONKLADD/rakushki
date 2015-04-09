@@ -1,3 +1,16 @@
+/**
+ * A Display object handles the graphics of the program. It will create/recreate
+ * the board. It will handle creating the menu. Chiefly it creates listeners 
+ * to collect user input and redirects that input to the correct methods.
+ * @param  {CutObject}     root The all containing ParentNode in cut. Everything 
+ *                              must eventually be appended to root or something
+ *                              else that was appended to root.
+ * @param  {Player[]}      players an array that contains all the players in 
+ *                                 this current game.
+ * @param  {Configuration} config The current configuration for the game. Is 
+ *                                used to create the board with the current 
+ *                                configuration details.
+ */
 function Display(root,players,config){
     this._createBoard  = _createBoard;
     this._createButton = _createButton;
@@ -21,7 +34,9 @@ function Display(root,players,config){
                    .spacing(2)
                    .value(0)
                    .pin({scale : 1});
-
+    /**
+     * Creates a grapical menu to be displayed when createMenu is called.
+     */
     function createMenu(){
         var mainMenu = Cut.column().appendTo(root).spacing(50);
         mainMenu.pin({
@@ -48,22 +63,7 @@ function Display(root,players,config){
             alignY : 0.0
         })
     }
-    function _createButton(text, color, parentNode){
-        var button = Cut.image("base:color_" +color);
-        var buttonText = Cut.string("ascii_nimbus_black:").appendTo(button);
-        button.pin({
-            scaleX : 1,
-            scaleY : 1
-        })
-        buttonText.pin({
-            align  : 0.5,
-            scaleX : 0.5,
-            scaleY : 0.5
-        })
-        button.appendTo(parentNode);
-        buttonText.value(text);
-        return button;
-    }
+
     /**
      * Creates the graphical representation of the board owned by player.
      * @param  {Player} player The player whose board is currently being 
