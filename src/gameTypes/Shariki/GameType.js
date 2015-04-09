@@ -96,7 +96,7 @@ function SharikiGameType(players, config) {
 
     /**
      * This method handles the functionality of selecting a single shell.
-
+     *
      * @param {number} row The row of the selected shell
      * @param {number} col The column of the selected shell
      */
@@ -316,6 +316,13 @@ function SharikiGameType(players, config) {
         return effectedShells;
     }
 
+    /*
+     * Replaces the empty shells in the top layer with new random shells.
+     *
+     * @param  {Board} board The board being acted on.
+     * @param  {Set} emptyShells A Set of the coordinates of empty shells on the
+     * board.
+     */
     function _refillTopLayer(board, emptyShells) {
         console.log("refill top");
         emptyShells.forEach(function(JSONcoord) {
@@ -401,6 +408,14 @@ function SharikiGameType(players, config) {
         }
     }
 
+    /*
+     * Finds the first non-empty shell above an empty shell. If no shell exists,     * returns null
+     *
+     * @param  {Board} board The board which is to be checked.
+     * @param  {Coord} coord The coordinate of the shell to look above
+     * @return {Coord} the coordinate of the first non-empty shell, or null if
+     *                 no such shell exists.
+     */
     function findShellAbove(board, coord) {
         var col = coord.col;
         for (var row = coord.row-1; row >= 0; --row) {
