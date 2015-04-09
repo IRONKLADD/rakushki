@@ -153,31 +153,28 @@ function SharikiGameType(players, config) {
     }
 
     /**
-     * Checks if the 2 swapped shells make a connection
-     * If they do, clear the connected shells, give points, and make new
-     * shells fall in.
+     * Checks for connections with a shell being checked, and returns a set of
+     * all shells to be cleared.
      *
-     * @param  {number} activeRow Row of active shell.
-     * @param  {number} activeCol Column of active shell.
-     * @param  {number} selectedRow Row of selected shell.
-     * @param  {number} selectedCol Column of selected shell.
-     * @return {boolean} Whether or not the swap was valid.
+     * @param  {Board} board The board which is to be checked.
+     * @param  {number} row Row of the shell being checked.
+     * @param  {number} col Column of the shell being checked.
+     * @return {Set} A Set containing all of the shells to be cleared.
      */
-    function _makeConnection(player,activeRow, activeCol,
-                                                    selectedRow, selectedCol) {
-        var activeShell = player.getBoard().get(activeRow, activeCol);
-        var selectedShell = player.getBoard().get(selectedRow, selectedCol);
-    }
-
-//runs the checks for left, right, down, and up with respect to the shell
-//and joins the sets
     function check4Way(board, row, col) {
         return Util.setUnion(checkVertical(board, row, col),
                              checkHorizontal(board, row, col)); 
     }
 
-//checks down until the next shell is a different color or the check runs out
-//of bounds of the board, then does the same for checking up.
+    /*
+     * Checks down until the next shell is a different color or the check runs 
+     * out of bounds of the board, then does the same check upwards.
+     *
+     * @param  {Board} board The board which is to be checked.
+     * @param  {number} row Row of the shell being checked.
+     * @param  {number} col Column of the shell being checked.
+     * @return {Set} A Set containing shells to be cleared. 
+     */
     function checkVertical(board, row, col) {
         var centerShell = board.get(row, col); 
         var matches = new Set([JSON.stringify(new Util.Coord(row, col))]);
@@ -203,8 +200,15 @@ function SharikiGameType(players, config) {
         }
     }
 
-//checks left until the next shell is a different color or the check runs out
-//of bounds of the board, then does the same for checking right.
+    /*
+     * Checks left until the next shell is a different color or the check runs 
+     * out of bounds of the board, then does the same check rightwards.
+     *
+     * @param  {Board} board The board which is to be checked.
+     * @param  {number} row Row of the shell being checked.
+     * @param  {number} col Column of the shell being checked.
+     * @return {Set} A Set containing shells to be cleared. 
+     */
     function checkHorizontal(board, row, col) {
         var centerShell = board.get(row, col); 
         var matches = new Set([JSON.stringify(new Util.Coord(row,col))]);
@@ -229,6 +233,16 @@ function SharikiGameType(players, config) {
         }
     }
 
+    /**
+     * Checks if either of the 2 swapped shells make a connection
+     * If they do, clear the connected shells, give coordinates, and make new
+     * shells fall in.
+     *
+     * @param  {Player} player The current player.
+     * @param  {Set} coords A set containing the coordinates of the swapped 
+     *                      shells.
+     * @return {boolean} Whether or not the swap was valid.
+     */
     function checkConnection(player, coords) {
         var connections = new Set([]);
         console.log(player);
@@ -279,7 +293,7 @@ function SharikiGameType(players, config) {
     function _checkBoard() {
         /* ... */
     }
-
+    
     function _refillBoard(board, emptyShells) {
 
         var effectedShells = _getEffectedShells(emptyShells);
@@ -291,7 +305,6 @@ function SharikiGameType(players, config) {
             _refillTopLayer(board, emptyShells);
             
         }
-
         return effectedShells;
     }
 
@@ -354,8 +367,6 @@ function SharikiGameType(players, config) {
             _clearShell(player.getBoard(), coord.row, coord.col);
             player.score += 1;
         });
-        window.setTimeout(function(){}, 1000000000);
-
     }
 
     function _gravity(board, emptyShells) {
