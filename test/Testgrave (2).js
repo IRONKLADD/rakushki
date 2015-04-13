@@ -22,36 +22,40 @@ set.add([3,4]);
 gravity(set);
 printArr();
 
-function gravity(set){
-    set.forEach(gravitise);
+function gravity(emptyShells){
+    var newEmptyShells = new Set([]);
+    set.forEach(function(coord){
+        gravitise(coord);
+    });
     /*for(var i = 0;i < set.length ;++i){
         gravitise(set[i]);
     }*/
 }
-function gravitise(array){
+function gravitise(coord){
     var found = false;
     var row = array[0];
     var col = array[1];
-    var rowCount = row - 1;
-    
-    if(row <= 0 || grid[row][col] != "n"){
+    var colCount = col - 1;
+    // console.log(col)
+    if(col <= 0 || grid[row][col] != "n"){
         return;
     }
-    while(!found  && rowCount >= 0){
-        if(grid[rowCount][col] != "n"){
+    while(!found){
+        if(grid[row][colCount] != "n"){
             found = true;
         }
         else{
-            rowCount--;
+            colCount--;
         }
     }
-    if(rowCount < 0){
+    if(colCount < 0){
         grid[row][col] = "n";
     }
     else{
-        grid[row][col] = grid[rowCount][col];
-        grid[rowCount][col] = "n";
-        gravitise([rowCount,col]);
+        grid[row][col] = grid[row][colCount];
+
+        grid[row][colCount] = "n";
+        gravitise([row,colCount]);
     }
     printArr();
 
@@ -60,7 +64,7 @@ function printArr(){
     var temp = "";
     for(i = 0;i<5;i++){
         for(j = 0;j<5;j++){
-            temp = temp +" " + this.grid[i][j];
+            temp = temp +" " + this.grid[j][i];
         }
         temp = temp + "\n";
     }

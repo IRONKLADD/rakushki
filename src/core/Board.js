@@ -1,15 +1,17 @@
 function Board(rows, cols) {
+    this.get = get;
     this.rows = rows;
     this.cols = cols;
+    this.printArr = printArr;
     /**
      * Creates the 2-D grid with null references.
      * @type{array}
      */
-    this._grid = []
+    var _grid = []
     for (var i = 0; i < rows; ++i) {
-        this._grid.push([]);
-	for (var j = 0; j < cols; ++j) {
-            this._grid[i].push(null);
+        _grid.push([]);
+        for (var j = 0; j < cols; ++j) {
+            _grid[i].push(null);
         }
     }
     /**
@@ -19,7 +21,7 @@ function Board(rows, cols) {
      * @param x {Shell} The Shell which will be placed in the grid.
      */
     this.set = function(row,col,x) {
-        this._grid[row][col] = x;
+        _grid[row][col] = x;
     }
     /**
      * Returns a shell in a given row and column.
@@ -27,7 +29,18 @@ function Board(rows, cols) {
      * @param col {int} The column of the Shell requested.
      * @return {Shell} The Shell in (row,col).
      */
-    this.get = function(row,col) {
-        return this._grid[row][col];
+    function get(row,col) {
+        return _grid[row][col];
+    }
+    function printArr(){
+        var temp = "";
+        for(i = 0;i<3;i++){
+            for(j = 0;j<3;j++){
+                temp = temp +" " + _grid[i][j].color;
+            }
+            temp = temp + "\n";
+        }
+        console.log(temp);
+        return temp;
     }
 }
