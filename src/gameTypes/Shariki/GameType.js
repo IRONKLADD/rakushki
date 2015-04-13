@@ -406,8 +406,7 @@ function SharikiGameType(players, config) {
             // only affect top layer shells, which have row == 0
             if(coord.row == 0) {
                 // replace the empty shell with a random shell
-                var newShell = new Shell(config.getRandomColor(), null,
-                                         "normal", null);
+                var newShell = config.getRandomShell();
                 board.set(coord.row, coord.col, newShell);
                 // shell is no longer empty, so remove from set
                 emptyShells.delete(JSONcoord);

@@ -32,6 +32,10 @@ Util.randomInt = function(limit) {
     return Math.floor(Math.random() * limit);
 };
 
+Util.selectRandom = function(arr) {
+    return arr[Util.randomInt(arr.length)];
+};
+
 Util.Coord = function(row, col) {
     this.row = row;
     this.col = col;

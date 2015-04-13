@@ -1,15 +1,15 @@
-function Configuration(rulesFile){
-    this.allowedColors   = ["red", "blue", "yellow", "green","orange","dark"];
-    this.allowedNumbers  = [1, 2, 3, 4, 5];
-    this.allowedSpecials = null;
-    this.allowedTypes    = ["normal"];
-    this.width  = 8;
-    this.height = 8;
+function Configuration(width, height, colors, magnitudes, specials, types){
+    this.width = width;
+    this.height = height;
+    this.colors = colors;
+    this.magnitudes = magnitudes;
+    this.specials = specials;
+    this.types = types;
 
-    this.getRandomColor = function(color) {
-        if(color === "red"){
-            return "red";
-        }
-        return this.allowedColors[Util.randomInt(this.allowedColors.length)];
+    this.getRandomShell = function() {
+        return new Shell(Util.selectRandom(colors),
+                         Util.selectRandom(magnitudes),
+                         Util.selectRandom(types),
+                         Util.selectRandom(specials));
     }
 }

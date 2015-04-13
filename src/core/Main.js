@@ -15,7 +15,14 @@ var board1 = [
 ];
 
 var app = Cut(function(root,container) {
-    var config = new Configuration();
+    var width  = 8,
+        height = 8;
+    var colors = ["red", "blue", "yellow", "green", "orange", "dark"];
+    var magnitudes = [null];
+    var specials = [null];
+    var types = [Shariki.NORMALSHELL];
+    var config = new Configuration(width, height,
+                                   colors, magnitudes, specials, types);
     var player1 = new Player();
 
     // var board = boardFromArray(board1, 3, 3);
