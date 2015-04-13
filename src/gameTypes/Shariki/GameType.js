@@ -26,13 +26,27 @@ function SharikiGameType(players, config) {
     this.selectShell = selectShell;
     this.setRender = setRender;
     init();
+    /**
+     * sets the current Renderer for this game type. Is needed for when gametype
+     * updates the board and needs to tell the Renderer to update.
+     * @param {Display} setter The current renderer that you want to link to 
+     *                         this game type
+     */
     function setRender(setter){
         renderer = setter;
     }
+    /**
+     * returns the current board being used by this game types.
+     * @return {Board} _board the current board being used.
+     */
     function getBoard(){
         return _board;
     }
-
+    /**
+     * starts the game by setting the players in this game with the correct
+     * selectShell method then makes the board.
+     * @return {Board} _board the current board being used.
+     */
     function init(){
         for(var i = 0; i < players.length; ++i){
             players[i].setSelectShell(selectShell);
@@ -129,7 +143,21 @@ function SharikiGameType(players, config) {
     }
 
     /**
-     * Attempts to make a swap.
+     * This method swaps the two currently selected shells then checks if it was
+     * a valid swap.
+     * IF(it was a valid swap) it keeps the current swap, clears out the stored
+     *                         Shell, and updates the renderer.
+     * ELSE(not valid swap) It swaps the two shells back to their original 
+     *                      state.
+     * @param {Player} player The player who currently made the swap
+     * @param {number} activeCol The column of the shell that was selected 
+     *                           previously
+     * @param {number} activeRow The row of the shell that was selected 
+     *                           previously
+     * @param {number} selectedCol The column of the shell that was just 
+     *                             selected
+     * @param {number} selectedRow The row of the shell that was just 
+     *                             selected
      */
     function _trySwap(player,activeRow, activeCol, selectedRow, selectedCol) {
         _swap(player.getBoard(), activeRow, activeCol, selectedRow, selectedCol);
