@@ -75,7 +75,6 @@ var board1 = [
 var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
 
-
     var configMenu = createConfigMenu(root)
         .appendTo(root)
         .hide()
