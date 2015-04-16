@@ -81,8 +81,8 @@ function Display(root,players,config){
             var row = Cut.row().appendTo(column).spacing(2);
             for (j = 0; j < config.width; ++j) {
                 // colors as frames
-                var temp = board.get(i, j);
-                var cell = Cut.image("base:color_" + temp.color)
+                var tempShell = board.get(i, j);
+                var cell = Cut.image("base:color_" + tempShell.color)
                               .appendTo(row)
                               .pin("pivot", 0.5);
                 cell._index = count++;

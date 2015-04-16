@@ -35,36 +35,6 @@ function Display(root,players,config){
                    .value(0)
                    .pin({scale : 1});
     /**
-     * Creates a grapical menu to be displayed when createMenu is called.
-     */
-    function createMenu(){
-        var mainMenu = Cut.column().appendTo(root).spacing(50);
-        mainMenu.pin({
-            alignX : .5,
-            alignY : 0,
-        })
-        var buttonSinglePlayer = Buttons.makeShellsButton("Single Player",
-                                                          "red")
-                                        .appendTo(mainMenu);
-        var buttonMultiPlayer = Buttons.makeShellsButton("Multi Player",
-                                                         "yellow")
-                                       .appendTo(mainMenu);
-        var buttonSettings = Buttons.makeShellsButton("Settings",
-                                                      "blue")
-                                    .appendTo(mainMenu);
-        buttonSinglePlayer.on(Cut.Mouse.CLICK, function() {
-            mainMenu.hide();
-            _createBoard(players[0]);
-        });
-
-        var SinglePlayerMenu = Cut.column().appendTo(root).spacing(1);
-        mainMenu.pin({
-            alignX : 0.5,
-            alignY : 0.0
-        })
-    }
-
-    /**
      * Creates the graphical representation of the board owned by player.
      * @param  {Player} player The player whose board is currently being 
      *                         graphically built by the renderer.
