@@ -97,16 +97,16 @@ function BombiGameType(players, config) {
      * @param {Player} currentPlayer The current player (unused)
      * @param {number} turnCount The current turn number (unused)
      */
-    this._turn = function(currentPlayer, turnCount) {
-        var gameOver = this._isGameOver(currentPlayer.board);
-        if(gameOver)
-            return true;
-        while(!this._validSwap) {
-            // wait T milliseconds
-        }
-        this._validSwap = false;
-        return false;
-    }  
+    // this._turn = function(currentPlayer, turnCount) {
+    //     var gameOver = this._isGameOver(currentPlayer.board);
+    //     if(gameOver)
+    //         return true;
+    //     while(!this._validSwap) {
+    //         // wait T milliseconds
+    //     }
+    //     this._validSwap = false;
+    //     return false;
+    // }  
 
 
     /**
@@ -117,6 +117,7 @@ function BombiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
+        console.log("IN SELECT SHELL")
         console.log(row);
         console.log(col);
         if(!_isActive) {
@@ -128,7 +129,11 @@ function BombiGameType(players, config) {
         }
         // selected shell is adjacent to active shell, try to swap
         else if(Util.isAdjacent(_activeRow, _activeCol, row, col)) {
-            _trySwap(player, _activeRow, _activeCol, row, col);
+            _swap(player.getBoard(), _activeRow, _activeCol, row, col);
+            _isActive = false;
+            _activeRow = null;
+            _activeCol = null;
+            renderer.update();
         }
         // unselect shell
         else {
@@ -136,10 +141,9 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
+            renderer.update();
             // notify renderer here
         }
-        console.log("PLAYER SCORE");
-        console.log(player.score);
         renderer.updateScore(player.score);
     }
 
@@ -260,6 +264,36 @@ function BombiGameType(players, config) {
             // if there is no break, don't give me anything
             return new Set([]);
         }
+    }
+    function checkBomb(board, shellCoords,topLeftCoord) {
+        shellArray = new Array();
+        count = 0;
+        shellCoords.forEach(function(coord) {
+            var currentShell = board.get(coord.row,coord.col)));
+            shellArray[count] =currentShell;
+            count++;
+        }
+        var checkColor = shellArray[0].color;
+        shellArray.forEach(function(shell) {
+            if(shell.color !== checkColor || shell.special !== null){
+                return null;
+            }
+        });
+
+        return makeBomb(shellArray,topLeftCoord);
+    }
+    function makeBomb(shellArray,topLeftCoord){
+        var color = shellArray[0].color;
+        var blastRad = shellArray[0].magnitude;
+        var explosionTurn = 0;
+        var bombCoord;
+        shellArray.forEach(function(shell) {
+            if(shell.magnitude < blastRad){
+                blastRad = shell.magnitude;
+            }
+            explosionTurn = explosionTurn + shell.magnitude;
+        });
+        return new Bomb(color,blastRad,explosionTurn,shellArray,topLeftCoord)
     }
 
     /**
@@ -522,4 +556,4 @@ function BombiGameType(players, config) {
         }
     }
 }
-SharikiGameType.prototype = Object.create(GameType.prototype);
+BombiGameType.prototype = Object.create(GameType.prototype);

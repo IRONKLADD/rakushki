@@ -50,7 +50,7 @@ var app = Cut(function(root,container) {
     // player1.setBoard(board);
 
     var players = [player1];
-    var game = new SharikiGameType(players, config);
+    var game = new BombiGameType(players, config);
     Cut.Mouse(root, container);
     var render = new Display(root, players, config);
     game.setRender(render);
