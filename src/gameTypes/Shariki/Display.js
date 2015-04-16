@@ -16,7 +16,6 @@ function Display(root,players,config){
     this._createButton = _createButton;
     this.update        = update;
     this.updateScore   = updateScore;
-    this.createMenu    = createMenu;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
                         .appendTo(root)
