@@ -265,17 +265,17 @@ function BombiGameType(players, config) {
             return new Set([]);
         }
     }
-    function checkBomb(board, shellCoords,topLeftCoord) {
+    function checkBomb(board, shellCoords, topLeftCoord) {
         shellArray = new Array();
         count = 0;
         shellCoords.forEach(function(coord) {
-            var currentShell = board.get(coord.row,coord.col)));
-            shellArray[count] =currentShell;
+            var currentShell = board.get(coord.row, coord.col);
+            shellArray[count] = currentShell;
             count++;
-        }
+        });
         var checkColor = shellArray[0].color;
         shellArray.forEach(function(shell) {
-            if(shell.color !== checkColor || shell.special !== null){
+            if(shell.color !== checkColor || shell.special !== null) {
                 return null;
             }
         });
@@ -440,8 +440,7 @@ function BombiGameType(players, config) {
             // only affect top layer shells, which have row == 0
             if(coord.row == 0) {
                 // replace the empty shell with a random shell
-                var newShell = new Shell(config.getRandomColor(), null,
-                                         "normal", null);
+                var newShell = config.getRandomShell();
                 board.set(coord.row, coord.col, newShell);
                 // shell is no longer empty, so remove from set
                 emptyShells.delete(JSONcoord);

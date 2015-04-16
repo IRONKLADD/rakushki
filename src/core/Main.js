@@ -48,15 +48,38 @@ function createConfigMenu(root) {
     game.setRender(render);
 
     // everything above is dumb
-    
+
+    var selectedGameType = SharikiGameType;
+
     var configMenu = Cut
-        .row()
+        .column()
         .spacing(10);
+    var gameTypeRow = Cut
+        .row()
+        .spacing(10)
+        .appendTo(configMenu);
+    var sharikiButton = Buttons.makeShellsButton("Shariki", "red")
+        .appendTo(gameTypeRow)
+        .on(Cut.Mouse.CLICK,
+            function() { selectedGameType = SharikiGameType; });
+    var bombiButton = Buttons.makeShellsButton("Bombi", "yellow")
+        .appendTo(gameTypeRow)
+        .on(Cut.Mouse.CLICK,
+            function () { selectedGameType = BombiGameType; });
     var startButton = Buttons
         .makeShellsButton("Start", "blue")
         .appendTo(configMenu)
         .on(Cut.Mouse.CLICK,
             function() {
+                var config = new Configuration(width, height,
+                                               colors, magnitudes,
+                                               specials, types);
+                var player1 = new Player();
+
+                var players = [player1];
+                var game = new selectedGameType(players, config);
+                var render = new Display(root, players, config);
+                game.setRender(render);
                 configMenu.hide();
                 render._createBoard(player1);
             });
