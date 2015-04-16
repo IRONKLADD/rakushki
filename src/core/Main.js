@@ -7,12 +7,39 @@ function boardFromArray(array, height, width) {
                                 Shariki.NORMALSHELL, null));
     return board;
 }
+function createMenu(root,render,player){
+    var mainMenu = Cut.column().appendTo(root).spacing(50);
+    mainMenu.pin({
+        alignX : .5,
+        alignY : 0,
+    })
+    var buttonSinglePlayer = Buttons.makeShellsButton("Single Player",
+                                                      "red")
+                                    .appendTo(mainMenu);
+    var buttonMultiPlayer = Buttons.makeShellsButton("Multi Player",
+                                                     "yellow")
+                                   .appendTo(mainMenu);
+    var buttonSettings = Buttons.makeShellsButton("Settings",
+                                                  "blue")
+                                .appendTo(mainMenu);
+    buttonSinglePlayer.on(Cut.Mouse.CLICK, function() {
+        mainMenu.hide();
+        render._createBoard(player);
+    });
+
+    var SinglePlayerMenu = Cut.column().appendTo(root).spacing(1);
+    mainMenu.pin({
+        alignX : 0.5,
+        alignY : 0.0
+    })
+}
 
 var board1 = [
     ["blue", "green", "blue"],
     ["red", "blue", "red"],
     ["blue", "yellow", "blue"]
 ];
+
 
 var app = Cut(function(root,container) {
     var width  = 8,
@@ -24,6 +51,7 @@ var app = Cut(function(root,container) {
     var config = new Configuration(width, height,
                                    colors, magnitudes, specials, types);
     var player1 = new Player();
+    console.log("MADE A MENU");
 
     // var board = boardFromArray(board1, 3, 3);
     // player1.setBoard(board);
@@ -33,6 +61,5 @@ var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
     var render = new Display(root, players, config);
     game.setRender(render);
-    // render._createBoard(players[0]);
-    render.createMenu();
+    createMenu(root,render,players[0]);
 });
