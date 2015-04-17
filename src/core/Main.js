@@ -31,24 +31,6 @@ function createMainMenu(singlePlayerFn, multiPlayerFn, settingsFn) {
 }
 
 function createConfigMenu(root) {
-    var width  = 8,
-        height = 8;
-    var colors = ["red", "blue", "yellow", "green", "orange", "dark"];
-    var magnitudes = [null];
-    var specials = [null];
-    var types = [Shariki.NORMALSHELL];
-    var config = new Configuration(width, height,
-                                   colors, magnitudes, specials, types);
-    var player1 = new Player();
-    console.log("MADE A MENU");
-
-    var players = [player1];
-    var game = new SharikiGameType(players, config);
-    var render = new Display(root, players, config);
-    game.setRender(render);
-
-    // everything above is dumb
-
     var selectedGameType = SharikiGameType;
 
     var configMenu = Cut
@@ -71,6 +53,13 @@ function createConfigMenu(root) {
         .appendTo(configMenu)
         .on(Cut.Mouse.CLICK,
             function() {
+                var width  = 8,
+                    height = 8;
+                var colors = ["red", "blue", "yellow", "green", "orange",
+                              "dark"];
+                var magnitudes = [null];
+                var specials = [null];
+                var types = [Shariki.NORMALSHELL];
                 var config = new Configuration(width, height,
                                                colors, magnitudes,
                                                specials, types);
@@ -103,6 +92,7 @@ var app = Cut(function(root,container) {
         .hide()
         .pin({alignX : 0.5,
               alignY : 0.5});
+    
 
     var singlePlayerFn = function(mainMenu) {
         mainMenu.hide();
