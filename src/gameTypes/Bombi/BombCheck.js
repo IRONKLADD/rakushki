@@ -31,7 +31,7 @@ BombCheck.checkForBomb = function(JSONcoord, board, width, height) {
             return bomb;
         }
     }
-    if (!(onTop && onRight)) {
+    if (!(onTop || onRight)) {
         var upRight = Util.coordRight(Util.coorUp(centerCoord));
         var right = Util.coordRight(centerCoord);
         bomb = checkBomb(new Set([up, centerCoord, upRight, right]), up)
@@ -39,7 +39,7 @@ BombCheck.checkForBomb = function(JSONcoord, board, width, height) {
              return bomb;
         }
     }
-    if (!(onBottom && onLeft)) {
+    if (!(onBottom || onLeft)) {
         var downLeft = Util.coordLeft(Util.coorDown(centerCoord));
         var down = Util.coordDown(centerCoord);
         bomb = checkBomb(new Set([left, centerCoord, downLeft, down]), left);
@@ -47,7 +47,7 @@ BombCheck.checkForBomb = function(JSONcoord, board, width, height) {
             return bomb;
         }
     }
-    if (!(onBottom && onRight)) {
+    if (!(onBottom || onRight)) {
         var downRight = Util.coordRight(Util.coordDown(centerCoord));
         bomb = checkBomb(new Set([centerCoord, downRight, down, right], 
                                  centerCoord));
