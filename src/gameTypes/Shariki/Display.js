@@ -33,6 +33,15 @@ function Display(root,players,config){
                    .spacing(2)
                    .value(0)
                    .pin({scale : 1});
+    function makeCutImage(shell, parent){
+        var temp = Cut.image("base:color_" + shell.color)
+                              .appendTo(row)
+                              .pin("pivot", 0.5);
+        if(shell.type != Sharaki.NORMALSHELL){
+            Cut.image("ascii_nimbus_black:B").appendTo(temp).pin("align", 0.5);
+        }
+        return temp;
+    }
     /**
      * Creates the graphical representation of the board owned by player.
      * @param  {Player} player The player whose board is currently being 
@@ -51,9 +60,10 @@ function Display(root,players,config){
             for (j = 0; j < config.width; ++j) {
                 // colors as frames
                 var temp = board.get(i, j);
-                var cell = Cut.image("base:color_" + temp.color)
-                              .appendTo(row)
-                              .pin("pivot", 0.5);
+                var cell = makeCutImage(temp,row);
+                // var cell = Cut.image("base:color_" + temp.color)
+                //               .appendTo(row)
+                //               .pin("pivot", 0.5);
                 cell._index = count++;
                 //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point) {

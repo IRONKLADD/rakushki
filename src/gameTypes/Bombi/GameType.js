@@ -130,6 +130,14 @@ function BombiGameType(players, config) {
         // selected shell is adjacent to active shell, try to swap
         else if(Util.isAdjacent(_activeRow, _activeCol, row, col)) {
             _swap(player.getBoard(), _activeRow, _activeCol, row, col);
+            checkForBomb(
+                JSON.stringify(new coord(_activeRow,_activeCol)),
+                player.getBoard()
+            );
+            checkForBomb(
+                JSON.stringify(new coord(row,col)),
+                player.getBoard()
+            );
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
@@ -145,6 +153,109 @@ function BombiGameType(players, config) {
             // notify renderer here
         }
         renderer.updateScore(player.score);
+    }
+    function checkForBomb(JSONcoord, board) {
+        var centerCoord = JSON.parse(JSONcoord);
+        var row = centerCoord.row;
+        var col = centerCoord.col;
+        console.log(row);
+        console.log(col);
+        var bomb = null;
+        var onLeft = (col === 0);
+        var onRight = (col === config.width - 1);
+        var onTop = (row === 0);
+        var onBottom = (row === config.height - 1);
+        if (!(onLeft || onTop)) {
+            console.log("entered2222");
+            var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
+            var up = Util.coordUp(centerCoord);
+            var left = Util.coordLeft(centerCoord);
+            bomb = checkBomb(board,new Set([upLeft, centerCoord, up, left]), upLeft);
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onTop || onRight)) {
+            console.log("2");
+            var upRight = Util.coordRight(Util.coordUp(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            var up = Util.coordUp(centerCoord);
+            bomb = checkBomb(board,new Set([up, centerCoord, upRight, right]), up)
+            if (bomb !== null) {
+                 return bomb;
+            }
+        }
+        if (!(onBottom || onLeft)) {
+            console.log("entered");
+            var left = Util.coordLeft(centerCoord);
+            var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
+            var down = Util.coordDown(centerCoord);
+            bomb = checkBomb(board,new Set([left, centerCoord, downLeft, down]), left);
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onBottom || onRight)) {
+            console.log("1");
+            console.log("sdfds" +down)
+            console.log(centerCoord);
+            var down = Util.coordDown(centerCoord);
+            var downRight = Util.coordRight(Util.coordDown(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            console.log(centerCoord);
+            bomb = checkBomb(board,new Set([centerCoord, downRight, down, right]), 
+                             centerCoord);
+        }
+        return bomb;
+    }
+
+    function checkBomb(board, shellCoords, topLeftCoord) {
+        shellArray = new Array();
+        count = 0;
+        console.log(topLeftCoord);
+        console.log("left " + topLeftCoord);
+        console.log(shellCoords);
+        shellCoords.forEach(function(coord) {
+            var currentShell = board.get(coord.row,coord.col);
+            shellArray[count] =currentShell;
+            count++;
+        });
+        var checkColor = shellArray[0].color;
+        console.log("color " +checkColor);
+        var validBomb = true;
+        shellArray.forEach(function(shell) {
+            console.log(shell.color + " spec " + shell.special);
+            if(shell.color !== checkColor || shell.special !== null){
+                console.log("INSIDE");
+                validBomb = false;
+            }
+        });
+        if(!validBomb){
+            return null;
+        }
+        else{
+            return makeBomb(shellArray,topLeftCoord);
+        }
+    }
+
+    function makeBomb(shellArray,topLeftCoord){
+        console.log("MAKEBOMB CALLED");
+        var color = shellArray[0].color;
+        var blastRad = shellArray[0].magnitude;
+        var explosionTurn = 0;
+        var bombCoord;
+        shellArray.forEach(function(shell) {
+            if(shell.magnitude < blastRad){
+                blastRad = shell.magnitude;
+            }
+            explosionTurn = explosionTurn + shell.magnitude;
+        });
+        var currentBomb = new Bomb(color, blastRad, explosionTurn,
+                                   shellArray, topLeftCoord);
+        shellArray.forEach(function(shell) {
+            shell.special = currentBomb;
+        });
+
     }
 
     /**
@@ -269,10 +380,10 @@ function BombiGameType(players, config) {
         shellArray = new Array();
         count = 0;
         shellCoords.forEach(function(coord) {
-            var currentShell = board.get(coord.row,coord.col)));
+            var currentShell = board.get(coord.row,coord.col);
             shellArray[count] =currentShell;
             count++;
-        }
+        });
         var checkColor = shellArray[0].color;
         shellArray.forEach(function(shell) {
             if(shell.color !== checkColor || shell.special !== null){

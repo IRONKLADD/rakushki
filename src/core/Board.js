@@ -30,6 +30,8 @@ function Board(rows, cols) {
      * @return {Shell} The Shell in (row,col).
      */
     function get(row,col) {
+        // console.log(row);
+        // console.log(col);
         return _grid[row][col];
     }
     function printArr(){
