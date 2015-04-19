@@ -70,8 +70,23 @@ Buttons.makeSpinner = function(choices, initialIndex, background,
             });
 
     choices[initialIndex][0].show();
+    choices[initialIndex][1]();
 
     return spinner;
+}
+
+Buttons.makeNumberSpinner = function(low, high, initial, setter,
+                                     font, background,
+                                     upArrow, downArrow) {
+    var choices = new Array(high-low+1);
+    for(var i = 0; i < choices.length; ++i) {
+        choices[i] = [
+            Cut.image(font + ":" + (i+low)),
+            function () { setter(i+low) }
+        ];
+    }
+    return Buttons.makeSpinner(choices, initial-low, background,
+                               upArrow, downArrow);
 }
 
 

@@ -71,7 +71,7 @@ function createMainMenu(singlePlayerFn, multiPlayerFn, settingsFn) {
 }
 
 function createConfigMenu(root) {
-    var selectedGameType = SharikiGameType;
+    var selectedGameType, width, height;
 
     var configMenu = Cut
         .column()
@@ -80,10 +80,14 @@ function createConfigMenu(root) {
         .row()
         .spacing(10)
         .appendTo(configMenu);
+    var dimensionsRow = Cut
+        .row()
+        .spacing(10)
+        .appendTo(configMenu);
     var sharikiButton = Cut.image("gameType_logos:shariki_small")
     var bombiButton = Cut.image("gameType_logos:bombi_small")
 
-    var spin = Buttons
+    var gameTypeSpinner = Buttons
         .makeSpinner(
             [[sharikiButton,
               function() { selectedGameType = SharikiGameType; }],
@@ -99,14 +103,46 @@ function createConfigMenu(root) {
                 .pin({
                     alignY : 1
                 }))
-        .appendTo(configMenu);
+        .appendTo(gameTypeRow);
+    var widthSpinner = Buttons
+        .makeNumberSpinner(
+            3, 9, 8,
+            function (n) {
+                width = n;
+            },
+            "ascii_nimbus_white",
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(dimensionsRow);
+    var heightSpinner = Buttons
+        .makeNumberSpinner(
+            3, 9, 8,
+            function (n) {
+                height = n;
+            },
+            "ascii_nimbus_white",
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(dimensionsRow);
     var startButton = Buttons
         .makeShellsButton("Start", "blue")
         .appendTo(configMenu)
         .on(Cut.Mouse.CLICK,
             function() {
-                var width  = 8,
-                    height = 8;
                 var colors = ["red", "blue", "yellow", "green", "orange",
                               "dark"];
                 var magnitudes = [null];
@@ -124,6 +160,8 @@ function createConfigMenu(root) {
                 configMenu.hide();
                 render._createBoard(player1);
             });
+
+    console.log(width); console.log(height);
 
     return configMenu;
 }
