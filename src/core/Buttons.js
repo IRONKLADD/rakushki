@@ -23,22 +23,53 @@ Buttons.makeShellsButton = function(text, color) {
 /**
  *
  */
-Buttons.makeSpinner = function(choices, initial, background,
+Buttons.makeSpinner = function(choices, initialIndex, background,
                                upArrow, downArrow) {
     var spinner = Cut.row();
+    spinner.choiceIndex = initialIndex;
     background
         .appendTo(spinner)
         .pin({
             alignY : 0.5
         });
+    for(var i = 0; i < choices.length; ++i) {
+        var button = choices[i][0];
+        button
+            .hide()
+            .appendTo(background)
+            .pin({
+                align : 0.5
+            });
+    }
     var arrows = Cut
         .column()
         .appendTo(spinner)
         .pin({
             alignY : 0.5
         });
-    upArrow.appendTo(arrows);
-    downArrow.appendTo(arrows);
+    upArrow
+        .appendTo(arrows)
+        .on(Cut.Mouse.CLICK,
+            function () {
+                var upIndex = (spinner.choiceIndex+1) % choices.length;
+                choices[spinner.choiceIndex][0].hide()
+                choices[upIndex][0].show()
+                choices[upIndex][1]();
+                spinner.choiceIndex = upIndex;
+            });
+    downArrow
+        .appendTo(arrows)
+        .on(Cut.Mouse.CLICK,
+            function () {
+                var downIndex = Util.mod((spinner.choiceIndex-1),
+                                         choices.length);
+                choices[spinner.choiceIndex][0].hide()
+                choices[downIndex][0].show()
+                choices[downIndex][1]();
+                spinner.choiceIndex = downIndex;
+            });
+
+    choices[initialIndex][0].show();
 
     return spinner;
 }
@@ -55,7 +86,9 @@ Buttons.makeSpinner = function(choices, initial, background,
  */
 function _createButton(text, color, parentNode){
     var button = Cut.image("base:color_" +color);
-    var buttonText = Cut.string("ascii_nimbus_black:").appendTo(button);
+    var buttonText = Cut
+        .string("ascii_nimbus_black:")
+        .appendTo(button);
     button.pin({
         scaleX : 1,
         scaleY : 1

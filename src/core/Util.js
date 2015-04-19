@@ -179,3 +179,7 @@ Util.partial = function(f) {
         return f.apply(null, args);
      };
 }
+
+Util.mod = function(x, n) {
+    return ((x%n)+n)%n;
+}
