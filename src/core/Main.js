@@ -175,8 +175,6 @@ function createConfigMenu(root) {
                 render._createBoard(player1);
             });
 
-    console.log(width); console.log(height);
-
     return configMenu;
 }
 
