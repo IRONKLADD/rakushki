@@ -35,8 +35,12 @@ function createTitleMenu() {
         .hide()
         .appendTo(titleMenu);
 
-    function finishedLoading(startFn) {
-        start.on(Cut.Mouse.CLICK, startFn);
+    function finishedLoading(mainMenu) {
+        start.on(Cut.Mouse.CLICK,
+                 function() {
+                     titleMenu.hide();
+                     mainMenu.show()
+                 });
         loading.hide();
         start.show();
     }
@@ -155,8 +159,5 @@ var app = Cut(function(root,container) {
         .pin({alignX : 0.5,
               alignY : 0.5});
 
-    titleLoaded(function() {
-        titleMenu.hide();
-        mainMenu.show();
-    });
+    titleLoaded(mainMenu);
 });
