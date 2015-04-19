@@ -104,6 +104,13 @@ function createConfigMenu(root) {
                     alignY : 1
                 }))
         .appendTo(gameTypeRow);
+    var widthText = Cut
+        .string("ascii_nimbus_black:")
+        .value("width")
+        .appendTo(dimensionsRow)
+        .pin({
+            scale : 0.2
+        });
     var widthSpinner = Buttons
         .makeNumberSpinner(
             3, 9, 8,
@@ -121,6 +128,13 @@ function createConfigMenu(root) {
                     alignY : 1
                 }))
         .appendTo(dimensionsRow);
+    var widthText = Cut
+        .string("ascii_nimbus_black:")
+        .value("height")
+        .appendTo(dimensionsRow)
+        .pin({
+            scale : 0.2
+        });
     var heightSpinner = Buttons
         .makeNumberSpinner(
             3, 9, 8,

@@ -81,8 +81,16 @@ Buttons.makeNumberSpinner = function(low, high, initial, setter,
     var choices = new Array(high-low+1);
     for(var i = 0; i < choices.length; ++i) {
         choices[i] = [
-            Cut.image(font + ":" + (i+low)),
-            function () { setter(i+low) }
+            Cut
+                .image(font + ":" + (i+low))
+                .pin({
+                    scale : 0.2
+                }),
+            (function (index) {
+                return function () {
+                    setter(index+low);
+                }
+            })(i)
         ];
     }
     return Buttons.makeSpinner(choices, initial-low, background,
