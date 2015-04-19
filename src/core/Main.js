@@ -8,6 +8,42 @@ function boardFromArray(array, height, width) {
     return board;
 }
 
+function createTitleMenu() {
+    var titleMenu = Cut
+        .column()
+        .spacing(10);
+    Cut
+        .image("logo:rakushki")
+        .pin({
+            scaleX : 0.5,
+            scaleY : 0.5,
+            alignX : 0.5,
+            alignY : 0.5
+        })
+        .appendTo(titleMenu);
+    var loading = Buttons
+        .makeShellsButton("Loading", "red")
+        .pin({
+            alignX : 0.5
+        })
+        .appendTo(titleMenu);
+    var start = Buttons
+        .makeShellsButton("Start", "yellow")
+        .pin({
+            alignX : 0.5
+        })
+        .hide()
+        .appendTo(titleMenu);
+
+    function finishedLoading(startFn) {
+        start.on(Cut.Mouse.CLICK, startFn);
+        loading.hide();
+        start.show();
+    }
+
+    return [titleMenu, finishedLoading];
+}    
+
 function createMainMenu(singlePlayerFn, multiPlayerFn, settingsFn) {
     var mainMenu = Cut
         .column()
@@ -87,12 +123,22 @@ var board1 = [
 var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
 
+    var titleMenuAndCallback = createTitleMenu();
+    var titleMenu   = titleMenuAndCallback[0]
+        .appendTo(root)
+        .pin({
+            alignX : 0.5,
+            alignY : 0.5
+        });
+    var titleLoaded = titleMenuAndCallback[1];
+
     var configMenu = createConfigMenu(root)
         .appendTo(root)
         .hide()
-        .pin({alignX : 0.5,
-              alignY : 0.5});
-    
+        .pin({
+            alignX : 0.5,
+            alignY : 0.5
+        });
 
     var singlePlayerFn = function(mainMenu) {
         mainMenu.hide();
@@ -104,7 +150,13 @@ var app = Cut(function(root,container) {
     var mainMenu = createMainMenu(singlePlayerFn,
                                   multiPlayerFn,
                                   settingsFn)
+        .hide()
         .appendTo(root)
         .pin({alignX : 0.5,
               alignY : 0.5});
+
+    titleLoaded(function() {
+        titleMenu.hide();
+        mainMenu.show();
+    });
 });
