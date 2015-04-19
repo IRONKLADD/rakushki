@@ -4,19 +4,45 @@ Buttons.makeShellsButton = function(text, color) {
     var button = Cut.row();
 
     for(var i = 0; i < text.length; ++i) {
-        var shell = Cut.image("base:color_" + color)
+        var shell = Cut
+            .image("base:color_" + color)
             .appendTo(button);
-        var c = Cut.image("ascii_nimbus_black:" + text[i])
+        var c = Cut
+            .image("ascii_nimbus_black:" + text[i])
             .appendTo(shell)
             .pin({
                 scaleX: 0.2,
                 scaleY: 0.2,
-                align: 0.5
+                align : 0.5
             });
     }
 
     return button;
 }
+
+/**
+ *
+ */
+Buttons.makeSpinner = function(choices, initial, background,
+                               upArrow, downArrow) {
+    var spinner = Cut.row();
+    background
+        .appendTo(spinner)
+        .pin({
+            alignY : 0.5
+        });
+    var arrows = Cut
+        .column()
+        .appendTo(spinner)
+        .pin({
+            alignY : 0.5
+        });
+    upArrow.appendTo(arrows);
+    downArrow.appendTo(arrows);
+
+    return spinner;
+}
+
 
 /**
  * Will create a singular button using certain parameters and will return

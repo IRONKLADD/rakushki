@@ -80,14 +80,30 @@ function createConfigMenu(root) {
         .row()
         .spacing(10)
         .appendTo(configMenu);
-    var sharikiButton = Buttons.makeShellsButton("Shariki", "red")
+    var sharikiButton = Cut
+        .image("gameType_logos:shariki_small")
         .appendTo(gameTypeRow)
         .on(Cut.Mouse.CLICK,
             function() { selectedGameType = SharikiGameType; });
-    var bombiButton = Buttons.makeShellsButton("Bombi", "yellow")
+    var bombiButton = Cut
+        .image("gameType_logos:bombi_small")
         .appendTo(gameTypeRow)
         .on(Cut.Mouse.CLICK,
             function () { selectedGameType = BombiGameType; });
+    var spin = Buttons
+        .makeSpinner(
+            ["Shariki", "Bombi"],
+            0,
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(configMenu);
     var startButton = Buttons
         .makeShellsButton("Start", "blue")
         .appendTo(configMenu)
