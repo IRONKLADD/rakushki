@@ -59,7 +59,7 @@ function BombiGameType(players, config) {
      */
     function _makeBoard() {
         if (players[0].getBoard() === undefined) {
-            _board = new Board(config.width, config.height);
+            _board = new Board(config.height, config.width);
             players[0].setBoard(_board);
             _fillBoard(_board);
             

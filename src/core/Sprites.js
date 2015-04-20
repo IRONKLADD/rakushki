@@ -30,3 +30,107 @@ Sprites.cutoutsFromGrid = function(names, prefix,
             };
     return cutouts;
 }
+
+spriteColors = ["black", "white", "red", "blue", "yellow", "green"];
+
+/* ASCII sprites */
+
+
+spriteColors.forEach(function(color) {
+    Cut({
+        name       : "ascii_nimbus_" + color,
+        imagePath  : "src/resources/fonts/ascii_nimbus_" + color + ".png",
+        imageRatio : 0,
+        trim       : 0,
+        cutouts    : Sprites.cutoutsFromGrid(Sprites.ascii, "",
+                                             1381, 232, 32, 3)
+    });
+
+
+});
+
+/* button sprites */
+for (var i = 0; i < spriteColors.length; ++i) {
+    var color = spriteColors[i];
+    var yPosition = 20*i;
+    Cut({
+        name       : "button_" + color,
+        imagePath  : "src/resources/buttons.png",
+        imageRatio : 0,
+        trim       : 0,
+        cutouts    : [
+            {
+                name   : "small",
+                x      : 0,
+                y      : yPosition,
+                height : 15,
+                width  : 15
+            },
+            {
+                name   : "medium",
+                x      : 20,
+                y      : yPosition,
+                height : 15,
+                width  : 20
+            },
+            {
+                name   : "large",
+                x      : 45,
+                y      : yPosition,
+                height : 15,
+                width  : 25
+            },
+            {
+                name   : "x-large",
+                x      : 75,
+                y      : yPosition,
+                height : 15,
+                width  : 30
+            }
+        ]
+    });
+}
+
+/* SHAPES */
+
+/* triangles */
+for (var i = 0; i < spriteColors.length; ++i) {
+    var color = spriteColors[i];
+    var yPosition = 14*i;
+    Cut({
+        name       : "triangle_" + color,
+        imagePath  : "src/resources/triangles.png",
+        imageRatio : 0,
+        trim       : 0,
+        cutouts    : [
+            {
+                name   : "small_up",
+                x      : 0,
+                y      : yPosition,
+                height : 4,
+                width  : 7
+            },
+            {
+                name   : "small_down",
+                x      : 0,
+                y      : yPosition+6,
+                height : 4,
+                width  : 7
+            },
+            {
+                name   : "large_up",
+                x      : 10,
+                y      : yPosition,
+                height : 10,
+                width  : 19
+            },
+            {
+                name   : "large_down",
+                x      : 10,
+                y      : yPosition,
+                height : 30,
+                width  : 19
+            }
+        ]
+    });
+}

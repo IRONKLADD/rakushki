@@ -8,6 +8,46 @@ function boardFromArray(array, height, width) {
     return board;
 }
 
+function createTitleMenu() {
+    var titleMenu = Cut
+        .column()
+        .spacing(10);
+    Cut
+        .image("logo:rakushki")
+        .pin({
+            scaleX : 0.5,
+            scaleY : 0.5,
+            alignX : 0.5,
+            alignY : 0.5
+        })
+        .appendTo(titleMenu);
+    var loading = Buttons
+        .makeShellsButton("Loading", "red")
+        .pin({
+            alignX : 0.5
+        })
+        .appendTo(titleMenu);
+    var start = Buttons
+        .makeShellsButton("Start", "yellow")
+        .pin({
+            alignX : 0.5
+        })
+        .hide()
+        .appendTo(titleMenu);
+
+    function finishedLoading(mainMenu) {
+        start.on(Cut.Mouse.CLICK,
+                 function() {
+                     titleMenu.hide();
+                     mainMenu.show()
+                 });
+        loading.hide();
+        start.show();
+    }
+
+    return [titleMenu, finishedLoading];
+}    
+
 function createMainMenu(singlePlayerFn, multiPlayerFn, settingsFn) {
     var mainMenu = Cut
         .column()
@@ -31,7 +71,7 @@ function createMainMenu(singlePlayerFn, multiPlayerFn, settingsFn) {
 }
 
 function createConfigMenu(root) {
-    var selectedGameType = SharikiGameType;
+    var selectedGameType, width, height;
 
     var configMenu = Cut
         .column()
@@ -40,21 +80,83 @@ function createConfigMenu(root) {
         .row()
         .spacing(10)
         .appendTo(configMenu);
-    var sharikiButton = Buttons.makeShellsButton("Shariki", "red")
-        .appendTo(gameTypeRow)
-        .on(Cut.Mouse.CLICK,
-            function() { selectedGameType = SharikiGameType; });
-    var bombiButton = Buttons.makeShellsButton("Bombi", "yellow")
-        .appendTo(gameTypeRow)
-        .on(Cut.Mouse.CLICK,
-            function () { selectedGameType = BombiGameType; });
+    var dimensionsRow = Cut
+        .row()
+        .spacing(10)
+        .appendTo(configMenu);
+    var sharikiButton = Cut.image("gameType_logos:shariki_small")
+    var bombiButton = Cut.image("gameType_logos:bombi_small")
+
+    var gameTypeSpinner = Buttons
+        .makeSpinner(
+            [[sharikiButton,
+              function() { selectedGameType = SharikiGameType; }],
+             [bombiButton,
+              function() { selectedGameType = BombiGameType; }]],
+            0,
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(gameTypeRow);
+    var widthText = Cut
+        .string("ascii_nimbus_black:")
+        .value("width")
+        .appendTo(dimensionsRow)
+        .pin({
+            scale : 0.2
+        });
+    var widthSpinner = Buttons
+        .makeNumberSpinner(
+            3, 9, 8,
+            function (n) {
+                width = n;
+            },
+            "ascii_nimbus_white",
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(dimensionsRow);
+    var widthText = Cut
+        .string("ascii_nimbus_black:")
+        .value("height")
+        .appendTo(dimensionsRow)
+        .pin({
+            scale : 0.2
+        });
+    var heightSpinner = Buttons
+        .makeNumberSpinner(
+            3, 9, 8,
+            function (n) {
+                height = n;
+            },
+            "ascii_nimbus_white",
+            Cut.image("button_blue:medium"),
+            Cut.image("triangle_blue:small_up")
+                .pin({
+                    alignY : 0
+                }),
+            Cut.image("triangle_blue:small_down")
+                .pin({
+                    alignY : 1
+                }))
+        .appendTo(dimensionsRow);
     var startButton = Buttons
         .makeShellsButton("Start", "blue")
         .appendTo(configMenu)
         .on(Cut.Mouse.CLICK,
             function() {
-                var width  = 8,
-                    height = 8;
                 var colors = ["red", "blue", "yellow", "green", "orange",
                               "dark"];
                 var magnitudes = [null];
@@ -87,12 +189,22 @@ var board1 = [
 var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
 
+    var titleMenuAndCallback = createTitleMenu();
+    var titleMenu   = titleMenuAndCallback[0]
+        .appendTo(root)
+        .pin({
+            alignX : 0.5,
+            alignY : 0.5
+        });
+    var titleLoaded = titleMenuAndCallback[1];
+
     var configMenu = createConfigMenu(root)
         .appendTo(root)
         .hide()
-        .pin({alignX : 0.5,
-              alignY : 0.5});
-    
+        .pin({
+            alignX : 0.5,
+            alignY : 0.5
+        });
 
     var singlePlayerFn = function(mainMenu) {
         mainMenu.hide();
@@ -104,7 +216,10 @@ var app = Cut(function(root,container) {
     var mainMenu = createMainMenu(singlePlayerFn,
                                   multiPlayerFn,
                                   settingsFn)
+        .hide()
         .appendTo(root)
         .pin({alignX : 0.5,
               alignY : 0.5});
+
+    titleLoaded(mainMenu);
 });
