@@ -35,9 +35,9 @@ function Display(root,players,config){
                    .pin({scale : 1});
     function makeCutImage(shell, parent){
         var temp = Cut.image("base:color_" + shell.color)
-                              .appendTo(row)
+                              .appendTo(parent)
                               .pin("pivot", 0.5);
-        if(shell.type != Sharaki.NORMALSHELL){
+        if(shell.special != null){
             Cut.image("ascii_nimbus_black:B").appendTo(temp).pin("align", 0.5);
         }
         return temp;
