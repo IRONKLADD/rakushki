@@ -59,7 +59,7 @@ function SharikiGameType(players, config) {
      */
     function _makeBoard() {
         if (players[0].getBoard() === undefined) {
-            _board = new Board(config.width, config.height);
+            _board = new Board(config.height, config.width);
             players[0].setBoard(_board);
             _fillBoard(_board);
             
@@ -207,7 +207,6 @@ function SharikiGameType(players, config) {
     function checkVertical(board, row, col) {
         var centerShell = board.get(row, col); 
         var matches = new Set([JSON.stringify(new Util.Coord(row, col))]);
-
         for (var r = row+1;
              r < config.height && board.get(r, col).color == centerShell.color;
              r++) {
