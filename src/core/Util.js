@@ -183,3 +183,13 @@ Util.partial = function(f) {
 Util.mod = function(x, n) {
     return ((x%n)+n)%n;
 }
+Util.appendValue =function(map,key,value){
+    var currentVal = map.get(key);
+    if(currentVal === null){
+        map.set(key,[value]);
+    }
+    else{
+        currentVal.push(value);
+    }
+    return map
+}
