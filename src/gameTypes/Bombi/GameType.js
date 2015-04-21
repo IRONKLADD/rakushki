@@ -210,7 +210,6 @@ function BombiGameType(players, config) {
         var col = centerCoord.col;
         console.log(row);
         console.log(col);
-        var shellSet = null;
         var bomb = null;
         var onLeft = (col === 0);
         var onRight = (col === config.width - 1);
@@ -218,11 +217,10 @@ function BombiGameType(players, config) {
         var onBottom = (row === config.height - 1);
         if (!(onLeft || onTop)) {
             console.log("entered2222");
-            shellSet = new Set([centerCoord, 
-                                Util.coordLeft(Util.coordUp(centerCoord)),
-                                Util.coordUp(centerCoord),
-                                Util.coordLeft(centerCoord)]);
-            bomb = checkBomb(board, shellSet, upLeft);
+            var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
+            var up = Util.coordUp(centerCoord);
+            var left = Util.coordLeft(centerCoord);
+            bomb = checkBomb(board,new Set([upLeft, centerCoord, up, left]), upLeft);
             console.log("after bomb calls");
             if (bomb !== null) {
                 return bomb;
@@ -230,22 +228,20 @@ function BombiGameType(players, config) {
         }
         if (!(onTop || onRight)) {
             console.log("2");
-            shellSet = new Set([centerCoord, 
-                                Util.coordRight(Util.coordUp(centerCoord)),
-                                Util.coordUp(centerCoord),
-                                Util.coordRight(centerCoord)]);
-            bomb = checkBomb(board, shellSet, up)
+            var upRight = Util.coordRight(Util.coordUp(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            var up = Util.coordUp(centerCoord);
+            bomb = checkBomb(board,new Set([up, centerCoord, upRight, right]), up)
             if (bomb !== null) {
                  return bomb;
             }
         }
         if (!(onBottom || onLeft)) {
             console.log("entered");
-            shellSet = new Set([centerCoord, 
-                                Util.coordLeft(Util.coordDown(centerCoord)),
-                                Util.coordDown(centerCoord),
-                                Util.coordLeft(centerCoord)]);
-            bomb = checkBomb(board, shellSet, left);
+            var left = Util.coordLeft(centerCoord);
+            var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
+            var down = Util.coordDown(centerCoord);
+            bomb = checkBomb(board,new Set([left, centerCoord, downLeft, down]), left);
             if (bomb !== null) {
                 return bomb;
             }
@@ -254,12 +250,12 @@ function BombiGameType(players, config) {
             console.log("1");
             console.log("sdfds" +down)
             console.log(centerCoord);
-            shellSet = new Set([centerCoord, 
-                                Util.coordRight(Util.coordDown(centerCoord)),
-                                Util.coordDown(centerCoord),
-                                Util.coordRight(centerCoord)]);
+            var down = Util.coordDown(centerCoord);
+            var downRight = Util.coordRight(Util.coordDown(centerCoord));
+            var right = Util.coordRight(centerCoord);
             console.log(centerCoord);
-            bomb = checkBomb(board, shellSet, centerCoord);
+            bomb = checkBomb(board,new Set([centerCoord, downRight, down, right]), 
+                             centerCoord);
         }
         return bomb;
     }
