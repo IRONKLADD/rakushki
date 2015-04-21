@@ -117,8 +117,8 @@ function SharikiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
-        console.log(row);
-        console.log(col);
+        console.log("row :"+row);
+        console.log("col :"+col);
         if(!_isActive) {
             console.log("activator");
             _isActive = true;

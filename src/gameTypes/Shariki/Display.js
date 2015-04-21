@@ -39,7 +39,7 @@ function Display(root,players,config){
                               .pin("pivot", 0.5);
         if(shell.special != null){
             Cut.image("ascii_nimbus_black:B").appendTo(temp).pin("align", 0.5);
-            
+
         }
         return temp;
     }
@@ -66,15 +66,16 @@ function Display(root,players,config){
                 //               .appendTo(row)
                 //               .pin("pivot", 0.5);
                 cell._index = count++;
+                cell._row     = i;
+                cell._coord   = j;
                 //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point) {
                     this.pin({
                         scaleX : 1.3,
                         scaleY : 1.3
                     });
-                    var coord = Util.indexToCoord(this._index, config.height);
+                    var coord = new Util.Coord(this._row,this._coord);
                     player.selectShell(coord.row, coord.col);
-                    player.getBoard().printArr();
                 });
             }
         }
