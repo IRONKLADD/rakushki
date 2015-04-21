@@ -148,10 +148,10 @@ function BombiGameType(players, config) {
             _activeRow = null;
             _activeCol = null;
             //-----STart of next turn-----//
-            renderer.update();
             turnCount++;
-            var bombArray = activeBombs.get(currentTurn);
-            activeBombs.delete(currentTurn);
+            renderer.update(turnCount);
+            // var bombArray = activeBombs.get(turnCount);
+            // activeBombs.delete(turnCount);
             //detonateBombs()
 
 
@@ -185,19 +185,22 @@ function BombiGameType(players, config) {
     }
 
     function makeBomb(shellArray,topLeftCoord){
-        console.log("MAKEBOMB CALLED");
+        console.log("MAKEBOMB callsED");
         var color = shellArray[0].color;
         var blastRad = shellArray[0].magnitude;
         var explosionTurn = 0;
         var bombCoord;
+        console.log("MAKEBOMB callsED1");
         shellArray.forEach(function(shell) {
             if(shell.magnitude < blastRad){
                 blastRad = shell.magnitude;
             }
             explosionTurn = explosionTurn + shell.magnitude;
         });
+        console.log("MAKEBOMB callsED2");
         var currentBomb = new Bomb(color, blastRad, turnCount+explosionTurn+1,
                                    shellArray, topLeftCoord);
+        console.log("MAKEBOMB callsED3");
         shellArray.forEach(function(shell) {
             shell.special = currentBomb;
         });
@@ -254,7 +257,7 @@ function BombiGameType(players, config) {
             var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
             var up = Util.coordUp(centerCoord);
             var left = Util.coordLeft(centerCoord);
-            bomb = checkBomb(board,new Set([upLeft, centerCoord, up, left]), upLeft);
+            bomb = checkBomb(board,[upLeft, centerCoord, up, left], upLeft);
             console.log("after bomb calls");
             if (bomb !== null) {
                 return bomb;
@@ -265,7 +268,7 @@ function BombiGameType(players, config) {
             var upRight = Util.coordRight(Util.coordUp(centerCoord));
             var right = Util.coordRight(centerCoord);
             var up = Util.coordUp(centerCoord);
-            bomb = checkBomb(board,new Set([up, centerCoord, upRight, right]), up)
+            bomb = checkBomb(board,[up, centerCoord, upRight, right], up)
             if (bomb !== null) {
                  return bomb;
             }
@@ -275,7 +278,7 @@ function BombiGameType(players, config) {
             var left = Util.coordLeft(centerCoord);
             var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
             var down = Util.coordDown(centerCoord);
-            bomb = checkBomb(board,new Set([left, centerCoord, downLeft, down]), left);
+            bomb = checkBomb(board,[left, centerCoord, downLeft, down], left);
             if (bomb !== null) {
                 return bomb;
             }
@@ -288,7 +291,7 @@ function BombiGameType(players, config) {
             var downRight = Util.coordRight(Util.coordDown(centerCoord));
             var right = Util.coordRight(centerCoord);
             console.log(centerCoord);
-            bomb = checkBomb(board,new Set([centerCoord, downRight, down, right]), 
+            bomb = checkBomb(board,[centerCoord, downRight, down, right], 
                              centerCoord);
         }
         return bomb;
