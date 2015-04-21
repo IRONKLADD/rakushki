@@ -148,13 +148,16 @@ function BombiGameType(players, config) {
             _activeRow = null;
             _activeCol = null;
             //-----STart of next turn-----//
-            turnCount++;
-
-
-
-
-
             renderer.update();
+            turnCount++;
+            var bombArray = activeBombs.get(currentTurn);
+            activeBombs.delete(currentTurn);
+            //detonateBombs()
+
+
+
+
+
         }
         // unselect shell
         else {
@@ -166,6 +169,21 @@ function BombiGameType(players, config) {
         }
         renderer.updateScore(player.score);
     }
+
+    function detonate(bomb){
+        var triggeredBombs = [];
+
+
+
+        detonateBombs(triggeredBombs);
+    }
+
+    function detonateBombs(bombs) {
+        if(bombs !== undefined && bombs.length !== 0){
+            bombs.forEach(detonate);
+        }
+    }
+
     function makeBomb(shellArray,topLeftCoord){
         console.log("MAKEBOMB CALLED");
         var color = shellArray[0].color;

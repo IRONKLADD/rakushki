@@ -1,4 +1,5 @@
 var Bombi = {
     EMPTYSHELL : "===empty-shell===",
-    NORMALSHELL : "===normal-shell==="
+    NORMALSHELL : "===normal-shell===",
+    ACTIVE : "===active==="
 };

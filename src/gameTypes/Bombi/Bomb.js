@@ -4,4 +4,5 @@ function Bomb(color, blastRad, explosionTurn, shellArray, bombCoord) {
     this.explosionTurn = explosionTurn;
     this.shellArray = shellArray;
     this.bombCoord = bombCoord;
+    this.state = Bombi.ACTIVE;
 }
