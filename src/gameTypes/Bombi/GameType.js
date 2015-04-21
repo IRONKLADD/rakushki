@@ -22,6 +22,8 @@ function BombiGameType(players, config) {
     var _validSwap = false;
     var _board;
     var renderer;
+    var activeBombs = new Map([]);
+    var turnCount = 0;
     this.getBoard = getBoard;
     this.selectShell = selectShell;
     this.setRender = setRender;
@@ -52,6 +54,7 @@ function BombiGameType(players, config) {
             players[i].setSelectShell(selectShell);
         }
         _makeBoard();
+
     }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
@@ -117,7 +120,9 @@ function BombiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
-        console.log("IN SELECT SHELL")
+        console.log("map")
+        console.log(activeBombs);
+        console.log("IN SELECT SHELL");
         console.log(row);
         console.log(col);
         if(!_isActive) {
@@ -142,6 +147,13 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
+            //-----STart of next turn-----//
+            turnCount++;
+
+
+
+
+
             renderer.update();
         }
         // unselect shell
@@ -166,11 +178,16 @@ function BombiGameType(players, config) {
             }
             explosionTurn = explosionTurn + shell.magnitude;
         });
-        var currentBomb = new Bomb(color, blastRad, explosionTurn,
+        var currentBomb = new Bomb(color, blastRad, turnCount+explosionTurn+1,
                                    shellArray, topLeftCoord);
         shellArray.forEach(function(shell) {
             shell.special = currentBomb;
         });
+        console.log("before");
+        Util.appendValue(activeBombs, currentBomb.explosionTurn, currentBomb);
+        console.log("after");
+
+        return currentBomb;
 
     }
     function checkBomb(board, shellCoords, topLeftCoord) {
