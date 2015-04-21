@@ -39,6 +39,7 @@ function Display(root,players,config){
                               .pin("pivot", 0.5);
         if(shell.special != null){
             Cut.image("ascii_nimbus_black:B").appendTo(temp).pin("align", 0.5);
+            
         }
         return temp;
     }

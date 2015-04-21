@@ -151,7 +151,6 @@ function BombiGameType(players, config) {
             _activeRow = null;
             _activeCol = null;
             renderer.update();
-            // notify renderer here
         }
         renderer.updateScore(player.score);
     }
