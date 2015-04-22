@@ -34,6 +34,13 @@ function Display(root,players,config){
                    .spacing(2)
                    .value(0)
                    .pin({scale : 1});
+    var _displayGrid = []
+    for (var i = 0; i < config.height; ++i) {
+        _displayGrid.push([]);
+        for (var j = 0; j < config.width; ++j) {
+            _displayGrid[i].push(null);
+        }
+    }
     function makeCutImage(shell, parent){
         var temp = Cut.image("base:color_" + shell.color)
                               .appendTo(parent)
@@ -52,27 +59,35 @@ function Display(root,players,config){
         column = Cut.column()
                     .appendTo(root)
                     .pin("align", 0.5)
-                    .spacing(2);
+                    .spacing(2)
+                    .pin({
+                        scaleX : 2,
+                        scaleY : 2
+                    });
         for (i = 0; i < config.height; ++i) {
             var row = Cut.row().appendTo(column).spacing(2);
             for (j = 0; j < config.width; ++j) {
                 // colors as frames
                 var temp = board.get(i, j);
+
                 if(temp.special === null){
                     var cell = makeCutImage(temp,row);
+                    _displayGrid[i][j] = cell;
                     // var cell = Cut.image("base:color_" + temp.color)
                     //               .appendTo(row)
                     //               .pin("pivot", 0.5);
                     cell._index = count++;
                     cell._row     = i;
-                    cell._coord   = j;
+                    cell._col     = j;
+                    console.log("col");
+                    console.log(cell._col);
                     //userInput.setInput(cell);
                     cell.on(Cut.Mouse.CLICK,function(point) {
                         this.pin({
                             scaleX : 1.3,
                             scaleY : 1.3
                         });
-                        var coord = new Util.Coord(this._row,this._coord);
+                        var coord = new Util.Coord(this._row,this._col);
                         player.selectShell(coord.row, coord.col);
                     });
                 }
@@ -83,6 +98,9 @@ function Display(root,players,config){
                         var bombCorner = Cut.image("base:color_trans")
                             .appendTo(row)
                             .pin("align", 0);
+                        _displayGrid[i][j] = bombCorner;
+                        bombCorner._row     = i;
+                        bombCorner._col     = j;
                         var bomb = Cut.image("base:color_"+BombColor)
                             .appendTo(bombCorner)
                             .pin("align", 0)
@@ -90,8 +108,11 @@ function Display(root,players,config){
                                 scaleX : 2.10,
                                 scaleY : 2.10,
                                 textureAlpha : 100
-                            });
-                        var score = Cut.string("ascii_nimbus_black:")
+                        });
+                        bomb.on(Cut.Mouse.CLICK,function(point) {
+                            explode(this.parent()._row,this.parent()._col,1);
+                        });
+                        var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
                             .pin("align", .5)
                             .spacing(.7)
@@ -105,6 +126,7 @@ function Display(root,players,config){
                         var invis = Cut.image("base:color_trans")
                            .appendTo(row)
                            .pin("pivot", 0.5);
+                        _displayGrid[i][j] = bombCorner;
                     }
 
                     // if(currentBomb.cornerShell === temp){
@@ -151,5 +173,38 @@ function Display(root,players,config){
      */
     function updateScore(newScore) {
         score.value(newScore);
+    }
+    /*function explode(row,col,radius){
+        console.log("this col");
+        console.log(col);
+        var cell = _displayGrid[row-radius][col-radius];
+        var explode = Cut.image("base:color_red")
+            .appendTo(cell)
+            .pin("align", 0)
+            .pin({alpha:1,textureAlpha : 1});
+
+        var tween = explode.tween(duration = 200, delay = 0);
+        tween.pin({
+            scaleX : (radius+4)+(1/radius)+.1,
+            scaleY : (radius+4)+(1/radius)+.1
+        })
+    }*/
+    function explode(row,col,radius){
+        console.log("col" + col)
+        console.log("row" + row)
+        console.log("radius" + radius)
+        for(var i = row-radius;i <= row + radius+1;i++){
+            for(var j = col-radius;j <= col + radius+1;j++){
+                console.log("row " +i);
+                var cell = _displayGrid[i][j];
+                var bomb = Cut.image("base:color_dark").appendTo(cell)
+                .pin("align", 0).pin({scale:0});
+                var tween = bomb.tween(duration = 400, delay = 0);
+                tween.pin({
+                    scale: 1,
+                    alpha: 1
+                })
+            }
+        }
     }
 }

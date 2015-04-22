@@ -165,7 +165,7 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            renderer.update();
+            renderer.update(turnCount);
         }
         renderer.updateScore(player.score);
     }
