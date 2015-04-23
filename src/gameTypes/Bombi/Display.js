@@ -16,7 +16,6 @@ function Display(root,players,config){
     this._createButton = _createButton;
     this.update        = update;
     this.updateScore   = updateScore;
-    this.createMenu    = createMenu;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
                         .appendTo(root)
@@ -34,36 +33,16 @@ function Display(root,players,config){
                    .spacing(2)
                    .value(0)
                    .pin({scale : 1});
-    /**
-     * Creates a grapical menu to be displayed when createMenu is called.
-     */
-    function createMenu(){
-        var mainMenu = Cut.column().appendTo(root).spacing(50);
-        mainMenu.pin({
-            alignX : .5,
-            alignY : 0,
-        })
-        var buttonSinglePlayer = Buttons.makeShellsButton("Single Player",
-                                                          "red")
-                                        .appendTo(mainMenu);
-        var buttonMultiPlayer = Buttons.makeShellsButton("Multi Player",
-                                                         "yellow")
-                                       .appendTo(mainMenu);
-        var buttonSettings = Buttons.makeShellsButton("Settings",
-                                                      "blue")
-                                    .appendTo(mainMenu);
-        buttonSinglePlayer.on(Cut.Mouse.CLICK, function() {
-            mainMenu.hide();
-            _createBoard(players[0]);
-        });
-
-        var SinglePlayerMenu = Cut.column().appendTo(root).spacing(1);
-        mainMenu.pin({
-            alignX : 0.5,
-            alignY : 0.0
-        })
+    function makeCutImage(shell, parent){
+        var temp = Cut.image("base:color_" + shell.color)
+                              .appendTo(parent)
+                              .pin("pivot", 0.5);
+        if(shell.special != null){
+            Cut.image("ascii_nimbus_black:B").appendTo(temp).pin("align", 0.5);
+            
+        }
+        return temp;
     }
-
     /**
      * Creates the graphical representation of the board owned by player.
      * @param  {Player} player The player whose board is currently being 
@@ -77,24 +56,26 @@ function Display(root,players,config){
                     .appendTo(root)
                     .pin("align", 0.5)
                     .spacing(2);
-        for (i = 0; i < config.height; ++i) {
+        for (i = 0; i < config.height; i++) {
             var row = Cut.row().appendTo(column).spacing(2);
-            for (j = 0; j < config.width; ++j) {
+            for (j = 0; j < config.width; j++) {
                 // colors as frames
-                var tempShell = board.get(i, j);
-                var cell = Cut.image("base:color_" + tempShell.color)
-                              .appendTo(row)
-                              .pin("pivot", 0.5);
+                var temp = board.get(i, j);
+                var cell = makeCutImage(temp,row);
+                // var cell = Cut.image("base:color_" + temp.color)
+                //               .appendTo(row)
+                //               .pin("pivot", 0.5);
                 cell._index = count++;
+                cell._row     = i;
+                cell._coord   = j;
                 //userInput.setInput(cell);
                 cell.on(Cut.Mouse.CLICK,function(point) {
                     this.pin({
                         scaleX : 1.3,
                         scaleY : 1.3
                     });
-                    var coord = Util.indexToCoord(this._index, config.height);
+                    var coord = new Util.Coord(this._row,this._coord);
                     player.selectShell(coord.row, coord.col);
-                    player.getBoard().printArr();
                 });
             }
         }

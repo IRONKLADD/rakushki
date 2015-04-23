@@ -22,6 +22,8 @@ function BombiGameType(players, config) {
     var _validSwap = false;
     var _board;
     var renderer;
+    var activeBombs = new Map([]);
+    var turnCount = 0;
     this.getBoard = getBoard;
     this.selectShell = selectShell;
     this.setRender = setRender;
@@ -52,6 +54,7 @@ function BombiGameType(players, config) {
             players[i].setSelectShell(selectShell);
         }
         _makeBoard();
+
     }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
@@ -117,7 +120,9 @@ function BombiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
-        console.log("IN SELECT SHELL")
+        console.log("map")
+        console.log(activeBombs);
+        console.log("IN SELECT SHELL");
         console.log(row);
         console.log(col);
         if(!_isActive) {
@@ -130,10 +135,29 @@ function BombiGameType(players, config) {
         // selected shell is adjacent to active shell, try to swap
         else if(Util.isAdjacent(_activeRow, _activeCol, row, col)) {
             _swap(player.getBoard(), _activeRow, _activeCol, row, col);
+            checkForBomb(
+                JSON.stringify(new Util.Coord(row,col)),
+                player.getBoard()
+            );
+            checkForBomb(
+                JSON.stringify(new Util.Coord(_activeRow, _activeCol)),
+                player.getBoard()
+            );
+            
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            renderer.update();
+            //-----STart of next turn-----//
+            turnCount++;
+            renderer.update(turnCount);
+            // var bombArray = activeBombs.get(turnCount);
+            // activeBombs.delete(turnCount);
+            //detonateBombs()
+
+
+
+
+
         }
         // unselect shell
         else {
@@ -141,10 +165,136 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            renderer.update();
-            // notify renderer here
+            renderer.update(turnCount);
         }
         renderer.updateScore(player.score);
+    }
+
+    function detonate(bomb){
+        var triggeredBombs = [];
+
+
+
+        detonateBombs(triggeredBombs);
+    }
+
+    function detonateBombs(bombs) {
+        if(bombs !== undefined && bombs.length !== 0){
+            bombs.forEach(detonate);
+        }
+    }
+
+    function makeBomb(shellArray,topLeftCoord){
+        console.log("MAKEBOMB callsED");
+        var color = shellArray[0].color;
+        var blastRad = shellArray[0].magnitude;
+        var explosionTurn = 0;
+        var bombCoord;
+        console.log("MAKEBOMB callsED1");
+        shellArray.forEach(function(shell) {
+            if(shell.magnitude < blastRad){
+                blastRad = shell.magnitude;
+            }
+            explosionTurn = explosionTurn + shell.magnitude;
+        });
+        console.log("MAKEBOMB callsED2");
+        var currentBomb = new Bomb(color, blastRad, turnCount+explosionTurn+1,
+                                   shellArray, topLeftCoord);
+        console.log("MAKEBOMB callsED3");
+        shellArray.forEach(function(shell) {
+            shell.special = currentBomb;
+        });
+        console.log("before");
+        Util.appendValue(activeBombs, currentBomb.explosionTurn, currentBomb);
+        console.log("after");
+
+        return currentBomb;
+
+    }
+    function checkBomb(board, shellCoords, topLeftCoord) {
+        console.log("CHECK BOMB111");
+        shellArray = new Array();
+        count = 0;
+        console.log(topLeftCoord);
+        console.log("left " + topLeftCoord);
+        console.log(shellCoords);
+        shellCoords.forEach(function(coord) {
+            var currentShell = board.get(coord.row,coord.col);
+            shellArray[count] =currentShell;
+            count++;
+        });
+        var checkColor = shellArray[0].color;
+        console.log("color " +checkColor);
+        var validBomb = true;
+        shellArray.forEach(function(shell) {
+            console.log(shell.color + " spec " + shell.special);
+            if(shell.color !== checkColor || shell.special !== null){
+                console.log("INSIDE");
+                validBomb = false;
+            }
+        });
+        if(!validBomb){
+            return null;
+        }
+        else{
+            return makeBomb(shellArray,topLeftCoord);
+        }
+    }
+    function checkForBomb(JSONcoord, board) {
+        console.log("CHECK FOR BOMB");
+        var centerCoord = JSON.parse(JSONcoord);
+        var row = centerCoord.row;
+        var col = centerCoord.col;
+        console.log(row);
+        console.log(col);
+        var bomb = null;
+        var onLeft = (col === 0);
+        var onRight = (col === config.width - 1);
+        var onTop = (row === 0);
+        var onBottom = (row === config.height - 1);
+        if (!(onLeft || onTop)) {
+            console.log("entered2222");
+            var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
+            var up = Util.coordUp(centerCoord);
+            var left = Util.coordLeft(centerCoord);
+            bomb = checkBomb(board,[upLeft, centerCoord, up, left], upLeft);
+            console.log("after bomb calls");
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onTop || onRight)) {
+            console.log("2");
+            var upRight = Util.coordRight(Util.coordUp(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            var up = Util.coordUp(centerCoord);
+            bomb = checkBomb(board,[up, centerCoord, upRight, right], up)
+            if (bomb !== null) {
+                 return bomb;
+            }
+        }
+        if (!(onBottom || onLeft)) {
+            console.log("entered");
+            var left = Util.coordLeft(centerCoord);
+            var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
+            var down = Util.coordDown(centerCoord);
+            bomb = checkBomb(board,[left, centerCoord, downLeft, down], left);
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onBottom || onRight)) {
+            console.log("1");
+            console.log("sdfds" +down)
+            console.log(centerCoord);
+            var down = Util.coordDown(centerCoord);
+            var downRight = Util.coordRight(Util.coordDown(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            console.log(centerCoord);
+            bomb = checkBomb(board,[centerCoord, downRight, down, right], 
+                             centerCoord);
+        }
+        return bomb;
     }
 
     /**
@@ -264,36 +414,6 @@ function BombiGameType(players, config) {
             // if there is no break, don't give me anything
             return new Set([]);
         }
-    }
-    function checkBomb(board, shellCoords, topLeftCoord) {
-        shellArray = new Array();
-        count = 0;
-        shellCoords.forEach(function(coord) {
-            var currentShell = board.get(coord.row, coord.col);
-            shellArray[count] = currentShell;
-            count++;
-        });
-        var checkColor = shellArray[0].color;
-        shellArray.forEach(function(shell) {
-            if(shell.color !== checkColor || shell.special !== null) {
-                return null;
-            }
-        });
-
-        return makeBomb(shellArray,topLeftCoord);
-    }
-    function makeBomb(shellArray,topLeftCoord){
-        var color = shellArray[0].color;
-        var blastRad = shellArray[0].magnitude;
-        var explosionTurn = 0;
-        var bombCoord;
-        shellArray.forEach(function(shell) {
-            if(shell.magnitude < blastRad){
-                blastRad = shell.magnitude;
-            }
-            explosionTurn = explosionTurn + shell.magnitude;
-        });
-        return new Bomb(color,blastRad,explosionTurn,shellArray,topLeftCoord)
     }
 
     /**
