@@ -79,8 +79,6 @@ function Display(root,players,config){
                     cell._index = count++;
                     cell._row     = i;
                     cell._col     = j;
-                    console.log("col");
-                    console.log(cell._col);
                     //userInput.setInput(cell);
                     cell.on(Cut.Mouse.CLICK,function(point) {
                         this.pin({
@@ -190,12 +188,8 @@ function Display(root,players,config){
         })
     }*/
     function explode(row,col,radius){
-        console.log("col" + col)
-        console.log("row" + row)
-        console.log("radius" + radius)
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
-                console.log("row " +i);
                 var cell = _displayGrid[i][j];
                 var bomb = Cut.image("base:color_dark")
                     .appendTo(cell)

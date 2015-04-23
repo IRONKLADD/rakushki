@@ -120,13 +120,7 @@ function BombiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
-        console.log("map")
-        console.log(activeBombs);
-        console.log("IN SELECT SHELL");
-        console.log(row);
-        console.log(col);
         if(!_isActive) {
-            console.log("activator");
             _isActive = true;
             _activeRow = row;
             _activeCol = col;
@@ -153,15 +147,9 @@ function BombiGameType(players, config) {
             var bombs = activeBombs.get(turnCount);
             activeBombs.delete(turnCount);
             detonateBombs(bombs, player)
-
-
-
-
-
         }
         // unselect shell
         else {
-            console.log("UNactivator");
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
@@ -232,51 +220,38 @@ function BombiGameType(players, config) {
     }
 
     function makeBomb(shellArray,topLeftCoord){
-        console.log("MAKEBOMB callsED");
         var color = shellArray[0].color;
         var blastRad = shellArray[0].magnitude;
         var explosionTurn = 0;
         var bombCoord;
-        console.log("MAKEBOMB callsED1");
         shellArray.forEach(function(shell) {
             if(shell.magnitude < blastRad){
                 blastRad = shell.magnitude;
             }
             explosionTurn = explosionTurn + shell.magnitude;
         });
-        console.log("MAKEBOMB callsED2");
         var currentBomb = new Bomb(color, blastRad, turnCount+explosionTurn+1,
                                    shellArray, topLeftCoord);
-        console.log("MAKEBOMB callsED3");
         shellArray.forEach(function(shell) {
             shell.special = currentBomb;
         });
-        console.log("before");
         Util.appendValue(activeBombs, currentBomb.explosionTurn, currentBomb);
-        console.log("after");
 
         return currentBomb;
 
     }
     function checkBomb(board, shellCoords, topLeftCoord) {
-        console.log("CHECK BOMB111");
         shellArray = new Array();
         count = 0;
-        console.log(topLeftCoord);
-        console.log("left " + topLeftCoord);
-        console.log(shellCoords);
         shellCoords.forEach(function(coord) {
             var currentShell = board.get(coord.row,coord.col);
             shellArray[count] =currentShell;
             count++;
         });
         var checkColor = shellArray[0].color;
-        console.log("color " +checkColor);
         var validBomb = true;
         shellArray.forEach(function(shell) {
-            console.log(shell.color + " spec " + shell.special);
-            if(shell.color !== checkColor || shell.special !== null){
-                console.log("INSIDE");
+            if(shell.color !== checkColor || shell.special !== null) {
                 validBomb = false;
             }
         });
@@ -288,30 +263,24 @@ function BombiGameType(players, config) {
         }
     }
     function checkForBomb(JSONcoord, board) {
-        console.log("CHECK FOR BOMB");
         var centerCoord = JSON.parse(JSONcoord);
         var row = centerCoord.row;
         var col = centerCoord.col;
-        console.log(row);
-        console.log(col);
         var bomb = null;
         var onLeft = (col === 0);
         var onRight = (col === config.width - 1);
         var onTop = (row === 0);
         var onBottom = (row === config.height - 1);
         if (!(onLeft || onTop)) {
-            console.log("entered2222");
             var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
             var up = Util.coordUp(centerCoord);
             var left = Util.coordLeft(centerCoord);
             bomb = checkBomb(board,[upLeft, centerCoord, up, left], upLeft);
-            console.log("after bomb calls");
             if (bomb !== null) {
                 return bomb;
             }
         }
         if (!(onTop || onRight)) {
-            console.log("2");
             var upRight = Util.coordRight(Util.coordUp(centerCoord));
             var right = Util.coordRight(centerCoord);
             var up = Util.coordUp(centerCoord);
@@ -321,7 +290,6 @@ function BombiGameType(players, config) {
             }
         }
         if (!(onBottom || onLeft)) {
-            console.log("entered");
             var left = Util.coordLeft(centerCoord);
             var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
             var down = Util.coordDown(centerCoord);
@@ -331,13 +299,9 @@ function BombiGameType(players, config) {
             }
         }
         if (!(onBottom || onRight)) {
-            console.log("1");
-            console.log("sdfds" +down)
-            console.log(centerCoord);
             var down = Util.coordDown(centerCoord);
             var downRight = Util.coordRight(Util.coordDown(centerCoord));
             var right = Util.coordRight(centerCoord);
-            console.log(centerCoord);
             bomb = checkBomb(board,[centerCoord, downRight, down, right], 
                              centerCoord);
         }
@@ -475,7 +439,6 @@ function BombiGameType(players, config) {
      */
     function checkConnection(player, coords) {
         var connections = new Set([]);
-        console.log(player);
 
         coords.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -584,8 +547,6 @@ function BombiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
-            console.log("in refill");
-            console.log(emptyShells);
             _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
             
@@ -601,7 +562,6 @@ function BombiGameType(players, config) {
      * board.
      */
     function _refillTopLayer(board, emptyShells) {
-        console.log("refill top");
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
             // only affect top layer shells, which have row == 0
@@ -622,8 +582,6 @@ function BombiGameType(players, config) {
      * @return {Set} A Set containing shells affected by gravity 
      */
     function _getEffectedShells(emptyShells) {
-        console.log("effected shells");
-        console.log(emptyShells);
         var effectedShells = new Set();
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -635,7 +593,6 @@ function BombiGameType(players, config) {
                 effectedShells.add(JSONeffectedCoord);
             }
         });
-        effectedShells.forEach(function(shell) { console.log("S:"+shell); });
         return effectedShells;
     }
     /**
