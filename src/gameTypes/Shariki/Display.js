@@ -16,6 +16,7 @@ function Display(root,players,config){
     this._createButton = _createButton;
     this.update        = update;
     this.updateScore   = updateScore;
+    this.explodeShell  = explodeShell;
     var currentTurn = 0;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
@@ -207,6 +208,7 @@ function Display(root,players,config){
             })
     }
     function explodeShell(row,col){
+        console.log("in explode shell");
         var cell = _displayGrid[row][col];
         var tween = cell.tween(duration = 400, delay = 0);
         tween.pin({

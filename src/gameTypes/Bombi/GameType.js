@@ -153,7 +153,7 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            renderer.update(turnCount);
+            setInterval(renderer.update(turnCount),6000);
         }
         renderer.updateScore(player.score);
     }
@@ -173,7 +173,7 @@ function BombiGameType(players, config) {
                 shell.type = Bombi.EMPTYSHELL;
                 shell.color = "trans";
                 player.score++;
-                //renderer.explodeShell(row, col);
+                renderer.explodeShell(row, col);
             }
         }
     }
