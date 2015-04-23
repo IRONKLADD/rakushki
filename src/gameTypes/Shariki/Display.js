@@ -110,7 +110,9 @@ function Display(root,players,config){
                                 textureAlpha : 100
                         });
                         bomb.on(Cut.Mouse.CLICK,function(point) {
-                            var temper =setTimeout(explode(this.parent()._row,this.parent()._col,2), 60000);
+                            // var temper =explode(this.parent()._row,this.parent()._col,2);
+                            //explodeShell(this.parent()._row-1,this.parent()._col-1)
+                            growShell(this.parent()._row-1,this.parent()._col-1,"red");
                         });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
@@ -210,5 +212,32 @@ function Display(root,players,config){
                 scale: 1,
                 alpha: 1
             })
+    }
+    function explodeShell(row,col){
+        var cell = _displayGrid[row][col];
+        var tween = cell.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 0,
+        })
+    }
+    function explodeShell(row,col){
+        var cell = _displayGrid[row][col];
+        var tween = cell.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 0,
+        })
+    }
+    function growShell(row,col,color){
+        var cell = _displayGrid[row][col];
+        var newCell = Cut.image("base:color_" +color).appendTo(cell).pin("align", .5)
+            .pin({scale:0});
+        cell.pin({
+            scale: 1,
+            textureAlpha: 0
+        })
+        var tween = newCell.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 1,
+        })
     }
 }
