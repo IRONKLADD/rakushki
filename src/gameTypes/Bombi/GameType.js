@@ -147,12 +147,12 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            //-----STart of next turn-----//
+            //-----Start of next turn-----//
             turnCount++;
             renderer.update(turnCount);
-            // var bombArray = activeBombs.get(turnCount);
-            // activeBombs.delete(turnCount);
-            //detonateBombs()
+            var bombs = activeBombs.get(turnCount);
+            activeBombs.delete(turnCount);
+            detonateBombs(bombs, player)
 
 
 
@@ -170,17 +170,64 @@ function BombiGameType(players, config) {
         renderer.updateScore(player.score);
     }
 
-    function detonate(bomb){
-        var triggeredBombs = [];
+    function foobar(row, col, color, triggeredBombs, player) {
+        if (row < 0 || col < 0)
+            return;
 
-
-
-        detonateBombs(triggeredBombs);
+        var shell = _board.get(row, col);
+        if(shell.type !== Bombi.EMPTY) {
+            if(shell.special !== null) {
+                triggeredBombs.push(shell.special);
+            }
+            else if (shell.color === color) {
+                shell.type = Bombi.EMPTY;
+                shell.color = "trans";
+                player.score++;
+                render.explodeShell(row, col);
+            }
+        }
     }
 
-    function detonateBombs(bombs) {
+    function detonatePerimeter(n, m, width, color, triggeredBombs, player) {
+        var row = n-1,
+            col = m-1;
+        // iterate over top perimeter
+        for(; col < m+width; ++col)
+            foobar(row, col, color, triggeredBombs, player);
+        // iterate over right perimeter
+        for(; row < n+width; ++row)
+            foobar(row, col, color, triggeredBombs, player);
+        // iterate over bottom perimeter
+        for(; col > m-1    ; --col)
+            foobar(row, col, color, triggeredBombs, player);
+        // iterate over left perimeter
+        for(; row > n-1    ; --row)
+            foobar(row, col, color, triggeredBombs, player);
+    }
+
+    function detonate(bomb, player) {
+        if(bomb.isActive) {
+            var triggeredBombs = [];
+
+            var coord = bomb.bombCoord;
+            for(var n = coord.row,
+                    m = coord.col,
+                    w = 2;
+                w < 2*(bomb.blastRad+1);
+                w += 2, n--, m--) {
+                detonatePerimeter(n, m, w, bomb.color, triggeredBombs, player);
+            }
+
+            bomb.isActive = false;
+            detonateBombs(triggeredBombs);
+        }
+    }
+
+    function detonateBombs(bombs, player) {
         if(bombs !== undefined && bombs.length !== 0){
-            bombs.forEach(detonate);
+            bombs.forEach(function (bomb) {
+                detonate(bomb, player);
+            });
         }
     }
 
