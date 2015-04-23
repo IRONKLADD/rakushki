@@ -166,10 +166,11 @@ function BombiGameType(players, config) {
         var shell = _board.get(row, col);
         if(shell.type !== Bombi.EMPTYSHELL) {
             if(shell.special !== null) {
+                console.log("triggered another bomb");
                 triggeredBombs.push(shell.special);
             }
             else if (shell.color === color) {
-                shell.type = Bombi.EMPTY;
+                shell.type = Bombi.EMPTYSHELL;
                 shell.color = "trans";
                 player.score++;
                 //renderer.explodeShell(row, col);
@@ -208,7 +209,7 @@ function BombiGameType(players, config) {
             }
 
             bomb.isActive = false;
-            detonateBombs(triggeredBombs);
+            detonateBombs(triggeredBombs,player);
         }
     }
 
