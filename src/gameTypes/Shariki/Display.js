@@ -112,7 +112,7 @@ function Display(root,players,config){
                         bomb.on(Cut.Mouse.CLICK,function(point) {
                             // var temper =explode(this.parent()._row,this.parent()._col,2);
                             //explodeShell(this.parent()._row-1,this.parent()._col-1)
-                            growShell(this.parent()._row-1,this.parent()._col-1,"red");
+                            explodeBomb(this.parent()._row,this.parent()._col);
                         });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
@@ -220,9 +220,10 @@ function Display(root,players,config){
             scale: 0,
         })
     }
-    function explodeShell(row,col){
-        var cell = _displayGrid[row][col];
-        var tween = cell.tween(duration = 400, delay = 0);
+    function explodeBomb(row,col){
+        var cell  = _displayGrid[row][col];
+        var bomb  = cell.first()
+        var tween = bomb.tween(duration = 400, delay = 0);
         tween.pin({
             scale: 0,
         })
