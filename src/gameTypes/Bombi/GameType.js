@@ -153,7 +153,7 @@ function BombiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            setInterval(renderer.update(turnCount),6000);
+            renderer.update(turnCount);
         }
         renderer.updateScore(player.score);
     }
@@ -200,6 +200,7 @@ function BombiGameType(players, config) {
             var triggeredBombs = [];
 
             var coord = bomb.bombCoord;
+            renderer.explodeBomb(coord.row,coord.col,bomb.color);
             for(var n = coord.row,
                     m = coord.col,
                     w = 2;

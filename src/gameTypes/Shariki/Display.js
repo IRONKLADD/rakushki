@@ -17,6 +17,7 @@ function Display(root,players,config){
     this.update        = update;
     this.updateScore   = updateScore;
     this.explodeShell  = explodeShell;
+    this.explodeBomb   = explodeBomb;
     var currentTurn = 0;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
@@ -215,9 +216,23 @@ function Display(root,players,config){
             scale: 0,
         })
     }
-    function explodeBomb(row,col){
+    function explodeBomb(row,col,color){
         var cell  = _displayGrid[row][col];
-        var bomb  = cell.first()
+        var bomb  = cell.first();
+        // var splosion = Cut.image("base:color_" +color).appendTo(cell)
+        // .pin("pivot", .5).pin({
+        //     scale:0,
+        //     textureAlpha: 1
+
+        // });
+        // var tween = splosion.tween(duration = 400, delay = 0);
+        // tween.pin({
+        //     scale: 2,
+        // })
+        // tween = splosion.tween(duration = 400, delay = 400);
+        // tween.pin({
+        //     scale: 0,
+        // })
         var tween = bomb.tween(duration = 400, delay = 0);
         tween.pin({
             scale: 0,
