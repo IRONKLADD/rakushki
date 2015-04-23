@@ -190,16 +190,49 @@ function Display(root,players,config){
     function explode(row,col,radius){
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
+                console.log("row " +i);
                 var cell = _displayGrid[i][j];
-                var bomb = Cut.image("base:color_dark")
-                    .appendTo(cell)
-                    .pin("align", 0).pin({scale:0});
-                var tween = bomb.tween(duration = 400, delay = 0)
-                    .pin({
-                        scale: 1,
-                        alpha: 1
-                })
+                splode(cell);
+               
             }
         }
     }
+    function splode(cell){
+        var bomb = Cut.image("base:color_dark").appendTo(cell)
+            .pin("align", .5).pin({scale:0});
+            var tween = bomb.tween(duration = 400, delay = 0);
+            tween.pin({
+                scale: 1,
+                alpha: 1
+            })
+    }
+    function explodeShell(row,col){
+        var cell = _displayGrid[row][col];
+        var tween = cell.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 0,
+        })
+    }
+    function explodeBomb(row,col){
+        var cell  = _displayGrid[row][col];
+        var bomb  = cell.first()
+        var tween = bomb.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 0,
+        })
+    }
+    function growShell(row,col,color){
+        var cell = _displayGrid[row][col];
+        var newCell = Cut.image("base:color_" +color).appendTo(cell).pin("align", .5)
+            .pin({scale:0});
+        cell.pin({
+            scale: 1,
+            textureAlpha: 0
+        })
+        var tween = newCell.tween(duration = 400, delay = 0);
+        tween.pin({
+            scale: 1,
+        })
+    }
+    
 }

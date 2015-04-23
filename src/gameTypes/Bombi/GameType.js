@@ -159,11 +159,12 @@ function BombiGameType(players, config) {
     }
 
     function touchShell(row, col, color, triggeredBombs, player) {
-        if (row < 0 || col < 0)
+        if (row <  0             || col <  0 ||
+            row >= config.height || col >= config.width)
             return;
 
         var shell = _board.get(row, col);
-        if(shell.type !== Bombi.EMPTY) {
+        if(shell.type !== Bombi.EMPTYSHELL) {
             if(shell.special !== null) {
                 triggeredBombs.push(shell.special);
             }
@@ -171,7 +172,7 @@ function BombiGameType(players, config) {
                 shell.type = Bombi.EMPTY;
                 shell.color = "trans";
                 player.score++;
-                renderer.explodeShell(row, col);
+                //renderer.explodeShell(row, col);
             }
         }
     }

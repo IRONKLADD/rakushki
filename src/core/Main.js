@@ -159,7 +159,7 @@ function createConfigMenu(root) {
             function() {
                 var colors = ["red", "blue", "yellow", "green", "orange",
                               "dark"];
-                var magnitudes = [1,2,3,4,5];
+                var magnitudes = [1,2]/*,3,4,5]*/;
                 var specials = [null];
                 var types = [Shariki.NORMALSHELL];
                 var config = new Configuration(width, height,
