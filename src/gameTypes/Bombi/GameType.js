@@ -158,7 +158,7 @@ function BombiGameType(players, config) {
         renderer.updateScore(player.score);
     }
 
-    function foobar(row, col, color, triggeredBombs, player) {
+    function touchShell(row, col, color, triggeredBombs, player) {
         if (row < 0 || col < 0)
             return;
 
@@ -171,7 +171,7 @@ function BombiGameType(players, config) {
                 shell.type = Bombi.EMPTY;
                 shell.color = "trans";
                 player.score++;
-                render.explodeShell(row, col);
+                renderer.explodeShell(row, col);
             }
         }
     }
@@ -181,16 +181,16 @@ function BombiGameType(players, config) {
             col = m-1;
         // iterate over top perimeter
         for(; col < m+width; ++col)
-            foobar(row, col, color, triggeredBombs, player);
+            touchShell(row, col, color, triggeredBombs, player);
         // iterate over right perimeter
         for(; row < n+width; ++row)
-            foobar(row, col, color, triggeredBombs, player);
+            touchShell(row, col, color, triggeredBombs, player);
         // iterate over bottom perimeter
         for(; col > m-1    ; --col)
-            foobar(row, col, color, triggeredBombs, player);
+            touchShell(row, col, color, triggeredBombs, player);
         // iterate over left perimeter
         for(; row > n-1    ; --row)
-            foobar(row, col, color, triggeredBombs, player);
+            touchShell(row, col, color, triggeredBombs, player);
     }
 
     function detonate(bomb, player) {
