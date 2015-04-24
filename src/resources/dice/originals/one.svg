@@ -17,7 +17,7 @@
    inkscape:export-filename="/home/alexander/Documents/dice/six_dark.png"
    inkscape:export-xdpi="22.256987"
    inkscape:export-ydpi="22.256987"
-   sodipodi:docname="New document 9">
+   sodipodi:docname="one.svg">
   <defs
      id="defs3843" />
   <sodipodi:namedview
@@ -27,18 +27,18 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.4947982"
-     inkscape:cx="36.481643"
+     inkscape:zoom="6.1297971"
+     inkscape:cx="17.231414"
      inkscape:cy="32"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:document-units="px"
      inkscape:grid-bbox="true"
-     inkscape:window-width="686"
-     inkscape:window-height="501"
+     inkscape:window-width="1329"
+     inkscape:window-height="750"
      inkscape:window-x="37"
      inkscape:window-y="18"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata3846">
     <rdf:RDF>
@@ -47,28 +47,26 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="base"
-     sodipodi:insensitive="true">
+     inkscape:label="base">
     <rect
        style="fill:#000000;fill-opacity:0"
        id="rect4360"
        width="64.37851"
-       height="64.698784"
+       height="64.372505"
        x="0"
-       y="-0.20662698" />
+       y="0.11964809" />
   </g>
   <g
      id="layer1"
      inkscape:label="1"
-     inkscape:groupmode="layer"
-     sodipodi:insensitive="true">
+     inkscape:groupmode="layer">
     <path
        sodipodi:type="arc"
        style="fill:#000000;fill-opacity:1"
@@ -78,6 +76,6 @@
        sodipodi:rx="5.8290567"
        sodipodi:ry="5.655055"
        d="m 38.802381,35.37672 a 5.8290567,5.655055 0 1 1 -11.658114,0 5.8290567,5.655055 0 1 1 11.658114,0 z"
-       transform="translate(1.5660153,-1.740017)" />
+       transform="matrix(1,0,0,0.99495701,-0.39163513,-2.7111094)" />
   </g>
 </svg>
