@@ -109,9 +109,9 @@ function Display(root,players,config){
                                 scaleY : 2.10,
                                 textureAlpha : 100
                         });
-                        bomb.on(Cut.Mouse.CLICK,function(point) {
-                            explode(this.parent()._row,this.parent()._col,1);
-                        });
+                        // bomb.on(Cut.Mouse.CLICK,function(point) {
+                        //     explode(this.parent()._row,this.parent()._col,1);
+                        // });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
                             .pin("align", .5)
