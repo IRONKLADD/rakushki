@@ -109,9 +109,6 @@ function Display(root,players,config){
                                 scaleY : 2.10,
                                 textureAlpha : 100
                         });
-                        // bomb.on(Cut.Mouse.CLICK,function(point) {
-                        //     explode(this.parent()._row,this.parent()._col,1);
-                        // });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
                             .pin("align", .5)
@@ -238,18 +235,26 @@ function Display(root,players,config){
             scale: 0,
         })
     }
-    function growShell(row,col,color){
+    this.growShell = function(row,col,color){
         var cell = _displayGrid[row][col];
-        var newCell = Cut.image("base:color_" +color).appendTo(cell).pin("align", .5)
+        var next = cell.next(visible = false);
+        cell.remove();
+        var newCell = Cut.image("base:color_" +color).insertBefore(next).pin("pivot", .5)
             .pin({scale:0});
-        cell.pin({
-            scale: 1,
-            textureAlpha: 0
-        })
-        var tween = newCell.tween(duration = 400, delay = 0);
+
+        var tween = newCell.tween(duration = 400, delay = 500);
         tween.pin({
             scale: 1,
         })
+        _displayGrid[row][col] = newCell;
+        newCell.on(Cut.Mouse.CLICK,function(point) {
+                        this.pin({
+                            scaleX : 1.3,
+                            scaleY : 1.3
+                        });
+                        var coord = new Util.Coord(this._row,this._col);
+                        player.selectShell(coord.row, coord.col);
+                    });
     }
     
 }
