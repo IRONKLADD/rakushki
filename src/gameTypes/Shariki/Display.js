@@ -122,8 +122,8 @@ function Display(root,players,config){
                     else{
                         var invis = Cut.image("base:color_trans")
                            .appendTo(row)
-                           .pin("pivot", 0.5);
-                        _displayGrid[i][j] = bombCorner;
+                           .pin("align", 0);
+                        _displayGrid[i][j] = invis;
                     }
 
                     // if(currentBomb.cornerShell === temp){
