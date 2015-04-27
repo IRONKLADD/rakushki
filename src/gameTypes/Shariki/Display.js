@@ -18,6 +18,7 @@ function Display(root,players,config){
     this.updateScore   = updateScore;
     this.explodeShell  = explodeShell;
     this.explodeBomb   = explodeBomb;
+    var _player;
     var currentTurn = 0;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
@@ -58,6 +59,7 @@ function Display(root,players,config){
      *                         graphically built by the renderer.
      */
     function _createBoard(player) {
+        _player = player;
         var j = 0, i = 0, count = 0;
         var boardNode = Cut.create();
         boardNode.appendTo(gameScreen);
@@ -112,6 +114,12 @@ function Display(root,players,config){
                                 scaleY : 2.10,
                                 textureAlpha : 100
                         });
+                        bomb._row     = i;
+                        bomb._col     = j;
+                        bomb.on(Cut.Mouse.CLICK,function(point) {
+                            console.log("MOVE")
+                            explode(this._row,this._col,currentBomb.blastRad)
+                        });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
                             .pin("align", .5)
@@ -128,30 +136,6 @@ function Display(root,players,config){
                            .pin("align", 0);
                         _displayGrid[i][j] = invis;
                     }
-
-                    // if(currentBomb.cornerShell === temp){
-                    //     //displayBomb
-                    //     var bombCol = Cut.column().appendTo(row).spacing(0);
-                    //     var bombRow1 = Cut.row().appendTo(bombCol).spacing(0);
-                    //     var bombRow2 = Cut.row().appendTo(bombCol).spacing(0);
-                    //     var leftUP = Cut.image("base:color_" +BombColor)
-                    //           .appendTo(bombRow1)
-                    //           .pin("pivot", 0.5);
-                    //     var rightUP = Cut.image("base:color_" +BombColor)
-                    //           .appendTo(bombRow1)
-                    //           .pin("pivot", 0.5);
-                    //     var leftDO = Cut.image("base:color_"+BombColor)
-                    //           .appendTo(bombRow2)
-                    //           .pin("pivot", 0.5);
-                    //     var rightDO = Cut.image("base:color_"+BombColor)
-                    //           .appendTo(bombRow2)
-                    //           .pin("pivot", 0.5);
-                    // }
-                    // else{
-                    //     var invis = Cut.image("ascii_nimbus_black:1")
-                    //           .appendTo(row)
-                    //           .pin("pivot", 0.5);
-                    // }
                 }
             }
         }
@@ -190,6 +174,24 @@ function Display(root,players,config){
         })
     }*/
     function explode(row,col,radius){
+        console.log("exlode called")
+        console.log(row);
+        console.log(col);
+        console.log(radius);
+        for(var i = row-radius;i <= row + radius+1;i++){
+            for(var j = col-radius;j <= col + radius+1;j++){
+                if (i <  0 || j <  0 || i >= config.height || j >= config.width){
+                }
+                else{
+                    console.log("inside")
+                    var cell = _displayGrid[i][j];
+                    splode(cell);
+                }
+               
+            }
+        }
+    }
+    function showRadius(row,col,radius){
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
                 var cell = _displayGrid[i][j];
@@ -199,6 +201,8 @@ function Display(root,players,config){
         }
     }
     function splode(cell){
+        console.log("SPLODE CALLED")
+        if(cell === undefined){return;}
         var bomb = Cut.image("base:color_dark").appendTo(cell)
             .pin("align", .5).pin({scale:0});
             var tween = bomb.tween(duration = 400, delay = 0);
@@ -206,6 +210,9 @@ function Display(root,players,config){
                 scale: 1,
                 alpha: 1
             })
+            tween.then(function(){
+                bomb.remove()
+            });
     }
     function explodeShell(row,col){
         var cell = _displayGrid[row][col];
