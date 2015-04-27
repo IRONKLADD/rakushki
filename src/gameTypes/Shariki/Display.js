@@ -117,9 +117,10 @@ function Display(root,players,config){
                         bomb._row     = i;
                         bomb._col     = j;
                         bomb._radius  = currentBomb.blastRad;
+                        bomb._color   = BombColor
                         bomb.on(Cut.Mouse.CLICK,function(point) {
                             console.log("MOVE")
-                            explode(this._row,this._col,this._radius)
+                            explode(this._row,this._col,this._radius,this._color)
                         });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
@@ -174,7 +175,7 @@ function Display(root,players,config){
             scaleY : (radius+4)+(1/radius)+.1
         })
     }*/
-    function explode(row,col,radius){
+    function explode(row,col,radius,color){
         console.log("exlode called")
         console.log(row);
         console.log(col);
@@ -186,13 +187,13 @@ function Display(root,players,config){
                 else{
                     console.log("inside")
                     var cell = _displayGrid[i][j];
-                    splode(cell);
+                    splode(cell,color);
                 }
                
             }
         }
     }
-    function showRadius(row,col,radius){
+    function showRadius(row,col,radius,color){
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
                 var cell = _displayGrid[i][j];
@@ -201,10 +202,10 @@ function Display(root,players,config){
             }
         }
     }
-    function splode(cell){
+    function splode(cell,color){
         console.log("SPLODE CALLED")
         if(cell === undefined){return;}
-        var bomb = Cut.image("base:color_dark").appendTo(cell)
+        var bomb = Cut.image("base:color_"+color).appendTo(cell)
             .pin("align", .5).pin({scale:0});
             var tween = bomb.tween(duration = 400, delay = 0);
             tween.pin({
