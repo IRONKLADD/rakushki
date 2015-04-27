@@ -47,6 +47,9 @@ function Display(root,players,config){
         var temp = Cut.image("base:color_" + shell.color)
                               .appendTo(parent)
                               .pin("pivot", 0.5);
+        var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(temp).pin("pivot",0.5)
+
+
         return temp;
     }
     /**
@@ -233,18 +236,23 @@ function Display(root,players,config){
             scale: 0,
         })
     }
-    this.growShell = function(row,col,color){
+    this.growShell = function(row,col,shell){
         var cell = _displayGrid[row][col];
         var next = cell.next(visible = false);
         cell.remove();
-        var newCell = Cut.image("base:color_" +color).insertBefore(next).pin("pivot", .5)
+        var newCell = Cut.image("base:color_" +shell.color).insertBefore(next).pin("pivot", .5)
             .pin({scale:0});
+        
 
         var tween = newCell.tween(duration = 400, delay = 500);
         tween.pin({
             scale: 1,
         })
-        _displayGrid[row][col] = newCell;
+        tween.then(function() {
+            var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(newCell).pin("pivot",0.5);
+        });
+
+                _displayGrid[row][col] = newCell;
         newCell.on(Cut.Mouse.CLICK,function(point) {
                         this.pin({
                             scaleX : 1.3,

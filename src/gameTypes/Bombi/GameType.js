@@ -79,7 +79,7 @@ function BombiGameType(players, config) {
                 if (board.get(row, col).type === Bombi.EMPTYSHELL) {
                     var shell = config.getRandomShell();
                     board.set(row, col, shell);
-                    renderer.growShell(row, col, shell.color);
+                    renderer.growShell(row, col, shell);
                 }
             }
         }
