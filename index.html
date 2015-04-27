@@ -10,6 +10,10 @@
 
     <div id="game" class="hide">
       <canvas id="cutjs"></canvas>
+      <audio autoplay="autoplay" id="bgmusic">
+        <source src="audio/foo.mp3"
+                type="audio/mp3"/>
+      </audio>
       <script src="libs/CutJS/dist/cut.web.js"></script>
 
       <script src="src/gameTypes/Shariki/Constants.js"></script>
@@ -50,6 +54,17 @@
              class="hide"
              id="maximize">
             <img alt="Maximize" src="img/maximize.png" />
+          </a>
+          <a onclick="unmuteAudio()"
+             title="Unmute"
+             class="hide"
+             id="unmute">
+            Unmute
+          </a>
+          <a onclick="muteAudio()"
+             title="Mute"
+             id="mute">
+            Mute
           </a>
           <a id="infoButton" href="#" onclick="showInfo()">
             <img alt="Help" src="img/help.png" />

@@ -101,6 +101,18 @@ function showGame() {
     publishEvent('resize');
 }
 
+function muteAudio() {
+    removeClass('unmute', 'hide');
+    addClass('mute', 'hide');
+    document.getElementById('bgmusic').muted = true;
+}
+
+function unmuteAudio() {
+    removeClass('mute', 'hide');
+    addClass('unmute', 'hide');
+    document.getElementById('bgmusic').muted = false;
+}
+
 function startUi(mode) {
     if (!isSupported()) {
         mode = 'info';
