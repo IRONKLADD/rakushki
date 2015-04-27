@@ -1,41 +1,141 @@
 <!DOCTYPE html>
 <html><head>
-  <title>Rakushki</title>
-  <meta name="viewport"
-        content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height" />
-  <meta charset="utf-8">
-  <link href="rakushki.css" rel="stylesheet" />
-</head><body>
+    <title>Rakushki</title>
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height" />
+    <meta charset="utf-8">
+    <link href="game.css" rel="stylesheet" />
+  </head><body class="">
+    <script src="index.js"></script>
 
-    <div class="about">
-      <a href="https://ironkladd.github.io/rules.html">Rules</a>
-      -
-      <a href="http://goo.gl/forms/4U3dFCYGfn">Feedback</a>
-      -
-      <a href="https://github.com/IRONKLADD/rakushki">Source</a>
-      -
-      <a href="https://ironkladd.github.io/credits.html">Credits</a>
+    <div id="game" class="hide">
+      <canvas id="cutjs"></canvas>
+      <script src="libs/CutJS/dist/cut.web.js"></script>
+
+      <script src="src/gameTypes/Shariki/Constants.js"></script>
+      <script src="src/gameTypes/Bombi/Constants.js"></script>
+      <script src="src/resources/basic-texture.js"></script>
+      <script src="src/core/Sprites.js"></script>
+      <script src="src/core/Logos.js"></script>
+      <script src="src/core/Board.js"></script>
+      <script src="src/core/Configuration.js"></script>
+      <script src="src/core/GameType.js"></script>
+      <script src="src/core/Player.js"></script>
+      <script src="src/core/Shell.js"></script>
+      <script src="src/core/UserInput.js"></script>
+      <script src="src/core/Util.js"></script>
+      <script src="src/core/Buttons.js"></script>
+      <script src="src/gameTypes/Shariki/Display.js"></script>
+      <script src="src/gameTypes/Shariki/GameType.js"></script>
+      <script src="src/gameTypes/Bombi/GameType.js"></script>
+      <script src="src/gameTypes/Bombi/Bomb.js"></script>
+      <script src="src/core/Main.js"></script>
+
+      <div class="meta">
+        <div class="inner">
+          <a onclick="restoreCanvas()"
+             title="Restore"
+             class="hide"
+             id="restore">
+            <img alt="Restore" src="img/restore.png" />
+          </a>
+          <a onclick="maximizeCanvas()"
+             title="Maximize"
+             class="hide"
+             id="maximize">
+            <img alt="Maximize" src="img/maximize.png" />
+          </a>
+          <a id="infoButton" href="#" onclick="showInfo()">
+            <img alt="Help" src="img/help.png" />
+          </a>
+          <a href="http://goo.gl/forms/4U3dFCYGfn">Feedback</a>
+        </div>
+      </div>
     </div>
 
-    <script src="libs/CutJS/dist/cut.web.js"></script>
+    <div id="info" class="hide">
+      <div class="center">
+        <div class="brand">
+          <a href="https://ironkladd.github.io/">IRONKLADD</a>
+        </div>
+      </div>
 
-    <script src="src/gameTypes/Shariki/Constants.js"></script>
-    <script src="src/gameTypes/Bombi/Constants.js"></script>
-    <script src="src/resources/basic-texture.js"></script>
-    <script src="src/core/Sprites.js"></script>
-    <script src="src/core/Logos.js"></script>
-    <script src="src/core/Board.js"></script>
-    <script src="src/core/Configuration.js"></script>
-    <script src="src/core/GameType.js"></script>
-    <script src="src/core/Player.js"></script>
-    <script src="src/core/Shell.js"></script>
-    <script src="src/core/UserInput.js"></script>
-    <script src="src/core/Util.js"></script>
-    <script src="src/core/Buttons.js"></script>
-    <script src="src/gameTypes/Shariki/Display.js"></script>
-    <script src="src/gameTypes/Shariki/GameType.js"></script>
-    <script src="src/gameTypes/Bombi/GameType.js"></script>
-    <script src="src/gameTypes/Bombi/Bomb.js"></script>
-    <script src="src/core/Main.js"></script>
+      <div class="header">
+        <div class="center">
+          <div class="inner">
+            <a class="play"
+               onclick="showGame()"
+               title="Play Rakushki"
+               id="play">
+              <img alt="Play"
+                   src="img/play.png"/>
+            </a>
+            <a class="logo"
+               onclick="showGame()"
+               title="Play Rakushki">
+              <img src="logo.png">
+            </a>
+            <div class="title">Rakushki</div>
+            <div class="tagline">"The Shells"</div>
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="center">
+          <div class="inner">
+            <div class="spacer"></div>
+            <div class="right-panel">
+              <div class="quotes">
+              </div>
+            </div>
+            <div class="section">
+              <h3>How to play</h3>
+              <ul>
+                <li>Explain</li>
+                <li>The</li>
+                <li>Rules</li>
+              </ul>
+              <h4>Shariki</h4>
+              <ul>
+                <li>Explain</li>
+                <li>The</li>
+                <li>Rules</li>
+              </ul>
+              <h4>Bombi</h4>
+              <ul>
+                <li>Explain</li>
+                <li>The</li>
+                <li>Rules</li>
+              </ul>
+            </div>
+
+            <div class="section">
+              <h3>Credits</h3>
+  Rakushki was created by the Oswego CSC380 team, IRONKLADD. KLADD is an
+  abbreviation for the team's members:
+    <b>K</b>enny Roffo,
+    Hsueh Kuan <b>L</b>u,
+    <b>A</b>lexander Jansing,
+    <b>D</b>ean Tupper, and
+    <b>D</b>aniel Wysocki.
+  <p>
+  The game logo was contributed by Brandon Caruso.
+  <p>
+  The game was written in JavaScript using
+  <a href="http://piqnt.com/stage.js/">StageJS</a>
+  as the graphics engine.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+  // load_ga=0;load_fonts=0;load_social=0;load_comments=0;
+  startUi('game');
+</script>
 
 </body></html>

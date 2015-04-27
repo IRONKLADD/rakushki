@@ -189,37 +189,37 @@ var board1 = [
 var app = Cut(function(root,container) {
     Cut.Mouse(root, container);
 
-    var titleMenuAndCallback = createTitleMenu();
-    var titleMenu   = titleMenuAndCallback[0]
-        .appendTo(root)
-        .pin({
-            alignX : 0.5,
-            alignY : 0.5
-        });
-    var titleLoaded = titleMenuAndCallback[1];
+    // var titleMenuAndCallback = createTitleMenu();
+    // var titleMenu   = titleMenuAndCallback[0]
+    //     .appendTo(root)
+    //     .pin({
+    //         alignX : 0.5,
+    //         alignY : 0.5
+    //     });
+    // var titleLoaded = titleMenuAndCallback[1];
 
     var configMenu = createConfigMenu(root)
         .appendTo(root)
-        .hide()
+//        .hide()
         .pin({
             alignX : 0.5,
             alignY : 0.5
         });
 
-    var singlePlayerFn = function(mainMenu) {
-        mainMenu.hide();
-        configMenu.show();
-    };
-    var multiPlayerFn = function(mainMenu) {};
-    var settingsFn = function(mainMenu) {};
+    // var singlePlayerFn = function(mainMenu) {
+    //     mainMenu.hide();
+    //     configMenu.show();
+    // };
+    // var multiPlayerFn = function(mainMenu) {};
+    // var settingsFn = function(mainMenu) {};
 
-    var mainMenu = createMainMenu(singlePlayerFn,
-                                  multiPlayerFn,
-                                  settingsFn)
-        .hide()
-        .appendTo(root)
-        .pin({alignX : 0.5,
-              alignY : 0.5});
+    // var mainMenu = createMainMenu(singlePlayerFn,
+    //                               multiPlayerFn,
+    //                               settingsFn)
+    //     .hide()
+    //     .appendTo(root)
+    //     .pin({alignX : 0.5,
+    //           alignY : 0.5});
 
-    titleLoaded(mainMenu);
+    // titleLoaded(mainMenu);
 });
