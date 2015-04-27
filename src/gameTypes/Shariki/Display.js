@@ -189,7 +189,6 @@ function Display(root,players,config){
     function explode(row,col,radius){
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
-                console.log("row " +i);
                 var cell = _displayGrid[i][j];
                 splode(cell);
                
@@ -206,7 +205,6 @@ function Display(root,players,config){
             })
     }
     function explodeShell(row,col){
-        console.log("in explode shell");
         var cell = _displayGrid[row][col];
         var tween = cell.tween(duration = 400, delay = 0);
         tween.pin({

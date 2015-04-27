@@ -76,9 +76,7 @@ function BombiGameType(players, config) {
     function refillBoard() {
         for (var row = 0; row < board.rows; ++row) {
             for (var col = 0; col < board.cols; ++col) {
-                console.log(board.get(row, col).type);
                 if (board.get(row, col).type === Bombi.EMPTYSHELL) {
-                    console.log(row + " " + col);
                     var shell = config.getRandomShell();
                     board.set(row, col, shell);
                     renderer.growShell(row, col, shell.color);
@@ -156,7 +154,6 @@ function BombiGameType(players, config) {
         var shell = board.get(row, col);
         if(shell.type !== Bombi.EMPTYSHELL) {
             if(shell.special !== null) {
-                console.log("triggered another bomb");
                 triggeredBombs.push(shell.special);
             }
             else if (shell.color === color) {
