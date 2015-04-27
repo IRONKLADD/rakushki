@@ -116,9 +116,10 @@ function Display(root,players,config){
                         });
                         bomb._row     = i;
                         bomb._col     = j;
+                        bomb._radius  = currentBomb.blastRad;
                         bomb.on(Cut.Mouse.CLICK,function(point) {
                             console.log("MOVE")
-                            explode(this._row,this._col,currentBomb.blastRad)
+                            explode(this._row,this._col,this._radius)
                         });
                         var ticker = Cut.string("ascii_nimbus_black:")
                             .appendTo(bomb)
