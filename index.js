@@ -78,8 +78,13 @@ function updateUi() {
 }
 
 function showInfo() {
-    widget('fonts', 1)('social', 500)('comments', 1000);
     removeClass('info', 'hide');
+    addClass('game', 'hide');
+    typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
+}
+
+function showMenu() {
+    removeClass('menu', 'hide');
     addClass('game', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
 }
@@ -91,6 +96,7 @@ function showGame() {
     widget('fonts', 2000);
     removeClass('game', 'hide');
     addClass('info', 'hide');
+    addClass('menu', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).resume();
     publishEvent('resize');
 }

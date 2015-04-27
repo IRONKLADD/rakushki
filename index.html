@@ -33,6 +33,12 @@
 
       <div class="meta">
         <div class="inner">
+          <a href="#"
+             onclick="showMenu()"
+             title="Menu"
+             id="menuButton">
+            Menu
+          </a>
           <a onclick="restoreCanvas()"
              title="Restore"
              class="hide"
@@ -50,6 +56,31 @@
           </a>
           <a href="http://goo.gl/forms/4U3dFCYGfn">Feedback</a>
         </div>
+      </div>
+    </div>
+
+    <div id="menu" class="hide">
+      <div class="center">
+      <a href="#"
+         onclick="showGame()"
+         title="Resume"
+         id="resume">
+        Resume
+      </a>
+      <p>
+      <a href="#"
+         onclick="restartGame()"
+         title="Restart"
+         id="restart">
+        Restart
+      </a>
+      <p>
+      <a href="#"
+         onclick="newGame()"
+         title="New Game"
+         id="newgame">
+        New Game
+      </a>
       </div>
     </div>
 
