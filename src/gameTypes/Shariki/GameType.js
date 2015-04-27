@@ -136,6 +136,7 @@ function SharikiGameType(players, config) {
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
+            renderer.update();
             // notify renderer here
         }
         console.log("PLAYER SCORE");
