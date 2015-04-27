@@ -238,29 +238,45 @@ function Display(root,players,config){
     }
     this.growShell = function(row,col,shell){
         var cell = _displayGrid[row][col];
-        var next = cell.next(visible = false);
-        cell.remove();
-        var newCell = Cut.image("base:color_" +shell.color).insertBefore(next).pin("pivot", .5)
-            .pin({scale:0});
-        
-
-        var tween = newCell.tween(duration = 400, delay = 500);
+        var tween = cell.tween(duration = 500, delay = 0);
         tween.pin({
-            scale: 1,
+            textureAlpha: 0,
         })
         tween.then(function() {
-            var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(newCell).pin("pivot",0.5);
+            var next = cell.next(visible = false);
+            var parent = cell.parent()
+            cell.remove();
+            if(next != null){
+                var newCell = Cut.image("base:color_" +shell.color).insertBefore(next).pin("pivot", .5)
+                    .pin({scale:0});
+            }
+            else{
+                var newCell = Cut.image("base:color_" +shell.color).appendTo(parent).pin("pivot", .5)
+                    .pin({scale:0});
+            }
+
+            var tween = newCell.tween(duration = 400, delay = 1000);
+            tween.pin({
+                scale: 1,
+            })
+            tween.then(function() {
+                var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(newCell).pin("pivot",0.5)
+            });
+            _displayGrid[row][col] = newCell;
+            newCell.row = row;
+            newCell.col = col;
+            newCell.on(Cut.Mouse.CLICK,function(point) {
+                this.pin({
+                    scaleX : 1.3,
+                    scaleY : 1.3
+                });
+                var coord = new Util.Coord(this.row,this.col);
+                console.log(_player);
+                _player.selectShell(coord.row, coord.col);
+            });
         });
 
-                _displayGrid[row][col] = newCell;
-        newCell.on(Cut.Mouse.CLICK,function(point) {
-                        this.pin({
-                            scaleX : 1.3,
-                            scaleY : 1.3
-                        });
-                        var coord = new Util.Coord(this._row,this._col);
-                        player.selectShell(coord.row, coord.col);
-                    });
+        
     }
     
 }
