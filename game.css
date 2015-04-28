@@ -105,6 +105,28 @@ canvas {
 	margin-right: auto;
 }
 
+#mainMenu {
+    width: 100%;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+    background: #F4F4F4;
+    padding-bottom: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#pauseMenu {
+    width: 100%;
+    height: auto !important;
+    height: 100%;
+    min-height: 100%;
+    background: #F4F4F4;
+    padding-bottom: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
 @media only screen and (min-width: 851px) {
 	.header .inner {
 		border: solid #ddd;
@@ -283,4 +305,33 @@ canvas {
 
 .hide,body .hide,html body .hide {
 	display: none;
+}
+
+.button {
+        height: 100px;
+        width: 100px;
+        border: 2px solid black;
+        border-radius: 5px;
+        background-color: #8EC4D0;
+        display: inline-block;
+        margin: auto;
+}
+
+
+.button:hover {
+        height: 100px;
+        width: 100px;
+        border: 2px solid black;
+        border-radius: 5px;
+        background-color: #308014;
+        margin: auto;
+        text-align: center;
+}
+
+.button img {
+        display: block;
+        height: 90px;
+        width: 90px;
+        margin: auto;
+        padding: 4px;
 }

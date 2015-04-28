@@ -1,6 +1,6 @@
 Cut({
   name : "base",
-  imagePath : "./src/resources/basic-texture.png",
+  imagePath : "src/resources/basic-texture.png",
   imageRatio : 4,
   trim : 0.2,
   cutouts : [
@@ -13,7 +13,7 @@ Cut({
     { name : "color_yellow", x : 6*16,  y : 0,  width : 16, height : 16 },
     { name : "color_green",  x : 7*16,  y : 0,  width : 16, height : 16 },
     { name : "color_trans",  x : 0,     y : 70, width : 16, height : 16 },
-    
+
     { name : "d_0",          x : 0*8,   y : 20, width : 8,  height : 8 },
     { name : "d_1",          x : 1*8,   y : 20, width : 8,  height : 8 },
     { name : "d_2",          x : 2*8,   y : 20, width : 8,  height : 8 },

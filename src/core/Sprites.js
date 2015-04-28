@@ -42,7 +42,7 @@ spriteColors.forEach(function(color) {
         imagePath  : "src/resources/fonts/ascii_nimbus_" + color + ".png",
         imageRatio : 0,
         trim       : 0,
-        cutouts    : Sprites.cutoutsFromGrid(Sprites.ascii, "",
+        cutouts   : Sprites.cutoutsFromGrid(Sprites.ascii, "",
                                              1381, 232, 32, 3)
     });
 
