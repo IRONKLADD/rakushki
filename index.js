@@ -83,8 +83,8 @@ function showInfo() {
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
 }
 
-function showMenu() {
-    removeClass('menu', 'hide');
+function showPauseMenu() {
+    removeClass('pauseMenu', 'hide');
     addClass('game', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
 }
@@ -96,9 +96,25 @@ function showGame() {
     widget('fonts', 2000);
     removeClass('game', 'hide');
     addClass('info', 'hide');
-    addClass('menu', 'hide');
+    addClass('pauseMenu', 'hide');
+    addClass('mainMenu', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).resume();
     publishEvent('resize');
+}
+
+function showMainMenu() {
+    if (!isSupported()) {
+        return false;
+    }
+    removeClass('mainMenu', 'hide');
+    addClass('game', 'hide');
+    typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
+    publishEvent('resize');
+}
+
+function newGame() {
+    rakushki.clearGame();
+    showMainMenu();
 }
 
 function muteAudio() {
@@ -124,7 +140,7 @@ function startUi(mode) {
     if (mode == 'info') {
         showInfo();
     } else {
-        showGame();
+        showMainMenu();
     }
 }
 

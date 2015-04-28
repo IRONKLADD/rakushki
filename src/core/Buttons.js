@@ -108,7 +108,7 @@ Buttons.makeNumberSpinner = function(low, high, initial, setter,
  * @return  {CutImage} button The button created by this method.
  */
 function _createButton(text, color, parentNode){
-    var button = Cut.image("base:color_" +color);
+    var button = Cut.image("base:color_" + color);
     var buttonText = Cut
         .string("ascii_nimbus_black:")
         .appendTo(button);

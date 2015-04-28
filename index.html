@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <link href="game.css" rel="stylesheet" />
   </head><body class="">
+    <script src="libs/CutJS/dist/cut.web.js"></script>
     <script src="index.js"></script>
 
     <div id="game" class="hide">
@@ -14,7 +15,6 @@
         <source src="audio/foo.mp3"
                 type="audio/mp3"/>
       </audio>
-      <script src="libs/CutJS/dist/cut.web.js"></script>
 
       <script src="src/gameTypes/Shariki/Constants.js"></script>
       <script src="src/gameTypes/Bombi/Constants.js"></script>
@@ -38,9 +38,9 @@
       <div class="meta">
         <div class="inner">
           <a href="#"
-             onclick="showMenu()"
-             title="Menu"
-             id="menuButton">
+             onclick="showPauseMenu()"
+             title="Pause Menu"
+             id="pauseMenuButton">
             Menu
           </a>
           <a onclick="restoreCanvas()"
@@ -74,28 +74,45 @@
       </div>
     </div>
 
-    <div id="menu" class="hide">
+    <div id="mainMenu">
       <div class="center">
-      <a href="#"
-         onclick="showGame()"
-         title="Resume"
-         id="resume">
-        Resume
-      </a>
-      <p>
-      <a href="#"
-         onclick="restartGame()"
-         title="Restart"
-         id="restart">
-        Restart
-      </a>
-      <p>
-      <a href="#"
-         onclick="newGame()"
-         title="New Game"
-         id="newgame">
-        New Game
-      </a>
+        <a href="#"
+           onclick="rakushki.startSharikiGame(); rakushki.setLastGameShariki(); showGame()"
+           title="Shariki"
+           id="sharikiButton">
+          Shariki
+        </a>
+        <a href="#"
+           onclick="rakushki.startBombiGame(); rakushki.setLastGameBombi(); showGame()"
+           title="Bombi"
+           id="bombiButton">
+          Bombi
+        </a>
+      </div>
+    </div>
+
+    <div id="pauseMenu" class="hide">
+      <div class="center">
+          <a href="#"
+             onclick="showGame()"
+             title="Resume"
+             id="resume">
+            Resume
+          </a>
+        <p>
+          <a href="#"
+             onclick="rakushki.restartGame(); showGame()"
+             title="Restart"
+             id="restart">
+            Restart
+          </a>
+        <p>
+          <a href="#"
+             onclick="newGame()"
+             title="New Game"
+             id="newgame">
+            New Game
+          </a>
       </div>
     </div>
 
@@ -109,6 +126,12 @@
       <div class="header">
         <div class="center">
           <div class="inner">
+            <a href="#"
+               onclick="rakushki.startGame()"
+               title="Start Game"
+               id="start">
+              Start
+            </a>
             <a class="play"
                onclick="showGame()"
                title="Play Rakushki"
@@ -159,19 +182,19 @@
 
             <div class="section">
               <h3>Credits</h3>
-  Rakushki was created by the Oswego CSC380 team, IRONKLADD. KLADD is an
-  abbreviation for the team's members:
-    <b>K</b>enny Roffo,
-    Hsueh Kuan <b>L</b>u,
-    <b>A</b>lexander Jansing,
-    <b>D</b>ean Tupper, and
-    <b>D</b>aniel Wysocki.
-  <p>
-  The game logo was contributed by Brandon Caruso.
-  <p>
-  The game was written in JavaScript using
-  <a href="http://piqnt.com/stage.js/">StageJS</a>
-  as the graphics engine.
+              Rakushki was created by the Oswego CSC380 team, IRONKLADD.
+              KLADD is an abbreviation for the team's members:
+              <b>K</b>enny Roffo,
+              Hsueh Kuan <b>L</b>u,
+              <b>A</b>lexander Jansing,
+              <b>D</b>ean Tupper, and
+              <b>D</b>aniel Wysocki.
+              <p>
+                The game logo was contributed by Brandon Caruso.
+              <p>
+                The game was written in JavaScript using
+                <a href="http://piqnt.com/stage.js/">StageJS</a>
+                as the graphics engine.
             </div>
           </div>
         </div>
