@@ -78,34 +78,110 @@
       <div class="center">
         Select game type
         <p>
+          <div class=button id=bombi>
           <a href="#"
              onclick="rakushki.startSharikiGame(); rakushki.setLastGameShariki(); showGame()"
              title="Shariki"
              id="sharikiButton">
-            Shariki
+          <img src=http://content.mycutegraphics.com/graphics/balloons/red-balloon-transparent.png>
           </a>
+          </div>
+          <div class=button id=shariki>
           <a href="#"
              onclick="rakushki.startBombiGame(); rakushki.setLastGameBombi(); showGame()"
              title="Bombi"
              id="bombiButton">
-            Bombi
+            <img src=http://vignette2.wikia.nocookie.net/clubpenguin/images/3/3b/Bomb.png/revision/latest?cb=20130116012040/>
           </a>
+          </div>
         <p>
+          <div class=button>
           <a href="#"
              onclick="showSettings()"
              title="Settings"
              id="settingsButton">
-            Settings
+            <img src=https://cdn3.iconfinder.com/data/icons/unicons-vector-icons-pack/32/settings-512.png>
           </a>
+          </div>
       </div>
     </div>
 
     <div id="settingsMenu">
       <div class="center">
-        Settings go here
-        <p>
+        <!-- selected="true" -->
+        Width:
+        <select id="widthSelect">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+        </select>
+        Height:
+        <select id="heightSelect">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+        </select>
+        Turns:
+        <select id="turnsSelect" form="settingsForm">
+          <option value="100">100</option>
+          <option value="150">150</option>
+          <option value="200">200</option>
+          <option value="250">250</option>
+          <option value="300">300</option>
+          <option value="350">350</option>
+          <option value="400">400</option>
+          <option value="450">450</option>
+          <option value="500">500</option>
+          <option value="550">550</option>
+          <option value="600">600</option>
+          <option value="650">650</option>
+          <option value="700">700</option>
+          <option value="750">750</option>
+          <option value="800">800</option>
+          <option value="850">850</option>
+          <option value="900">900</option>
+          <option value="950">950</option>
+          <option value="1000">1000</option>
+        </select>
+        <br/>
+        <!-- checked="true" -->
+        <input type="checkbox" id="color_red" value="red">Red
+        <input type="checkbox" id="color_blue" value="blue">Blue
+        <input type="checkbox" id="color_yellow" value="yellow">Yellow
+        <input type="checkbox" id="color_green" value="green">Green
+        <input type="checkbox" id="color_orange" value="orange">Orange
+        <input type="checkbox" id="color_dark" value="dark">Dark
+        <br/>
           <a href="#"
-             onclick="showMainMenu()"
+             onclick="saveSettings(); showMainMenu()"
              title="Accept"
              id="acceptSettingsButton">
             Accept

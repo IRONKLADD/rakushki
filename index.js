@@ -113,12 +113,108 @@ function showMainMenu() {
 }
 
 function showSettings() {
-if (!isSupported()) {
-        return false;
-    }
+    loadSettings();
     removeClass('settingsMenu', 'hide');
     addClass('mainMenu', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
+}
+
+var allColors = ["red", "blue", "yellow", "green", "orange", "dark"];
+
+var settingsCache = {
+    width  : 8,
+    height : 8,
+    turns  : 250,
+    colors : allColors
+}
+
+function loadSettings() {
+    console.log("loading");
+    console.log(settingsCache);
+    setWidth(settingsCache.width);
+    setHeight(settingsCache.height);
+    setTurns(settingsCache.turns);
+    setColors(settingsCache.colors);
+}
+
+function saveSettings() {
+    console.log("saving");
+    var width  = getWidth(),
+        height = getHeight(),
+        turns  = getTurns(),
+        colors = getColors();
+    settingsCache = {
+        width  : parseInt(width),
+        height : parseInt(height),
+        turns  : parseInt(turns),
+        colors : colors
+    }
+    console.log(settingsCache);
+}
+
+function getSelectedValue(element) {
+    var i = element.selectedIndex;
+    return element.options[i].value;
+}
+
+function setSelectedValue(element, value) {
+    for (var i = 0; i < element.options.length; ++i) {
+        if (element.options[i].value == value) {
+            element.selectedIndex = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+function getWidth() {
+    return getSelectedValue(document.getElementById("widthSelect"));
+}
+
+function setWidth(width) {
+    return setSelectedValue(document.getElementById("widthSelect"), width);
+}
+
+function getHeight() {
+    return getSelectedValue(document.getElementById("heightSelect"));
+}
+
+function setHeight(height) {
+    return setSelectedValue(document.getElementById("heightSelect"), height);
+}
+
+function getTurns() {
+    return getSelectedValue(document.getElementById("turnsSelect"));
+}
+
+function setTurns(turns) {
+    return setSelectedValue(document.getElementById("turnsSelect"), turns);
+}
+
+function getColors() {
+    var colors = [];
+    for (var i = 0; i < allColors.length; ++i) {
+        var id = "color_" + allColors[i];
+        if (document.getElementById(id).checked) {
+            colors.push(allColors[i]);
+        }
+    }
+    return colors;
+}
+
+function setColors(colors) {
+    var element;
+    for(var i = j = 0; i < colors.length; ++i, ++j) {
+        while(allColors[j] != colors[i]) {
+            var id = "color_" + allColors[j];
+            console.log(id);
+            document.getElementById(id).checked = false;
+            j++;
+        }
+        var id = "color_" + allColors[j];
+        console.log(id);
+        document.getElementById(id).checked = true;
+    }
 }
     
 
