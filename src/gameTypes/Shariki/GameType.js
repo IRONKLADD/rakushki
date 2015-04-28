@@ -117,10 +117,7 @@ function SharikiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
-        console.log("row :"+row);
-        console.log("col :"+col);
         if(!_isActive) {
-            console.log("activator");
             _isActive = true;
             _activeRow = row;
             _activeCol = col;
@@ -132,15 +129,12 @@ function SharikiGameType(players, config) {
         }
         // unselect shell
         else {
-            console.log("UNactivator");
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
             renderer.update();
             // notify renderer here
         }
-        console.log("PLAYER SCORE");
-        console.log(player.score);
         renderer.updateScore(player.score);
     }
 
@@ -274,7 +268,6 @@ function SharikiGameType(players, config) {
      */
     function checkConnection(player, coords) {
         var connections = new Set([]);
-        console.log(player);
 
         coords.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -383,8 +376,6 @@ function SharikiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
-            console.log("in refill");
-            console.log(emptyShells);
             _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
             
@@ -400,7 +391,6 @@ function SharikiGameType(players, config) {
      * board.
      */
     function _refillTopLayer(board, emptyShells) {
-        console.log("refill top");
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
             // only affect top layer shells, which have row == 0
@@ -421,8 +411,6 @@ function SharikiGameType(players, config) {
      * @return {Set} A Set containing shells affected by gravity 
      */
     function _getEffectedShells(emptyShells) {
-        console.log("effected shells");
-        console.log(emptyShells);
         var effectedShells = new Set();
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -434,7 +422,6 @@ function SharikiGameType(players, config) {
                 effectedShells.add(JSONeffectedCoord);
             }
         });
-        effectedShells.forEach(function(shell) { console.log("S:"+shell); });
         return effectedShells;
     }
     /**

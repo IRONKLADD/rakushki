@@ -108,6 +108,7 @@ function showMainMenu() {
     }
     removeClass('mainMenu', 'hide');
     addClass('settingsMenu', 'hide');
+    addClass('pauseMenu', 'hide');
     addClass('game', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
 }
