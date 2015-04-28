@@ -107,10 +107,20 @@ function showMainMenu() {
         return false;
     }
     removeClass('mainMenu', 'hide');
+    addClass('settingsMenu', 'hide');
     addClass('game', 'hide');
     typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
-    publishEvent('resize');
 }
+
+function showSettings() {
+if (!isSupported()) {
+        return false;
+    }
+    removeClass('settingsMenu', 'hide');
+    addClass('mainMenu', 'hide');
+    typeof Cut !== 'undefined' && (Cut.Loader || Cut).pause();
+}
+    
 
 function newGame() {
     rakushki.clearGame();

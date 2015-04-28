@@ -76,19 +76,46 @@
 
     <div id="mainMenu">
       <div class="center">
-        <a href="#"
-           onclick="rakushki.startSharikiGame(); rakushki.setLastGameShariki(); showGame()"
-           title="Shariki"
-           id="sharikiButton">
-          Shariki
-        </a>
-        <a href="#"
-           onclick="rakushki.startBombiGame(); rakushki.setLastGameBombi(); showGame()"
-           title="Bombi"
-           id="bombiButton">
-          Bombi
-        </a>
+        Select game type
+        <p>
+          <a href="#"
+             onclick="rakushki.startSharikiGame(); rakushki.setLastGameShariki(); showGame()"
+             title="Shariki"
+             id="sharikiButton">
+            Shariki
+          </a>
+          <a href="#"
+             onclick="rakushki.startBombiGame(); rakushki.setLastGameBombi(); showGame()"
+             title="Bombi"
+             id="bombiButton">
+            Bombi
+          </a>
+        <p>
+          <a href="#"
+             onclick="showSettings()"
+             title="Settings"
+             id="settingsButton">
+            Settings
+          </a>
       </div>
+    </div>
+
+    <div id="settingsMenu">
+      <div class="center">
+        Settings go here
+        <p>
+          <a href="#"
+             onclick="showMainMenu()"
+             title="Accept"
+             id="acceptSettingsButton">
+            Accept
+          </a>
+          <a href="#"
+             onclick="showMainMenu()"
+             title="Cancel"
+             id="cancelSettingsButton">
+            Cancel
+          </a>
     </div>
 
     <div id="pauseMenu" class="hide">
