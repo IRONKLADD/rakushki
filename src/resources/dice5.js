@@ -43,4 +43,13 @@ Cut({
     { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
     ]
 });
+Cut({
+  name : "dice0",
+  imagePath : "src/resources/basic-texture.png",
+  imageRatio : 4,
+  trim : 0.2,
+  cutouts : [
+    { name : "",  x : 0,     y : 70, width : 16, height : 16 },
+    ]
+});
 
