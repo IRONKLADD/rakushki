@@ -1,4 +1,4 @@
-cut_source_url = https://github.com/piqnt/cutjs/archive/v0.4.2.tar.gz
+cut_source_url = https://github.com/IRONKLADD/stage.js/archive/v0.4.14.tar.gz
 
 clean :
 	# delete libs directory
@@ -10,7 +10,7 @@ deps :
 	# make libs directory if not present
 	mkdir -p libs/CutJS
 
-	# download and extract CutJS
+	# download and extract StageJS
 	curl -o /tmp/cut_src.tar.gz -L $(cut_source_url) 
 	tar -xvzf /tmp/cut_src.tar.gz -C libs/CutJS --strip-components 1
 
