@@ -319,24 +319,25 @@ canvas {
 }
 
 .button {
-        height: 100px;
-        width: 100px;
         border: 2px solid black;
         border-radius: 5px;
-        background-color: #8EC4D0;
+        background-color: #FFFF00;
         display: inline-block;
         margin: auto;
 }
 
-
-.button:hover {
+#imageButton {
         height: 100px;
         width: 100px;
-        border: 2px solid black;
-        border-radius: 5px;
-        background-color: #308014;
-        margin: auto;
-        text-align: center;
+}
+
+#slimButton {
+        height: 20px;
+        width: 100px;
+}
+
+.button:hover {
+        background-color: #FF5900;
 }
 
 .button img {
