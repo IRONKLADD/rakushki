@@ -2,5 +2,7 @@
 libs/*
 
 
-# emacs autosave files
+# emacs junk files
+*#
+*.#
 *~
