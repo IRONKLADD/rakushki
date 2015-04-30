@@ -150,7 +150,15 @@ function Display(root,players,config){
     function update(turnCount) {
         currentTurn = turnCount;
         column.remove();
-        _createBoard(players[0]);
+        console.log(config.allottedTurns);
+        if(turnCount <= config.allottedTurns){
+            console.log(turnCount);
+            _createBoard(players[0]);
+        }
+        else{
+            _createBoard(players[0]);
+            endGame()
+        }
     }
     /**
      * Updates the the graphical representation of thescore based on what is 
@@ -287,5 +295,9 @@ function Display(root,players,config){
 
         
     }
+    function endGame(){
+        console.log("ENDGAME");
+    }
+
     
 }
