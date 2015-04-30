@@ -347,3 +347,75 @@ canvas {
         margin: auto;
         padding: 4px;
 }
+
+.redCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FF0000;
+    position: absolute;
+    top: 40px;
+    left: 490px;
+}
+
+.blueCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #0000FF;
+    position: absolute;
+    top: 40px;
+    left: 550px;
+}
+
+.yellowCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FFFF00;
+    position: absolute;
+    top: 40px;
+    left: 610px;
+}
+
+.greenCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #00FF00;
+    position: absolute;
+    top: 40px;
+    left: 670px;
+}
+
+.orangeCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FF9900;
+    position: absolute;
+    top: 40px;
+    left: 730px;
+}
+
+.darkCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #111111;
+    position: absolute;
+    top: 40px;
+    left: 790px;
+}
+
+.acceptButton {
+    position: absolute;
+    top: 90px;
+    left: 500px;
+}
+
+.cancelButton {
+    position: absolute;
+    top: 90px;
+    left: 700px;
+}

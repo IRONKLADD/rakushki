@@ -174,13 +174,26 @@
         </select>
         <br/>
         <!-- checked="true" -->
-        <input type="checkbox" id="color_red" value="red">Red
-        <input type="checkbox" id="color_blue" value="blue">Blue
-        <input type="checkbox" id="color_yellow" value="yellow">Yellow
-        <input type="checkbox" id="color_green" value="green">Green
-        <input type="checkbox" id="color_orange" value="orange">Orange
-        <input type="checkbox" id="color_dark" value="dark">Dark
+        <label class="redCheckBox">
+          <input type="checkbox" id="color_red" value="red" style="background-color: red">Red
+        </label>
+        <label class="blueCheckBox">
+          <input type="checkbox" id="color_blue" value="blue">Blue
+        </label>
+        <label class="yellowCheckBox">
+          <input type="checkbox" id="color_yellow" value="yellow">Yellow
+        </label>
+        <label class="greenCheckBox">
+          <input type="checkbox" id="color_green" value="green">Green
+        </label>
+        <label class="orangeCheckBox">
+          <input type="checkbox" id="color_orange" value="orange">Orange
+        </label>
+        <label class="darkCheckBox">
+          <input type="checkbox" id="color_dark" value="dark">Dark
+        </label>
         <br/>
+          <label class="acceptButton">
           <div class=button id=slimButton>
             <a href="#"
                onclick="saveSettings(); showMainMenu()"
@@ -189,6 +202,8 @@
               Accept
             </a>
           </div>
+          </label>
+          <label class="cancelButton">
           <div class=button id=slimButton>
             <a href="#"
                onclick="showMainMenu()"
@@ -197,6 +212,7 @@
               Cancel
             </a>
           </div>
+          </label>
       </div>
     </div>
 
