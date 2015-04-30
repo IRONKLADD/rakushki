@@ -18,12 +18,24 @@ function Display(root,players,config){
     this.updateScore   = updateScore;
     this.explodeShell  = explodeShell;
     this.explodeBomb   = explodeBomb;
+    var selectedRow;
+    var selectedCol;
     var _player;
     var currentTurn = 0;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
                         .appendTo(root)
                         .pin("align", .5);
+    // root.on(Cut.Mouse.START, function(point) {
+    //     console.log("outsideS")
+    //     selectedCol = null;
+    //     selectedRow = null;
+    // });
+    // root.on(Cut.Mouse.END, function(point) {
+    //     console.log("outsideSS")
+    //     selectedCol = null;
+    //     selectedRow = null;
+    // });
     var pause = Cut.image("base:color_red")
                    .appendTo(root)
                    .pin("align", .9)
@@ -87,13 +99,37 @@ function Display(root,players,config){
                     cell._row     = i;
                     cell._col     = j;
                     //userInput.setInput(cell);
-                    cell.on(Cut.Mouse.CLICK,function(point) {
-                        this.pin({
-                            scaleX : 1.3,
-                            scaleY : 1.3
-                        });
-                        var coord = new Util.Coord(this._row,this._col);
-                        player.selectShell(coord.row, coord.col);
+                    // cell.on(Cut.Mouse.CLICK, function(point) {
+                    //     this.pin({
+                    //         scaleX : 1.3,
+                    //         scaleY : 1.3
+                    //     });
+                    //     var coord = new Util.Coord(this._row,this._col);
+                    //     player.selectShell(coord.row, coord.col);
+                    // });
+                    cell.on(Cut.Mouse.START, function(point) {
+                        selectedCol = this._col;
+                        selectedRow = this._row;
+                    });
+                    cell.on(Cut.Mouse.END, function(point) {
+                        if(selectedRow === null){
+                            return;
+                        }
+                        else if(selectedRow === this._row && 
+                                selectedCol === this._col){
+                            this.pin({
+                                scaleX : 1.3,
+                                scaleY : 1.3
+                            });
+                            var coord = new Util.Coord(this._row,this._col);
+                            player.selectShell(coord.row, coord.col);
+                        }
+                        else{
+                            player.selectShell(selectedRow, selectedCol);
+                            player.selectShell(this._row, this._col);
+                            selectedRow = null;
+                            selectedCol = null;
+                        }
                     });
                 }
                 else{
@@ -149,9 +185,7 @@ function Display(root,players,config){
     function update(turnCount) {
         currentTurn = turnCount;
         column.remove();
-        console.log(config.allottedTurns);
         if(turnCount <= config.allottedTurns){
-            console.log(turnCount);
             _createBoard(players[0]);
         }
         else{
