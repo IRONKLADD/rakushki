@@ -295,11 +295,11 @@ function Display(root,players,config){
                         scaleY : 1.3
                     });
                     var coord = new Util.Coord(this.row,this.col);
-                    player.selectShell(coord.row, coord.col);
+                    _player.selectShell(coord.row, coord.col);
                 }
                 else{
-                    player.selectShell(selectedRow, selectedCol);
-                    player.selectShell(this.row, this.col);
+                    _player.selectShell(selectedRow, selectedCol);
+                    _player.selectShell(this.row, this.col);
                     selectedRow = null;
                     selectedCol = null;
                 }
