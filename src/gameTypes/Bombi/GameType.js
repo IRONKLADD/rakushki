@@ -143,7 +143,7 @@ function BombiGameType(players, config) {
             _activeCol = null;
             renderer.update(turnCount);
         }
-        renderer.updateScore(player.score);
+        document.getElementById("score").innerText = player.score;
     }
 
     function touchShell(row, col, color, triggeredBombs, player) {

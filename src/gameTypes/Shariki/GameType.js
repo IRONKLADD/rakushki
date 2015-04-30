@@ -135,7 +135,7 @@ function SharikiGameType(players, config) {
             renderer.update();
             // notify renderer here
         }
-        renderer.updateScore(player.score);
+        document.getElementById("score").innerText = player.score;
     }
 
     /**

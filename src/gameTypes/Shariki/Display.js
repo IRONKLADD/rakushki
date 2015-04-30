@@ -15,7 +15,6 @@ function Display(root,players,config){
     this._createBoard  = _createBoard;
     this._createButton = _createButton;
     this.update        = update;
-    this.updateScore   = updateScore;
     this.explodeShell  = explodeShell;
     this.explodeBomb   = explodeBomb;
     var _player;
@@ -24,19 +23,7 @@ function Display(root,players,config){
     var gameScreen = Cut.create()
                         .appendTo(root)
                         .pin("align", .5);
-    var pause = Cut.image("base:color_red")
-                   .appendTo(root)
-                   .pin("align", .9)
-                   .on(Cut.Mouse.CLICK,function(point){
-                       console.log("pause");
-                   });
     var column;
-    var score = Cut.string("ascii_nimbus_black:")
-                   .appendTo(root)
-                   .pin("align", .9)
-                   .spacing(2)
-                   .value(0)
-                   .pin({scale : 1});
     var _displayGrid = []
     for (var i = 0; i < config.height; ++i) {
         _displayGrid.push([]);
@@ -150,14 +137,6 @@ function Display(root,players,config){
         currentTurn = turnCount;
         column.remove();
         _createBoard(players[0]);
-    }
-    /**
-     * Updates the the graphical representation of thescore based on what is 
-     * sent from the game types Check connection.
-     * @param  {number} newScore The newly calculated score from game type
-     */
-    function updateScore(newScore) {
-        score.value(newScore);
     }
     /*function explode(row,col,radius){
         console.log("this col");
