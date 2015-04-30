@@ -278,13 +278,29 @@ function Display(root,players,config){
             _displayGrid[row][col] = newCell;
             newCell.row = row;
             newCell.col = col;
-            newCell.on(Cut.Mouse.CLICK,function(point) {
-                this.pin({
-                    scaleX : 1.3,
-                    scaleY : 1.3
-                });
-                var coord = new Util.Coord(this.row,this.col);
-                _player.selectShell(coord.row, coord.col);
+            newCell.on(Cut.Mouse.START, function(point) {
+                        selectedCol = this._col;
+                        selectedRow = this._row;
+                    });
+            newCell.on(Cut.Mouse.END, function(point) {
+                if(selectedRow === null){
+                    return;
+                }
+                else if(selectedRow === this._row && 
+                        selectedCol === this._col){
+                    this.pin({
+                        scaleX : 1.3,
+                        scaleY : 1.3
+                    });
+                    var coord = new Util.Coord(this._row,this._col);
+                    player.selectShell(coord.row, coord.col);
+                }
+                else{
+                    player.selectShell(selectedRow, selectedCol);
+                    player.selectShell(this._row, this._col);
+                    selectedRow = null;
+                    selectedCol = null;
+                }
             });
         });
 
