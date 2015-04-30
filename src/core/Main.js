@@ -25,13 +25,15 @@ var app = Cut(function(root, container) {
     rakushki.startBombiGame = function() {
         var width  = settingsCache.width,
             height = settingsCache.height,
-            colors = settingsCache.colors;
+            colors = settingsCache.colors,
+            allottedTurns = settingsCache.turns
+
         var magnitudes = [1, 2, 3, 4, 5];
         var specials = [null];
         var types = [Bombi.NORMALSHELL];
         var config = new Configuration(width, height,
                                        colors, magnitudes,
-                                       specials, types);
+                                       specials, types, allottedTurns);
         var player1 = new Player();
 
         var players = [player1];
