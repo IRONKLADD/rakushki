@@ -15,28 +15,17 @@ function Display(root,players,config){
     this._createBoard  = _createBoard;
     this._createButton = _createButton;
     this.update        = update;
-    this.updateScore   = updateScore;
     this.explodeShell  = explodeShell;
     this.explodeBomb   = explodeBomb;
+    var selectedRow;
+    var selectedCol;
     var _player;
     var currentTurn = 0;
     var board = players[0].getBoard();
     var gameScreen = Cut.create()
                         .appendTo(root)
                         .pin("align", .5);
-    var pause = Cut.image("base:color_red")
-                   .appendTo(root)
-                   .pin("align", .9)
-                   .on(Cut.Mouse.CLICK,function(point){
-                       console.log("pause");
-                   });
     var column;
-    var score = Cut.string("ascii_nimbus_black:")
-                   .appendTo(root)
-                   .pin("align", .9)
-                   .spacing(2)
-                   .value(0)
-                   .pin({scale : 1});
     var _displayGrid = []
     for (var i = 0; i < config.height; ++i) {
         _displayGrid.push([]);
@@ -87,13 +76,37 @@ function Display(root,players,config){
                     cell._row     = i;
                     cell._col     = j;
                     //userInput.setInput(cell);
-                    cell.on(Cut.Mouse.CLICK,function(point) {
-                        this.pin({
-                            scaleX : 1.3,
-                            scaleY : 1.3
-                        });
-                        var coord = new Util.Coord(this._row,this._col);
-                        player.selectShell(coord.row, coord.col);
+                    // cell.on(Cut.Mouse.CLICK, function(point) {
+                    //     this.pin({
+                    //         scaleX : 1.3,
+                    //         scaleY : 1.3
+                    //     });
+                    //     var coord = new Util.Coord(this._row,this._col);
+                    //     player.selectShell(coord.row, coord.col);
+                    // });
+                    cell.on(Cut.Mouse.START, function(point) {
+                        selectedCol = this._col;
+                        selectedRow = this._row;
+                    });
+                    cell.on(Cut.Mouse.END, function(point) {
+                        if(selectedRow === null){
+                            return;
+                        }
+                        else if(selectedRow === this._row && 
+                                selectedCol === this._col){
+                            this.pin({
+                                scaleX : 1.3,
+                                scaleY : 1.3
+                            });
+                            var coord = new Util.Coord(this._row,this._col);
+                            player.selectShell(coord.row, coord.col);
+                        }
+                        else{
+                            player.selectShell(selectedRow, selectedCol);
+                            player.selectShell(this._row, this._col);
+                            selectedRow = null;
+                            selectedCol = null;
+                        }
                     });
                 }
                 else{
@@ -149,15 +162,13 @@ function Display(root,players,config){
     function update(turnCount) {
         currentTurn = turnCount;
         column.remove();
-        _createBoard(players[0]);
-    }
-    /**
-     * Updates the the graphical representation of thescore based on what is 
-     * sent from the game types Check connection.
-     * @param  {number} newScore The newly calculated score from game type
-     */
-    function updateScore(newScore) {
-        score.value(newScore);
+        if(turnCount <= config.allottedTurns){
+            _createBoard(players[0]);
+        }
+        else{
+            _createBoard(players[0]);
+            endGame()
+        }
     }
     /*function explode(row,col,radius){
         console.log("this col");
@@ -267,17 +278,37 @@ function Display(root,players,config){
             _displayGrid[row][col] = newCell;
             newCell.row = row;
             newCell.col = col;
-            newCell.on(Cut.Mouse.CLICK,function(point) {
-                this.pin({
-                    scaleX : 1.3,
-                    scaleY : 1.3
-                });
-                var coord = new Util.Coord(this.row,this.col);
-                _player.selectShell(coord.row, coord.col);
+            newCell.on(Cut.Mouse.START, function(point) {
+                        selectedCol = this._col;
+                        selectedRow = this._row;
+                    });
+            newCell.on(Cut.Mouse.END, function(point) {
+                if(selectedRow === null){
+                    return;
+                }
+                else if(selectedRow === this._row && 
+                        selectedCol === this._col){
+                    this.pin({
+                        scaleX : 1.3,
+                        scaleY : 1.3
+                    });
+                    var coord = new Util.Coord(this._row,this._col);
+                    player.selectShell(coord.row, coord.col);
+                }
+                else{
+                    player.selectShell(selectedRow, selectedCol);
+                    player.selectShell(this._row, this._col);
+                    selectedRow = null;
+                    selectedCol = null;
+                }
             });
         });
 
         
     }
+    function endGame(){
+        console.log("ENDGAME");
+    }
+
     
 }
