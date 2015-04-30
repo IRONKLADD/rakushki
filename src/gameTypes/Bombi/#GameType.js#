@@ -1,4 +1,4 @@
-function SharikiGameType(players, config) {
+function BombiGameType(players, config) {
     /**
      * Whether there is an active (selected) shell.
      * @type {boolean}
@@ -22,6 +22,8 @@ function SharikiGameType(players, config) {
     var _validSwap = false;
     var _board;
     var renderer;
+    var activeBombs = new Map([]);
+    var turnCount = 0;
     this.getBoard = getBoard;
     this.selectShell = selectShell;
     this.setRender = setRender;
@@ -52,6 +54,7 @@ function SharikiGameType(players, config) {
             players[i].setSelectShell(selectShell);
         }
         _makeBoard();
+
     }
     /**
      * Constructs a Board object using the constraints imposed by Shariki
@@ -97,16 +100,16 @@ function SharikiGameType(players, config) {
      * @param {Player} currentPlayer The current player (unused)
      * @param {number} turnCount The current turn number (unused)
      */
-    this._turn = function(currentPlayer, turnCount) {
-        var gameOver = this._isGameOver(currentPlayer.board);
-        if(gameOver)
-            return true;
-        while(!this._validSwap) {
-            // wait T milliseconds
-        }
-        this._validSwap = false;
-        return false;
-    }  
+    // this._turn = function(currentPlayer, turnCount) {
+    //     var gameOver = this._isGameOver(currentPlayer.board);
+    //     if(gameOver)
+    //         return true;
+    //     while(!this._validSwap) {
+    //         // wait T milliseconds
+    //     }
+    //     this._validSwap = false;
+    //     return false;
+    // }  
 
 
     /**
@@ -117,7 +120,13 @@ function SharikiGameType(players, config) {
      */
     function selectShell(player, row, col) {
         // no shell is active, make selected shell active
+        console.log("map")
+        console.log(activeBombs);
+        console.log("IN SELECT SHELL");
+        console.log(row);
+        console.log(col);
         if(!_isActive) {
+            console.log("activator");
             _isActive = true;
             _activeRow = row;
             _activeCol = col;
@@ -125,17 +134,167 @@ function SharikiGameType(players, config) {
         }
         // selected shell is adjacent to active shell, try to swap
         else if(Util.isAdjacent(_activeRow, _activeCol, row, col)) {
-            _trySwap(player, _activeRow, _activeCol, row, col);
-        }
-        // unselect shell
-        else {
+            _swap(player.getBoard(), _activeRow, _activeCol, row, col);
+            checkForBomb(
+                JSON.stringify(new Util.Coord(row,col)),
+                player.getBoard()
+            );
+            checkForBomb(
+                JSON.stringify(new Util.Coord(_activeRow, _activeCol)),
+                player.getBoard()
+            );
+            
             _isActive = false;
             _activeRow = null;
             _activeCol = null;
-            renderer.update();
-            // notify renderer here
+            //-----STart of next turn-----//
+            turnCount++;
+            renderer.update(turnCount);
+            // var bombArray = activeBombs.get(turnCount);
+            // activeBombs.delete(turnCount);
+            //detonateBombs()
+
+
+
+
+
+        }
+        // unselect shell
+        else {
+            console.log("UNactivator");
+            _isActive = false;
+            _activeRow = null;
+            _activeCol = null;
+            renderer.update(turnCount);
         }
         renderer.updateScore(player.score);
+    }
+
+    function detonate(bomb){
+        var triggeredBombs = [];
+
+
+
+        detonateBombs(triggeredBombs);
+    }
+
+    function detonateBombs(bombs) {
+        if(bombs !== undefined && bombs.length !== 0){
+            bombs.forEach(detonate);
+        }
+    }
+
+    function makeBomb(shellArray,topLeftCoord){
+        console.log("MAKEBOMB callsED");
+        var color = shellArray[0].color;
+        var blastRad = shellArray[0].magnitude;
+        var explosionTurn = 0;
+        var bombCoord;
+        console.log("MAKEBOMB callsED1");
+        shellArray.forEach(function(shell) {
+            if(shell.magnitude < blastRad){
+                blastRad = shell.magnitude;
+            }
+            explosionTurn = explosionTurn + shell.magnitude;
+        });
+        console.log("MAKEBOMB callsED2");
+        var currentBomb = new Bomb(color, blastRad, turnCount+explosionTurn+1,
+                                   shellArray, topLeftCoord);
+        console.log("MAKEBOMB callsED3");
+        shellArray.forEach(function(shell) {
+            shell.special = currentBomb;
+        });
+        console.log("before");
+        Util.appendValue(activeBombs, currentBomb.explosionTurn, currentBomb);
+        console.log("after");
+
+        return currentBomb;
+
+    }
+    function checkBomb(board, shellCoords, topLeftCoord) {
+        console.log("CHECK BOMB111");
+        shellArray = new Array();
+        count = 0;
+        console.log(topLeftCoord);
+        console.log("left " + topLeftCoord);
+        console.log(shellCoords);
+        shellCoords.forEach(function(coord) {
+            var currentShell = board.get(coord.row,coord.col);
+            shellArray[count] =currentShell;
+            count++;
+        });
+        var checkColor = shellArray[0].color;
+        console.log("color " +checkColor);
+        var validBomb = true;
+        shellArray.forEach(function(shell) {
+            console.log(shell.color + " spec " + shell.special);
+            if(shell.color !== checkColor || shell.special !== null){
+                console.log("INSIDE");
+                validBomb = false;
+            }
+        });
+        if(!validBomb){
+            return null;
+        }
+        else{
+            return makeBomb(shellArray,topLeftCoord);
+        }
+    }
+    function checkForBomb(JSONcoord, board) {
+        console.log("CHECK FOR BOMB");
+        var centerCoord = JSON.parse(JSONcoord);
+        var row = centerCoord.row;
+        var col = centerCoord.col;
+        console.log(row);
+        console.log(col);
+        var bomb = null;
+        var onLeft = (col === 0);
+        var onRight = (col === config.width - 1);
+        var onTop = (row === 0);
+        var onBottom = (row === config.height - 1);
+        if (!(onLeft || onTop)) {
+            console.log("entered2222");
+            var upLeft = Util.coordLeft(Util.coordUp(centerCoord));
+            var up = Util.coordUp(centerCoord);
+            var left = Util.coordLeft(centerCoord);
+            bomb = checkBomb(board,[upLeft, centerCoord, up, left], upLeft);
+            console.log("after bomb calls");
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onTop || onRight)) {
+            console.log("2");
+            var upRight = Util.coordRight(Util.coordUp(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            var up = Util.coordUp(centerCoord);
+            bomb = checkBomb(board,[up, centerCoord, upRight, right], up)
+            if (bomb !== null) {
+                 return bomb;
+            }
+        }
+        if (!(onBottom || onLeft)) {
+            console.log("entered");
+            var left = Util.coordLeft(centerCoord);
+            var downLeft = Util.coordLeft(Util.coordDown(centerCoord));
+            var down = Util.coordDown(centerCoord);
+            bomb = checkBomb(board,[left, centerCoord, downLeft, down], left);
+            if (bomb !== null) {
+                return bomb;
+            }
+        }
+        if (!(onBottom || onRight)) {
+            console.log("1");
+            console.log("sdfds" +down)
+            console.log(centerCoord);
+            var down = Util.coordDown(centerCoord);
+            var downRight = Util.coordRight(Util.coordDown(centerCoord));
+            var right = Util.coordRight(centerCoord);
+            console.log(centerCoord);
+            bomb = checkBomb(board,[centerCoord, downRight, down, right], 
+                             centerCoord);
+        }
+        return bomb;
     }
 
     /**
@@ -202,6 +361,7 @@ function SharikiGameType(players, config) {
     function checkVertical(board, row, col) {
         var centerShell = board.get(row, col); 
         var matches = new Set([JSON.stringify(new Util.Coord(row, col))]);
+
         for (var r = row+1;
              r < config.height && board.get(r, col).color == centerShell.color;
              r++) {
@@ -268,6 +428,7 @@ function SharikiGameType(players, config) {
      */
     function checkConnection(player, coords) {
         var connections = new Set([]);
+        console.log(player);
 
         coords.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -376,6 +537,8 @@ function SharikiGameType(players, config) {
         var effectedShells = _getEffectedShells(emptyShells);
 
         while(emptyShells.size > 0) {
+            console.log("in refill");
+            console.log(emptyShells);
             _gravity(board, emptyShells);
             _refillTopLayer(board, emptyShells);
             
@@ -391,6 +554,7 @@ function SharikiGameType(players, config) {
      * board.
      */
     function _refillTopLayer(board, emptyShells) {
+        console.log("refill top");
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
             // only affect top layer shells, which have row == 0
@@ -411,6 +575,8 @@ function SharikiGameType(players, config) {
      * @return {Set} A Set containing shells affected by gravity 
      */
     function _getEffectedShells(emptyShells) {
+        console.log("effected shells");
+        console.log(emptyShells);
         var effectedShells = new Set();
         emptyShells.forEach(function(JSONcoord) {
             var coord = JSON.parse(JSONcoord);
@@ -422,6 +588,7 @@ function SharikiGameType(players, config) {
                 effectedShells.add(JSONeffectedCoord);
             }
         });
+        effectedShells.forEach(function(shell) { console.log("S:"+shell); });
         return effectedShells;
     }
     /**
@@ -508,4 +675,4 @@ function SharikiGameType(players, config) {
         }
     }
 }
-SharikiGameType.prototype = Object.create(GameType.prototype);
+BombiGameType.prototype = Object.create(GameType.prototype);

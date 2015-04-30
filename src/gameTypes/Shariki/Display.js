@@ -119,7 +119,6 @@ function Display(root,players,config){
                         bomb._radius  = currentBomb.blastRad;
                         bomb._color   = BombColor
                         bomb.on(Cut.Mouse.CLICK,function(point) {
-                            console.log("MOVE")
                             explode(this._row,this._col,this._radius,this._color)
                         });
                         var ticker = Cut.string("ascii_nimbus_black:")
@@ -184,16 +183,11 @@ function Display(root,players,config){
         })
     }*/
     function explode(row,col,radius,color){
-        console.log("exlode called")
-        console.log(row);
-        console.log(col);
-        console.log(radius);
         for(var i = row-radius;i <= row + radius+1;i++){
             for(var j = col-radius;j <= col + radius+1;j++){
                 if (i <  0 || j <  0 || i >= config.height || j >= config.width){
                 }
                 else{
-                    console.log("inside")
                     var cell = _displayGrid[i][j];
                     splode(cell,color);
                 }
@@ -211,7 +205,6 @@ function Display(root,players,config){
         }
     }
     function splode(cell,color){
-        console.log("SPLODE CALLED")
         if(cell === undefined){return;}
         var bomb = Cut.image("base:color_"+color).appendTo(cell)
             .pin("align", .5).pin({scale:0});
@@ -288,7 +281,6 @@ function Display(root,players,config){
                     scaleY : 1.3
                 });
                 var coord = new Util.Coord(this.row,this.col);
-                console.log(_player);
                 _player.selectShell(coord.row, coord.col);
             });
         });

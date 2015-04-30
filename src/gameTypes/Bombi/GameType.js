@@ -159,7 +159,7 @@ function BombiGameType(players, config) {
             else if (shell.color === color) {
                 shell.type = Bombi.EMPTYSHELL;
                 shell.color = "trans";
-                player.score++;
+                player.score = player.score + 10;
                 renderer.explodeShell(row, col);
             }
         }
