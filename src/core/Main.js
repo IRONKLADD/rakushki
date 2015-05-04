@@ -1,5 +1,10 @@
 var rakushki = {};
 
+function setViewBox(width, height, scale, root) {
+    var dimension = scale*Math.max(width, height);
+    root.viewbox(dimension, dimension);
+}
+
 var app = Cut(function(root, container) {
     Cut.Mouse(root, container);
 
@@ -7,6 +12,9 @@ var app = Cut(function(root, container) {
         var width  = settingsCache.width,
             height = settingsCache.height,
             colors = settingsCache.colors;
+
+        setViewBox(width, height, 40, root);
+
         var magnitudes = [0];
         var specials = [null];
         var types = [Shariki.NORMALSHELL];
@@ -27,6 +35,8 @@ var app = Cut(function(root, container) {
             height = settingsCache.height,
             colors = settingsCache.colors,
             allottedTurns = settingsCache.turns
+
+        setViewBox(width, height, 40, root);
 
         var magnitudes = [1, 2, 3, 4, 5];
         var specials = [null];
