@@ -106,6 +106,7 @@ function showMainMenu() {
     if (!isSupported()) {
         return false;
     }
+    document.getElementById("score").innerHTML = 0;
     removeClass('mainMenu', 'hide');
     addClass('settingsMenu', 'hide');
     addClass('pauseMenu', 'hide');

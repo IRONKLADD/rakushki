@@ -279,25 +279,27 @@ function Display(root,players,config){
             newCell.row = row;
             newCell.col = col;
             newCell.on(Cut.Mouse.START, function(point) {
-                        selectedCol = this._col;
-                        selectedRow = this._row;
-                    });
+                console.log("start")
+                selectedCol = this.col;
+                selectedRow = this.row;
+            });
             newCell.on(Cut.Mouse.END, function(point) {
+                console.log("end")
                 if(selectedRow === null){
                     return;
                 }
-                else if(selectedRow === this._row && 
-                        selectedCol === this._col){
+                else if(selectedRow === this.row && 
+                        selectedCol === this.col){
                     this.pin({
                         scaleX : 1.3,
                         scaleY : 1.3
                     });
-                    var coord = new Util.Coord(this._row,this._col);
-                    player.selectShell(coord.row, coord.col);
+                    var coord = new Util.Coord(this.row,this.col);
+                    _player.selectShell(coord.row, coord.col);
                 }
                 else{
-                    player.selectShell(selectedRow, selectedCol);
-                    player.selectShell(this._row, this._col);
+                    _player.selectShell(selectedRow, selectedCol);
+                    _player.selectShell(this.row, this.col);
                     selectedRow = null;
                     selectedCol = null;
                 }
