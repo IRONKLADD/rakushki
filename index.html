@@ -39,40 +39,50 @@
 
       <div class="meta">
         <div class="inner">
-          <a href="#"
-             onclick="showPauseMenu()"
-             title="Pause Menu"
-             id="pauseMenuButton">
-            Menu
-          </a>
-          <a onclick="restoreCanvas()"
-             title="Restore"
-             class="hide"
-             id="restore">
-            <img alt="Restore" src="img/restore.png" />
-          </a>
-          <a onclick="maximizeCanvas()"
-             title="Maximize"
-             class="hide"
-             id="maximize">
-            <img alt="Maximize" src="img/maximize.png" />
-          </a>
-          <a onclick="unmuteAudio()"
-             title="Unmute"
-             class="hide"
-             id="unmute">
-            Unmute
-          </a>
-          <a onclick="muteAudio()"
-             title="Mute"
-             id="mute">
-            Mute
-          </a>
-          <a id="infoButton" href="#" onclick="showInfo()">
-            <img alt="Help" src="img/help.png" />
-          </a>
-          <a href="http://goo.gl/forms/4U3dFCYGfn">Feedback</a>
-          <span>Score: <span id="score">0</span></span>
+          <div class="button" id="menuButton">
+            <a href="#"
+               onclick="showPauseMenu()"
+               title="Pause Menu"
+               id="pauseMenuButton">
+              Menu
+            </a>
+          </div>
+          <div class="button" id="unmuteButton">
+            <a onclick="unmuteAudio()"
+               title="Unmute"
+               class="hide"
+               id="unmute">
+              Unmute
+            </a>
+            <a onclick="muteAudio()"
+               title="Mute"
+               id="mute">
+              Mute
+            </a>
+          </div>
+          <div class="button" id="feedbackButton">
+            <a href="http://goo.gl/forms/4U3dFCYGfn" id=feedback>Feedback</a>
+          </div>
+          <div id="fullscreen-help">
+            <a onclick="restoreCanvas()"
+               title="Restore"
+               class="hide"
+               id="restore">
+              <img alt="Restore" src="img/restore.png" />
+            </a>
+            <a onclick="maximizeCanvas()"
+               title="Maximize"
+               class="hide"
+               id="maximize">
+              <img alt="Maximize" src="img/maximize.png" />
+            </a>
+            <a id="infoButton" href="#" onclick="showInfo()">
+              <img alt="Help" src="img/help.png" />
+            </a>
+          </div>
+          <div id="scoreBox">
+            <span>Score: <span id="score">0</span></span>
+          </div>
         </div>
       </div>
     </div>
