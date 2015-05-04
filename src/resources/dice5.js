@@ -4,7 +4,7 @@ Cut({
   imageRatio : 1,
   trim : 0.0,
   cutouts : [
-    { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
+    { name : "",   x : 0,  y : 0,  width : 50, height : 50 }
     ]
 });
 Cut({
@@ -13,7 +13,7 @@ Cut({
   imageRatio : 1,
   trim : 0.0,
   cutouts : [
-    { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
+    { name : "",   x : 0,  y : 0,  width : 50, height : 50 }
     ]
 });
 Cut({
@@ -22,7 +22,7 @@ Cut({
   imageRatio : 1,
   trim : 0.0,
   cutouts : [
-    { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
+    { name : "",   x : 0,  y : 0,  width : 50, height : 50 }
     ]
 });
 Cut({
@@ -31,7 +31,7 @@ Cut({
   imageRatio : 1,
   trim : 0.0,
   cutouts : [
-    { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
+    { name : "",   x : 0,  y : 0,  width : 50, height : 50 }
     ]
 });
 Cut({
@@ -40,7 +40,7 @@ Cut({
   imageRatio : 1,
   trim : 0.0,
   cutouts : [
-    { name : "",   x : 0,  y : 0,  width : 16, height : 16 }
+    { name : "",   x : 0,  y : 0,  width : 50, height : 50 }
     ]
 });
 Cut({
@@ -49,7 +49,7 @@ Cut({
   imageRatio : 4,
   trim : 0.2,
   cutouts : [
-    { name : "",  x : 0,     y : 70, width : 16, height : 16 },
+    { name : "",  x : 0,     y : 70, width : 50, height : 50 },
     ]
 });
 
