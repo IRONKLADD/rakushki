@@ -59,6 +59,24 @@ Util.selectRandom = function(arr) {
 };
 
 /**
+ * Returns a random key from an array of key-value pairs, where the values are
+ * the weights. Assumes that values are stochastic (sum to 1.0).
+ *
+ * @param map {Object[][]} 
+ *
+ * @return {Object}
+ */
+Util.selectWeightedRandom = function(arr) {
+    var p = 1 - Math.random();
+    for(var i = 0; i < arr.length; ++i) {
+        p -= arr[i][1];
+        if(p <= 0) {
+            return arr[i][0];
+        }
+    }
+}
+
+/**
  * Returns a coordinate object.
  *
  * @param row {int} The coordinate's row.
