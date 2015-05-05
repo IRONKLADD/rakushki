@@ -27,7 +27,7 @@ a:hover,a:focus {
 }
 
 canvas {
-	width: 100%;
+	width: 80%;
 	height: 100%;
 	display: block;
 	position: absolute;
@@ -37,15 +37,17 @@ canvas {
 .meta {
 	z-index: 10;
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 0%;
+	right: 0%;
 	height: 100%;
+        width: 20%;
 	display: table;
 }
 
 .meta .inner {
 	display: table-cell;
 	vertical-align: middle;
+        background-color: #FFFFFF;
 }
 
 .meta a {
@@ -76,6 +78,7 @@ canvas {
 	}
 }
 
+/*
 @media only screen and (max-height: 600px) {
 	.meta a,.meta a img {
 		width: 30px;
@@ -89,6 +92,7 @@ canvas {
 		height: 30px;
 	}
 }
+*/
 
 #info {
 	width: 100%;
@@ -319,11 +323,9 @@ canvas {
 }
 
 .button {
-        border: 2px solid black;
-        border-radius: 5px;
-        background-color: #FFFF00;
         display: inline-block;
         margin: auto;
+        background-color: #FFFF00
 }
 
 #imageButton {
@@ -346,4 +348,147 @@ canvas {
         width: 90px;
         margin: auto;
         padding: 4px;
+}
+
+.redCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FF0000;
+    position: absolute;
+    top: 40px;
+    left: 490px;
+}
+
+.blueCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #0000FF;
+    position: absolute;
+    top: 40px;
+    left: 550px;
+}
+
+.yellowCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FFFF00;
+    position: absolute;
+    top: 40px;
+    left: 610px;
+}
+
+.greenCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #00FF00;
+    position: absolute;
+    top: 40px;
+    left: 670px;
+}
+
+.orangeCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #FF9900;
+    position: absolute;
+    top: 40px;
+    left: 730px;
+}
+
+.darkCheckBox {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: #111111;
+    position: absolute;
+    top: 40px;
+    left: 790px;
+}
+
+.acceptButton {
+        position: absolute;
+        top: 90px;
+        left: 500px;
+}
+
+.cancelButton {
+        position: absolute;
+        top: 90px;
+        left: 700px;
+}
+
+#menuButton {
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+#pauseMenuButton {
+        position: relative;
+}
+
+#muteButton {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+
+#mute {
+        position: relative;
+}
+
+#unmute {
+        position: relative;
+}
+
+#feedbackButton {
+        position: absolute;
+        top: 60%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+#feedback {
+        position: relative;
+}
+
+#fullscreen {
+        position: absolute;
+        top: 70%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+#help {
+        position: absolute;
+        top: 80%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+#scoreBox {
+        
+        position: absolute;
+        top: 20%;
+        left: 10%;
+}
+
+#score {
+        width: 100%;
+        display: inline-block;
+        margin: auto;
+        font-size: 24pt;
 }

@@ -159,7 +159,7 @@ function BombiGameType(players, config) {
             else if (shell.color === color) {
                 shell.type = Bombi.EMPTYSHELL;
                 shell.color = "trans";
-                player.score = player.score + 10;
+                player.score = player.score + (shell.magnitude*10);
                 renderer.explodeShell(row, col);
             }
         }
@@ -212,6 +212,7 @@ function BombiGameType(players, config) {
         if(bombs !== undefined && bombs.length !== 0){
             bombs.forEach(function (bomb) {
                 detonate(bomb, player);
+                player.score = player.score + 40
             });
         }
     }
