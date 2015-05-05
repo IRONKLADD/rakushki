@@ -37,7 +37,8 @@ function Display(root,players,config){
         var temp = Cut.image("base:color_" + shell.color)
                               .appendTo(parent)
                               .pin("pivot", 0.5);
-        var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(temp).pin("pivot",0.5)
+        var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(temp).pin("align",0.5)
+        .pin({scale: .25})
 
 
         return temp;
@@ -273,7 +274,8 @@ function Display(root,players,config){
                 scale: 1,
             })
             tween.then(function() {
-                var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(newCell).pin("pivot",0.5)
+                var overlay = Cut.image("dice" +shell.magnitude+":").appendTo(newCell).pin("align",0.5)
+                .pin({scale: .25});
             });
             _displayGrid[row][col] = newCell;
             newCell.row = row;
