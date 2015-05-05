@@ -39,31 +39,33 @@
 
       <div class="meta">
         <div class="inner">
-          <div class="button" id="menuButton">
+          <div id="menuButton">
             <a href="#"
                onclick="showPauseMenu()"
                title="Pause Menu"
                id="pauseMenuButton">
-              Menu
+               <img src="img/menu.png"/>
             </a>
           </div>
-          <div class="button" id="unmuteButton">
+          <div id="muteButton">
             <a onclick="unmuteAudio()"
                title="Unmute"
                class="hide"
                id="unmute">
-              Unmute
+              <img alt="unmute" src="img/muted.png"/>
             </a>
             <a onclick="muteAudio()"
                title="Mute"
                id="mute">
-              Mute
+              <img alt="mute" src="img/unmuted.png"/>
             </a>
           </div>
-          <div class="button" id="feedbackButton">
-            <a href="http://goo.gl/forms/4U3dFCYGfn" id=feedback>Feedback</a>
+          <div id="feedbackButton">
+            <a href="http://goo.gl/forms/4U3dFCYGfn"id=feedback>
+               <img src="img/feedback.png"/>
+            </a>
           </div>
-          <div id="fullscreen-help">
+          <div id="fullscreen">
             <a onclick="restoreCanvas()"
                title="Restore"
                class="hide"
@@ -76,12 +78,14 @@
                id="maximize">
               <img alt="Maximize" src="img/maximize.png" />
             </a>
+          </div>
+          <div id="help">
             <a id="infoButton" href="#" onclick="showInfo()">
               <img alt="Help" src="img/help.png" />
             </a>
           </div>
           <div id="scoreBox">
-            <span>Score: <span id="score">0</span></span>
+            Score: <span id="score">0</span>
           </div>
         </div>
       </div>
@@ -96,7 +100,7 @@
                onclick="rakushki.startSharikiGame(); rakushki.setLastGameShariki(); showGame()"
                title="Shariki"
                id="sharikiButton">
-            <img src=http://content.mycutegraphics.com/graphics/balloons/red-balloon-transparent.png>
+            <img src=img/shariki.png>
             </a>
           </div>
           <div class=button id=imageButton>
@@ -104,7 +108,7 @@
                onclick="rakushki.startBombiGame(); rakushki.setLastGameBombi(); showGame()"
                title="Bombi"
                id="bombiButton">
-              <img src=http://vignette2.wikia.nocookie.net/clubpenguin/images/3/3b/Bomb.png/revision/latest?cb=20130116012040/>
+              <img src=img/bombi.png>
             </a>
           </div>
         <p>

@@ -27,7 +27,7 @@ a:hover,a:focus {
 }
 
 canvas {
-	width: 100%;
+	width: 80%;
 	height: 100%;
 	display: block;
 	position: absolute;
@@ -37,15 +37,17 @@ canvas {
 .meta {
 	z-index: 10;
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 0%;
+	right: 0%;
 	height: 100%;
+        width: 20%;
 	display: table;
 }
 
 .meta .inner {
 	display: table-cell;
 	vertical-align: middle;
+        background-color: #FFFFFF;
 }
 
 .meta a {
@@ -76,6 +78,7 @@ canvas {
 	}
 }
 
+/*
 @media only screen and (max-height: 600px) {
 	.meta a,.meta a img {
 		width: 30px;
@@ -89,6 +92,7 @@ canvas {
 		height: 30px;
 	}
 }
+*/
 
 #info {
 	width: 100%;
@@ -319,8 +323,6 @@ canvas {
 }
 
 .button {
-        border: 2px solid black;
-        border-radius: 5px;;
         display: inline-block;
         margin: auto;
         background-color: #FFFF00
@@ -421,72 +423,71 @@ canvas {
 }
 
 #menuButton {
-        position: relative;
-        top: 20px;
-        left: 108px;
-        height: 25px;
-        width: 100px;
+        position: absolute;
+        top: 40%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
 }
 
 #pauseMenuButton {
         position: relative;
-        bottom: 3px;
-        left: 31px;
 }
 
-#unmuteButton {
-        position: relative;
-        top: 60px;
-        right: 0px;
-        height: 25px;
-        width: 100px;
+#muteButton {
+        position: absolute;
+        top: 50%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
 }
 
 
 #mute {
         position: relative;
-        bottom: 3px;
-        left: 33px;
 }
 
 #unmute {
         position: relative;
-        bottom: 3px;
-        left: 22px;
 }
 
 #feedbackButton {
-        position: relative;
-        top: 100px;
-        right: 107px;
-        height: 25px;
-        width: 100px;
+        position: absolute;
+        top: 60%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
 }
 
 #feedback {
         position: relative;
-        bottom: 3px;
-        left: 17px;
 }
 
-#fullscreen-help {
-        position: relative;
-        top: 100px;
-        left: 110px;
+#fullscreen {
+        position: absolute;
+        top: 70%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
+}
+
+#help {
+        position: absolute;
+        top: 80%;
+        left: 10%;
+        height: 5%;
+        width: 40%;
 }
 
 #scoreBox {
-        position: relative;
-        top: -240px;
-        right: 20px;
+        position: absolute;
+        top: 20%;
+        left: 50%;
 }
 
 #score {
-        width: 100px;
-        height: 20px;
-        border: 2px solid black;
-        border-radius: 5px;;
+        width: 100%;
         display: inline-block;
         margin: auto;
-        background-color: #55FF00
+        background-color: #55FFFF
 }
