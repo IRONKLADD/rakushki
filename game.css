@@ -480,14 +480,15 @@ canvas {
 }
 
 #scoreBox {
+        
         position: absolute;
         top: 20%;
-        left: 50%;
+        left: 10%;
 }
 
 #score {
         width: 100%;
         display: inline-block;
         margin: auto;
-        background-color: #55FFFF
+        font-size: 24pt;
 }
