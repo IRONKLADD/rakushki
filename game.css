@@ -31,6 +31,7 @@ canvas {
 	height: 100%;
 	display: block;
 	position: absolute;
+        left: 10%;
 	background: #FFFFFF;
 }
 
@@ -38,9 +39,9 @@ canvas {
 	z-index: 10;
 	position: absolute;
 	top: 0%;
-	right: 0%;
+	left: 90%;
 	height: 100%;
-        width: 20%;
+        width: 10%;
 	display: table;
 }
 
@@ -99,7 +100,7 @@ canvas {
 	height: auto !important;
 	height: 100%;
 	min-height: 100%;
-	background: #f4f4f4;
+	background-color: #FFFFFF;
 	padding-bottom: 1px;
 }
 
@@ -114,7 +115,7 @@ canvas {
     height: auto !important;
     height: 100%;
     min-height: 100%;
-    background: #F4F4F4;
+    background: #FFFFFF;
     padding-bottom: 1px;
     text-align: center;
     vertical-align: middle;
@@ -123,12 +124,9 @@ canvas {
 #pauseMenu {
     width: 100%;
     height: auto !important;
-    height: 100%;
     min-height: 100%;
-    background: #F4F4F4;
+    background: #FFFFFF;
     padding-bottom: 1px;
-    text-align: center;
-    vertical-align: middle;
 }
 
 #settingsMenu {
@@ -136,7 +134,7 @@ canvas {
     height: auto !important;
     height: 100%;
     min-height: 100%;
-    background: #F4F4F4;
+    background: #FFFFFF;
     padding-bottom: 1px;
     text-align: center;
     vertical-align: middle;
@@ -323,23 +321,96 @@ canvas {
 }
 
 .button {
-        display: inline-block;
-        margin: auto;
-        background-color: #FFFF00
+        background-color: #00G000
 }
 
-#imageButton {
-        height: 100px;
-        width: 100px;
+#gametypeSelect {
+        font-size: 24pt;
 }
 
-#slimButton {
-        height: 20px;
-        width: 100px;
+#sharikiButton {
+        width: 15%;
+        height: auto;
+        position: absolute;
+        top: 15%;
+        left: 20%;
+}
+
+#sharikiImage {
+        width: 90%;
+        height: 90%;
+        postion: absolute;
+        top: 50%;
+        left: 50%;
+}
+
+#bombiButton {
+        width: 15%;
+        height: auto;
+        position: absolute;
+        top: 15%;
+        left: 70%;
+}
+
+#bombiImage {
+        width: 90%;
+        height: 90%;
+        postion: absolute;
+        top: 50%;
+        left: 50%;
+}
+
+#settingsButton {
+        width: 5%;
+        height: auto;
+        position: absolute;
+        top: 45%;
+        left: 50%;
+
+}
+
+#settingsImage {
+        width: 90%;
+        height: 90%;
+        postion: absolute;
+        top: 50%;
+        left: 50%;
+}
+
+#resumeButton {
+        height: 50px;
+        width: 170px;
+        text-align: center;
+        font-size: 24pt;
+        position: absolute;
+        top: 30%;
+        left: 45%;
+}
+
+#restartButton {
+        height: 50px;
+        width: 170px;
+        text-align: center;
+        font-size: 24pt;
+        position: absolute;
+        top: 40%;
+        left: 45%;
+
+}
+
+#quitButton {
+        height: 50px;
+        width: 170px;
+        text-align: center;
+        font-size: 24pt;
+        position: absolute;
+        top: 50%;
+        left: 45%;
+
 }
 
 .button:hover {
-        background-color: #FF5900;
+        background-color: #dddddd;
 }
 
 .button img {
@@ -411,12 +482,20 @@ canvas {
 }
 
 .acceptButton {
+        height: 40px;
+        width: 100px;
+        text-align: center;
+        font-size: 18pt;
         position: absolute;
         top: 17%;
         left: 30%;
 }
 
 .cancelButton {
+        height: 40px;
+        width: 100px;
+        text-align: center;
+        font-size: 18pt;
         position: absolute;
         top: 17%;
         left: 60%;
@@ -471,9 +550,17 @@ canvas {
 }
 
 #scoreBox {
+        width: 10%;
+        height: 100%;
         position: absolute;
-        top: 10%;
-        left: 10%;
+        background-color: #FFFFFF;
+        font-size: 24pt;
+}
+
+#scoreLabel {
+        postion: absolute;
+        top: 15%;
+        left: 15%;
 }
 
 #score {
