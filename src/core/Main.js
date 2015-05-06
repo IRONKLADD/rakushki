@@ -15,7 +15,7 @@ var app = Cut(function(root, container) {
 
         setViewBox(width, height, 40, root);
 
-        var magnitudes = [0];
+        var magnitudes = [[0, 1.0]];
         var specials = [null];
         var types = [Shariki.NORMALSHELL];
         var config = new Configuration(width, height,
@@ -38,7 +38,11 @@ var app = Cut(function(root, container) {
 
         setViewBox(width, height, 40, root);
 
-        var magnitudes = [1, 2, 3, 4, 5];
+        var magnitudes = [[1, 0.40],
+                          [2, 0.30],
+                          [3, 0.15],
+                          [4, 0.10],
+                          [5, 0.05]];
         var specials = [null];
         var types = [Bombi.NORMALSHELL];
         var config = new Configuration(width, height,
