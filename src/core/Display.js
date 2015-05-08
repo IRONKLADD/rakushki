@@ -13,7 +13,6 @@
  */
 function Display(root,players,config){
     this._createBoard  = _createBoard;
-    this._createButton = _createButton;
     this.update        = update;
     this.explodeShell  = explodeShell;
     this.explodeBomb   = explodeBomb;

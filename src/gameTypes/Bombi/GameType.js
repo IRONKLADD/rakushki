@@ -323,5 +323,3 @@ function BombiGameType(players, config) {
         board.set(activeRow, activeCol, selectedShell);
     }
 }
-
-BombiGameType.prototype = Object.create(GameType.prototype);
